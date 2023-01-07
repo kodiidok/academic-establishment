@@ -30,6 +30,7 @@
     "OAuth2": true
   },
   "rules": {
+    "no-use-before-define": "off",
     "func-names": "off",
     "no-console": "off",
     "prettier/prettier": [
