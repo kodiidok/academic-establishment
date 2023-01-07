@@ -1,0 +1,1096 @@
+<script>
+  let redirectURL = '';
+  let vacanciesList;
+  let postList;
+  let facultiesDepartmentsList;
+  const empList = [];
+
+  $(document).ready(function () {
+    // Date
+    const d = new Date();
+    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    $('#sysDate').text(strDate);
+
+    // Export Data Table Bottom Caption
+    // $('#tblData').append('<caption style="caption-side: bottom">Leave Details</caption>');
+
+    // Data Table
+    const table = $('#tblData').DataTable({
+      rowReorder: {
+        selector: 'td:nth-child(2)',
+      },
+      responsive: true,
+      lengthMenu: [
+        [10, 25, 50, -1],
+        [10, 25, 50, 'All'],
+      ],
+      dom: 'Bfrtip',
+      buttons: ['copy', 'excel', 'pdf', 'print'],
+  });
+
+    // Form Validate
+    $('form').each(function () {
+      applyValidateToElement($(this));
+    });
+
+    // JQuery Validate
+    jQuery.validator.addMethod(
+      'checkEqualChar',
+      function (value, element) {
+        return value.trim().charAt(0) !== '=';
+      },
+      'Can not put first letter as an equal sign'
+    );
+
+    onLoadExecutions();
+  });
+
+  function checkEqualCharAvailable(value) {
+    return value.trim().charAt(0) === '=';
+  }
+
+  function showSuccessModal(heading, message) {
+    $('#successModalHeading').text(heading);
+    $('#successModalMessage').text(message);
+
+    $('#modalSuccess').modal('show');
+    // $('#modalSuccess').modal('hide');
+  }
+
+  function showErrorModal(heading, message) {
+    $('#errorModalHeading').text(heading);
+    $('#errorModalMessage').text(message);
+
+    $('#modalError').modal('show');
+  }
+
+  function showLoadingModal(message) {
+    $('#loadingModalMessage').text(message);
+
+    $('#modalLoading').modal('show');
+  }
+
+  function showAppAlert(type, heading, message) {
+    if (type.toUpperCase() == 'SUCCESS') {
+      $('#appAlert').addClass('alert-success');
+    } else if (type.toUpperCase() == 'ERROR' || type.toUpperCase() == 'DANGER') {
+      $('#appAlert').addClass('alert-danger');
+    } else if (type.toUpperCase() == 'WARNING') {
+      $('#appAlert').addClass('alert-warning');
+    } else {
+      $('#appAlert').addClass('alert-info');
+    }
+
+    $('#appAlertHeading').text(heading);
+    $('#appAlertMessage').text(message);
+
+    $('#appAlert').show().delay(10000).fadeOut();
+  }
+
+  function onFailure(err) {
+    $('#modalLoading').modal('hide');
+    showErrorModal('Error Occured..!', err.message);
+  }
+
+  function setMenu(appurl) {
+    $('#app-menu-01').attr('href', appurl);
+    $('#app-menu-02').attr('href', `${appurl}?page=hod`);
+  }
+
+  function setUserInfo(user) {
+    $('#username').html(`${user.Name}<br/>${user.Email}`);
+    $('#userrole').text(`(${user.Role})`);
+  }
+
+  function setAppInfo(appName, appDescription, appRedirectURL) {
+    $('#appName').text(appName);
+    $('#appDescription').text(appDescription);
+    redirectURL = appRedirectURL;
+  }
+  
+  function logOut() {
+    if (redirectURL && redirectURL != '' && redirectURL.length != 0) {
+      window.top.location.href = `https://www.google.com/accounts/Logout?continue=${redirectURL}`;
+    } else {
+      window.top.location.href = 'https://www.google.com/accounts/Logout';
+    }
+  }
+
+  function onLoadExecutions() {
+    // Initial Loading
+    showLoadingModal('Please Wait for Loading...');
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
+
+    districtList();
+    proviceList();
+    countryList();
+
+    $('#civilstatus').on('change', function () {
+      const type = $(this).find(':selected').val();
+
+      if (type == 'Married') {
+        $('#spouseDIV').show();
+      } else {
+        $('#spouseDIV').hide();
+      }
+    });
+
+    $('#vacancyID').on('change', function () {
+      const vacancyID = $(this).find(':selected').val();
+
+      setPosts(vacancyID);
+    });
+
+    $('#faculty').change(function () {
+      const selectedFaculty = $(this).find('option:selected').val();
+      const deptList = [];
+
+      if (facultiesDepartmentsList) {
+        for (var i = 0; i < facultiesDepartmentsList.length; i++) {
+          if (facultiesDepartmentsList[i].Faculty == selectedFaculty) {
+            deptList.push(facultiesDepartmentsList[i].Department);
+          }
+        }
+      }
+
+      // Load Department
+      const uniqDept = [...new Set(deptList)];
+      uniqDept.sort();
+
+      if (uniqDept) {
+        $('#department').empty();
+        $('#department').append(`<option value="" label="Choose one">Choose one</option>`);
+
+        for (var i = 0; i < uniqDept.length; i++) {
+          if (uniqDept[i] != 'NA') {
+            $('#department').append(`<option value="${uniqDept[i]}">${uniqDept[i]}</option>`);
+          }
+        }
+      }
+    });
+  }
+
+  function initialLoading(retdata) {
+    $('#modalLoading').modal('hide');
+    const data = JSON.parse(retdata);
+
+    if (data) {
+      setMenu(data.scriptUrl);
+      setUserInfo(data.appUser.data[0]);
+      setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+
+      vacanciesList = data.data.vacancies;
+      postList = data.posts.posts;
+      facultiesDepartmentsList = data.facultiesDepartments.facultiesDepartments;
+      facultiesList(data.facultiesDepartments.facultiesDepartments);
+      setVacancies();
+    }
+  }
+
+  // Validator
+  function applyValidateToElement(element) {
+    $(element).validate({
+      rules: {
+        category: {
+          required: true,
+        },
+        post: {
+          required: true,
+        },
+        vacancyID: {
+          required: true,
+          checkEqualChar: true,
+        },
+        gender: {
+          required: true,
+        },
+        title: {
+          required: true,
+        },
+        firstName: {
+          required: true,
+          checkEqualChar: true,
+        },
+        surname: {
+          required: true,
+          checkEqualChar: true,
+        },
+        fullName: {
+          required: true,
+          checkEqualChar: true,
+        },
+        dob: {
+          required: true,
+          date: true,
+        },
+        address: {
+          required: true,
+          checkEqualChar: true,
+        },
+        nic: {
+          required: true,
+          checkEqualChar: true,
+        },
+        mobile: {
+          required: true,
+          checkEqualChar: true,
+        },
+        tp: {
+          required: true,
+          checkEqualChar: true,
+        },
+        email: {
+          required: true,
+          email: true,
+        },
+        district: {
+          required: true,
+        },
+        electorate: {
+          required: true,
+          checkEqualChar: true,
+        },
+        province: {
+          required: true,
+        },
+        city: {
+          required: true,
+          checkEqualChar: true,
+        },
+        nationality: {
+          required: true,
+          checkEqualChar: true,
+        },
+        citizenship: {
+          required: true,
+        },
+        civilstatus: {
+          required: true,
+        },
+        spouseName: {
+          required() {
+            if ($('#civilstatus').find(':selected').val() == 'Married') {
+              return true;
+            }
+            return false;
+          },
+          checkEqualChar: true,
+        },
+        spouseDesignation: {
+          required() {
+            if ($('#civilstatus').find(':selected').val() == 'Married') {
+              return true;
+            }
+            return false;
+          },
+          checkEqualChar: true,
+        },
+        faculty: {
+          required: true,
+        },
+        department: {
+          required: true,
+        },
+        highestEducation: {
+          required: true,
+          checkEqualChar: true,
+        },
+        basicDegree: {
+          required: true,
+          checkEqualChar: true,
+        },
+        bdUniversity: {
+          required: true,
+          checkEqualChar: true,
+        },
+        bdYear: {
+          required: true,
+          number: true,
+        },
+        bdClass: {
+          required: true,
+          checkEqualChar: true,
+        },
+        bdGPA: {
+          required: true,
+          number: true,
+        },
+      },
+      messages: {
+        category: {
+          required: 'Please select your Category',
+        },
+        post: {
+          required: 'Please select your Post',
+        },
+        vacancyID: {
+          required: 'Please enter Vacancy ID',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        gender: {
+          required: 'Please enter your Student ID',
+        },
+        title: {
+          required: 'Please your Batch',
+        },
+        firstName: {
+          required: 'Please enter your First Name',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        surname: {
+          required: 'Please Slect your Surname',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        fullName: {
+          required: 'Please enter your Full Name',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        dob: {
+          required: 'Please enter your Date of Birth',
+          date: 'Please enter your Correct Date of Birth',
+        },
+        address: {
+          required: 'Please enter your Postal Address',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        nic: {
+          required: 'Please enter your NIC Number',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        mobile: {
+          required: 'Please enter your Mobile Number',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        tp: {
+          required: 'Please enter your Residential Telephone Number',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        email: {
+          required: 'Please enter your Email Address',
+          email: 'Email is not valid',
+        },
+        district: {
+          required: 'Please select your District',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        electorate: {
+          required: 'Please enter your Electorate',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        province: {
+          required: 'Please select your Province',
+        },
+        city: {
+          required: 'Please enter your City',
+          number: 'Required Number',
+        },
+        nationality: {
+          required: 'Please select your Nationality',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        citizenship: {
+          required: 'Please select your Citizenship',
+        },
+        civilstatus: {
+          required: 'Please select your Civil Status',
+        },
+        spouseName: {
+          required: 'Please select your Supouse Name',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        faculty: {
+          required: 'Please select the Faculty',
+        },
+        department: {
+          required: 'Please select the Department',
+        },
+        highestEducation: {
+          required: 'Please enter your Highest Education Qualification',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        basicDegree: {
+          required: 'Please enter your Basic Degree',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        bdUniversity: {
+          required: 'Please enter the University',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        bdYear: {
+          required: 'Please enter the Year',
+          number: 'Required Number',
+        },
+        bdClass: {
+          required: 'Please enter Class',
+          checkEqualChar: 'Can not put first letter as an equal sign',
+        },
+        bdGPA: {
+          required: 'Please enter GPA',
+          number: 'Required Number',
+        },
+      },
+      submitHandler(form) {
+        if (event.target.id == 'appMainForm') {
+          event.preventDefault();
+          $('#submitButton').prop('disabled', true);
+          showLoadingModal('Please Wait for Saving your request...');
+          submitForm();
+        }
+        return false;
+    },
+    });
+  }
+  // End Validator
+
+  function submitForm() {
+    const category = $('#post').find(':selected').val();
+    const post = $('#post').find(':selected').text();
+
+    const vid = $('#vacancyID').val();
+
+    const gender = $('#gender').find(':selected').val();
+
+    const title = $('#title').find(':selected').val();
+
+    const firstName = $('#firstName').val();
+    const surname = $('#surname').val();
+    const fullName = $('#fullName').val();
+
+    const dob = $('#dob').val();
+    const address = $('#address').val();
+    const nic = $('#nic').val();
+    const mobile = $('#mobile').val();
+    const tp = $('#tp').val();
+    const email = $('#email').val();
+
+    const district = $('#district').find(':selected').val();
+
+    const electorate = $('#electorate').val();
+
+    const province = $('#province').find(':selected').val();
+
+    const city = $('#city').val();
+
+    const nationality = $('#nationality').find(':selected').val();
+
+    const citizenship = $('#citizenship').find(':selected').val();
+
+    const civilstatus = $('#civilstatus').find(':selected').val();
+
+    const spouseName = $('#spouseName').val();
+    const spouseDesignation = $('#spouseDesignation').val();
+
+    const faculty = $('#faculty').find(':selected').val();
+
+    const department = $('#department').find(':selected').val();
+
+    const highestEducation = $('#highestEducation').val();
+    let selectedLanguages = '';
+
+    if ($('#langSinhala').prop('checked') == true) {
+      selectedLanguages += 'Sinhala';
+    }
+
+    if ($('#langTamil').prop('checked') == true) {
+      selectedLanguages += ',Tamil';
+    }
+
+    if ($('#langEnglish').prop('checked') == true) {
+      selectedLanguages += ',English';
+    }
+
+    const proficiencyOnLanguages = selectedLanguages == '' ? 'Sinhala' : selectedLanguages;
+
+    const basicDegree = $('#basicDegree').val();
+    const bdUniversity = $('#bdUniversity').val();
+    const bdYear = $('#bdYear').val();
+    const bdClass = $('#bdClass').val();
+    const bdGPA = $('#bdGPA').val();
+
+    const pgDegree01 = $('#pgDegree01').val();
+    const pdg01University = $('#pdg01University').val();
+    const pdg01Country = $('#pdg01Country').find(':selected').val();
+    const pgd01Year = $('#pgd01Year').val();
+    const pgd01Class = $('#pgd01Class').val();
+    const pgd01GPA = $('#pgd01GPA').val();
+
+    const pgDegree02 = $('#pgDegree02').val();
+    const pdg02University = $('#pdg02University').val();
+    const pdg02Country = $('#pdg02Country').find(':selected').val();
+    const pgd02Year = $('#pdg02Year').val();
+    const pgd02Class = $('#pdg02Class').val();
+    const pgd02GPA = $('#pdg02GPA').val();
+
+    const pgDegree03 = $('#pgDegree03').val();
+    const pdg03University = $('#pdg03University').val();
+    const pdg03Country = $('#pdg03Country').find(':selected').val();
+    const pgd03Year = $('#pdg03Year').val();
+    const pgd03Class = $('#pdg03Class').val();
+    const pgd03GPA = $('#pdg03GPA').val();
+
+    const publications = $('#publications').val();
+
+    const designation = $('#presentOccDesignation').val();
+    const institution = $('#presentOccDept').val();
+    const presentOccupationFrom = $('#presentOccFrom').val();
+    const salaryDrawn = $('#presentOccSalaryDrawn').val();
+
+    const previousEmployments = empList.length > 0 ? JSON.stringify(empList) : '';
+
+    const request = {
+      Category: category,
+      Post: post,
+      VacancyID: vid,
+      Gender: gender,
+      Title: title,
+      FirstName: firstName,
+      Surname: surname,
+      FullName: fullName,
+      DateOfBirth: dob,
+      PostalAddress: address,
+      NIC: nic,
+      Mobile: mobile,
+      Telephone: tp,
+      Email: email,
+      District: district,
+      Electorate: electorate,
+      Province: province,
+      City: city,
+      Nationality: nationality,
+      Citizenship: citizenship,
+      CivilStatus: civilstatus,
+      SpouseName: spouseName,
+      SpouseDesignation: spouseDesignation,
+      Faculty: faculty,
+      Department: department,
+      HighestEducation: highestEducation,
+      ProficiencyOnLanguages: proficiencyOnLanguages,
+
+      BasicDegree: basicDegree,
+      BasicDegreeUniversity: bdUniversity,
+      BasicDegreeYear: bdYear,
+      BasicDegreeClass: bdClass,
+      BasicDegreeGPA: bdGPA,
+
+      PGDegree01: pgDegree01,
+      PGDegree01University: pdg01University,
+      PGDegree01Country: pdg01Country,
+      PGDegree01Year: pgd01Year,
+      PGDegree01Class: pgd01Class,
+      PGDegree01GPA: pgd01GPA,
+
+      PGDegree02: pgDegree02,
+      PGDegree02University: pdg02University,
+      PGDegree02Country: pdg02Country,
+      PGDegree02Year: pgd02Year,
+      PGDegree02Class: pgd02Class,
+      PGDegree02GPA: pgd02GPA,
+
+      PGDegree03: pgDegree03,
+      PGDegree03University: pdg03University,
+      PGDegree03Country: pdg03Country,
+      PGDegree03Year: pgd03Year,
+      PGDegree03Class: pgd03Class,
+      PGDegree03GPA: pgd03GPA,
+
+      Publications: publications,
+
+      Designation: designation,
+      Institution: institution,
+      PresentOccupationFrom: presentOccupationFrom,
+      SalaryDrawn: salaryDrawn,
+
+      PreviousEmployments: previousEmployments,
+    };
+
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(saveRequestSuccess).saveRequest(request);
+  }
+
+  function saveRequestSuccess(retdata) {
+    $('#modalLoading').modal('hide');
+    $('#submitButton').prop('disabled', false);
+
+    const data = JSON.parse(retdata);
+    if (data.status == true) {
+      showSuccessModal('Save Success..!', 'Data Save to database');
+      empList.length = 0;
+    }
+  }
+
+  function districtList() {
+    const dlist = [
+      'Ampara',
+      'Anuradhapura',
+      'Badulla',
+      'Batticaloa',
+      'Colombo',
+      'Galle',
+      'Gampaha',
+      'Hambantota',
+      'Jaffna',
+      'Kalutara',
+      'Kandy',
+      'Kegalle',
+      'Kilinochchi',
+      'Kurunegala',
+      'Mannar',
+      'Matale',
+      'Matara',
+      'Monaragala',
+      'Mullaitivu',
+      'Nuwara Eliya',
+      'Polonnaruwa',
+      'Puttalam',
+      'Ratnapura',
+      'Trincomalee',
+      'Vavuniya',
+    ];
+    $('#district').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    for (let i = 0; i < dlist.length; i++) {
+      $('#district').append(`<option value="${dlist[i]}">${dlist[i]}</option>`);
+    }
+  }
+
+  function proviceList() {
+    const plist = [
+      'Northern',
+      'North Western',
+      'Western',
+      'North Central',
+      'Central',
+      'Sabaragamuwa',
+      'Eastern',
+      'Uva',
+      'Southern',
+    ];
+    $('#province').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    for (let i = 0; i < plist.length; i++) {
+      $('#province').append(`<option value="${plist[i]}">${plist[i]}</option>`);
+    }
+  }
+
+  function countryList() {
+    const countryList = [
+      'Afghanistan',
+      'Albania',
+      'Algeria',
+      'American Samoa',
+      'Andorra',
+      'Angola',
+      'Anguilla',
+      'Antarctica',
+      'Antigua and Barbuda',
+      'Argentina',
+      'Armenia',
+      'Aruba',
+      'Australia',
+      'Austria',
+      'Azerbaijan',
+      'Bahamas (the)',
+      'Bahrain',
+      'Bangladesh',
+      'Barbados',
+      'Belarus',
+      'Belgium',
+      'Belize',
+      'Benin',
+      'Bermuda',
+      'Bhutan',
+      'Bolivia (Plurinational State of)',
+      'Bonaire, Sint Eustatius and Saba',
+      'Bosnia and Herzegovina',
+      'Botswana',
+      'Bouvet Island',
+      'Brazil',
+      'British Indian Ocean Territory (the)',
+      'Brunei Darussalam',
+      'Bulgaria',
+      'Burkina Faso',
+      'Burundi',
+      'Cabo Verde',
+      'Cambodia',
+      'Cameroon',
+      'Canada',
+      'Cayman Islands (the)',
+      'Central African Republic (the)',
+      'Chad',
+      'Chile',
+      'China',
+      'Christmas Island',
+      'Cocos (Keeling) Islands (the)',
+      'Colombia',
+      'Comoros (the)',
+      'Congo (the Democratic Republic of the)',
+      'Congo (the)',
+      'Cook Islands (the)',
+      'Costa Rica',
+      'Croatia',
+      'Cuba',
+      'Curaçao',
+      'Cyprus',
+      'Czechia',
+      "Côte d'Ivoire",
+      'Denmark',
+      'Djibouti',
+      'Dominica',
+      'Dominican Republic (the)',
+      'Ecuador',
+      'Egypt',
+      'El Salvador',
+      'Equatorial Guinea',
+      'Eritrea',
+      'Estonia',
+      'Eswatini',
+      'Ethiopia',
+      'Falkland Islands (the) [Malvinas]',
+      'Faroe Islands (the)',
+      'Fiji',
+      'Finland',
+      'France',
+      'French Guiana',
+      'French Polynesia',
+      'French Southern Territories (the)',
+      'Gabon',
+      'Gambia (the)',
+      'Georgia',
+      'Germany',
+      'Ghana',
+      'Gibraltar',
+      'Greece',
+      'Greenland',
+      'Grenada',
+      'Guadeloupe',
+      'Guam',
+      'Guatemala',
+      'Guernsey',
+      'Guinea',
+      'Guinea-Bissau',
+      'Guyana',
+      'Haiti',
+      'Heard Island and McDonald Islands',
+      'Holy See (the)',
+      'Honduras',
+      'Hong Kong',
+      'Hungary',
+      'Iceland',
+      'India',
+      'Indonesia',
+      'Iran (Islamic Republic of)',
+      'Iraq',
+      'Ireland',
+      'Isle of Man',
+      'Israel',
+      'Italy',
+      'Jamaica',
+      'Japan',
+      'Jersey',
+      'Jordan',
+      'Kazakhstan',
+      'Kenya',
+      'Kiribati',
+      "Korea (the Democratic People's Republic of)",
+      'Korea (the Republic of)',
+      'Kuwait',
+      'Kyrgyzstan',
+      "Lao People's Democratic Republic (the)",
+      'Latvia',
+      'Lebanon',
+      'Lesotho',
+      'Liberia',
+      'Libya',
+      'Liechtenstein',
+      'Lithuania',
+      'Luxembourg',
+      'Macao',
+      'Madagascar',
+      'Malawi',
+      'Malaysia',
+      'Maldives',
+      'Mali',
+      'Malta',
+      'Marshall Islands (the)',
+      'Martinique',
+      'Mauritania',
+      'Mauritius',
+      'Mayotte',
+      'Mexico',
+      'Micronesia (Federated States of)',
+      'Moldova (the Republic of)',
+      'Monaco',
+      'Mongolia',
+      'Montenegro',
+      'Montserrat',
+      'Morocco',
+      'Mozambique',
+      'Myanmar',
+      'Namibia',
+      'Nauru',
+      'Nepal',
+      'Netherlands (the)',
+      'New Caledonia',
+      'New Zealand',
+      'Nicaragua',
+      'Niger (the)',
+      'Nigeria',
+      'Niue',
+      'Norfolk Island',
+      'Northern Mariana Islands (the)',
+      'Norway',
+      'Oman',
+      'Pakistan',
+      'Palau',
+      'Palestine, State of',
+      'Panama',
+      'Papua New Guinea',
+      'Paraguay',
+      'Peru',
+      'Philippines (the)',
+      'Pitcairn',
+      'Poland',
+      'Portugal',
+      'Puerto Rico',
+      'Qatar',
+      'Republic of North Macedonia',
+      'Romania',
+      'Russian Federation (the)',
+      'Rwanda',
+      'Réunion',
+      'Saint Barthélemy',
+      'Saint Helena, Ascension and Tristan da Cunha',
+      'Saint Kitts and Nevis',
+      'Saint Lucia',
+      'Saint Martin (French part)',
+      'Saint Pierre and Miquelon',
+      'Saint Vincent and the Grenadines',
+      'Samoa',
+      'San Marino',
+      'Sao Tome and Principe',
+      'Saudi Arabia',
+      'Senegal',
+      'Serbia',
+      'Seychelles',
+      'Sierra Leone',
+      'Singapore',
+      'Sint Maarten (Dutch part)',
+      'Slovakia',
+      'Slovenia',
+      'Solomon Islands',
+      'Somalia',
+      'South Africa',
+      'South Georgia and the South Sandwich Islands',
+      'South Sudan',
+      'Spain',
+      'Sri Lanka',
+      'Sudan (the)',
+      'Suriname',
+      'Svalbard and Jan Mayen',
+      'Sweden',
+      'Switzerland',
+      'Syrian Arab Republic',
+      'Taiwan',
+      'Tajikistan',
+      'Tanzania, United Republic of',
+      'Thailand',
+      'Timor-Leste',
+      'Togo',
+      'Tokelau',
+      'Tonga',
+      'Trinidad and Tobago',
+      'Tunisia',
+      'Turkey',
+      'Turkmenistan',
+      'Turks and Caicos Islands (the)',
+      'Tuvalu',
+      'Uganda',
+      'Ukraine',
+      'United Arab Emirates (the)',
+      'United Kingdom of Great Britain and Northern Ireland (the)',
+      'United States Minor Outlying Islands (the)',
+      'United States of America (the)',
+      'Uruguay',
+      'Uzbekistan',
+      'Vanuatu',
+      'Venezuela (Bolivarian Republic of)',
+      'Viet Nam',
+      'Virgin Islands (British)',
+      'Virgin Islands (U.S.)',
+      'Wallis and Futuna',
+      'Western Sahara',
+      'Yemen',
+      'Zambia',
+      'Zimbabwe',
+      'Åland Islands',
+    ];
+
+    $('#pdg01Country').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#pdg02Country').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#pdg03Country').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    for (let i = 0; i < countryList.length; i++) {
+      $('#pdg01Country').append(`<option value="${countryList[i]}">${countryList[i]}</option>`);
+      $('#pdg02Country').append(`<option value="${countryList[i]}">${countryList[i]}</option>`);
+      $('#pdg03Country').append(`<option value="${countryList[i]}">${countryList[i]}</option>`);
+    }
+  }
+
+  function setVacancies() {
+    $('#vacancyID').empty();
+    $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
+    if (vacanciesList) {
+      for (let i = 0; i < vacanciesList.length; i++) {
+        $('#vacancyID').append(`<option value="${vacanciesList[i].VID}">${vacanciesList[i].VID}</option>`);
+      }
+    }
+  }
+
+  function setPosts(vacancyID) {
+    console.log(`vacancyID${vacancyID}`);
+    $('#post').empty();
+    $('#post').append(`<option label="Choose one" value="">Choose one</option>`);
+    if (postList) {
+      // get Post IDs
+      const postIDArr = vacanciesList.filter(function (vl) {
+        return vl.VID == `${vacancyID}`;
+      });
+      const postID = postIDArr[0].POST;
+
+      let postIDList;
+
+      if (postID.toString().includes('#')) {
+        postIDList = postID.split('#');
+      } else {
+        const parr = [postID.toString()];
+        postIDList = parr;
+      }
+
+      for (let i = 0; i < postList.length; i++) {
+        if (postIDList.includes(`${postList[i].PID}`)) {
+          $('#post').append(`<option value="${postList[i].CATEGORY}">${postList[i].POST}</option>`);
+        }
+      }
+    }
+  }
+
+  function facultiesList(faculties) {
+    const facListArr = [];
+    if (faculties) {
+      for (var i = 0; i < faculties.length; i++) {
+        facListArr.push(faculties[i].Faculty);
+      }
+    }
+
+    // Load Faculties
+    const uniqFacuilties = [...new Set(facListArr)];
+    uniqFacuilties.sort();
+    $('#faculty').append(`<option label="Choose one" value="">Choose one</option>`);
+    if (uniqFacuilties) {
+      for (var i = 0; i < uniqFacuilties.length; i++) {
+        if (uniqFacuilties[i] != 'NA') {
+          $('#faculty').append(`<option value="${uniqFacuilties[i]}">${uniqFacuilties[i]}</option>`);
+        }
+      }
+    }
+  }
+
+  function saveEmployment() {
+    const designation = $('#previousEmpDesignation').val();
+    const dept = $('#previousEmpDept').val();
+    const from = $('#previousEmpFrom').val();
+    const to = $('#previousEmpTo').val();
+    const reason = $('#previousEmpResonforLeaving').val();
+
+    if (designation == '') {
+      addEmployeementEror('Please Enter Designation');
+      return false;
+    }
+    addEmployeementEror('');
+
+    if (dept == '') {
+      addEmployeementEror('Please Enter Department/Institution');
+      return false;
+    }
+    addEmployeementEror('');
+
+    if (from == '') {
+      addEmployeementEror('Please Enter From Date');
+      return false;
+    }
+    addEmployeementEror('');
+
+    if (to == '') {
+      addEmployeementEror('Please Enter To Date');
+      return false;
+    }
+    addEmployeementEror('');
+
+    if (reason == '') {
+      addEmployeementEror('Please Enter Reasons for Leaving');
+      return false;
+    }
+    addEmployeementEror('');
+
+    const obj = {
+      designation: `${designation}`,
+      dept: `${dept}`,
+      from: `${from}`,
+      to: `${to}`,
+      reason: `${reason}`,
+    };
+
+    empList.push(obj);
+    loadEmployeementData(empList);
+
+    $('#previousEmpDesignation').val('');
+    $('#previousEmpDept').val('');
+    $('#previousEmpFrom').val('');
+    $('#previousEmpTo').val('');
+    $('#previousEmpResonforLeaving').val('');
+    $('#previousEmpDesignation').focus();
+  }
+  //* *****
+  function addEmployeementEror(error) {
+    if (error == '') {
+      $('#addEmpAlert').hide();
+    } else {
+      $('#addEmpAlertMessage').text(error);
+      $('#addEmpAlert').show().delay(10000).fadeOut();
+    }
+  }
+
+  function loadEmployeementData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      var i = 0;
+      if (objects.length > 0) {
+        for (var i = 0; i < objects.length; i++) {
+          if (objects[i].name != '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].designation}</td>`;
+            htmlElement += `<td>${objects[i].dept}</td>`;
+            htmlElement += `<td>${objects[i].from}</td>`;
+            htmlElement += `<td>${objects[i].to}</td>`;
+            htmlElement += `<td>${objects[i].reason}</td>`;
+            htmlElement += `<td><button name="rmEmp" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeEmployement($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblPreviousEmp');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeEmployement(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = empList.splice(reqID, 1);
+    loadEmployeementData(empList);
+  }
+</script>
