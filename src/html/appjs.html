@@ -2,16 +2,7 @@
   const pgdList = [];
   const request = {};
 
-  $('#submitButton').click(submitForm);
-
-  $(document).ready(function () {
-    // Date
-    const d = new Date();
-    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-    $('#sysDate').text(strDate);
-
-    onLoadExecutions();
-  });
+  // modal msgs
 
   function showLoadingModal(message) {
     $('#loadingModalMessage').text(message);
@@ -30,6 +21,17 @@
     $('#modalSuccess').modal('show');
     // $('#modalSuccess').modal('hide');
   }
+
+  // web app intial execution
+
+  $(document).ready(function () {
+    // Date
+    const d = new Date();
+    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    $('#sysDate').text(strDate);
+
+    onLoadExecutions();
+  });
 
   function onLoadExecutions() {
     // showLoadingModal('Please Wait for Loading...');
@@ -55,44 +57,9 @@
     }
   }
 
-  function vacancyList() {
-    google.script.run
-      .withSuccessHandler(function (r) {
-        console.log(r);
-  
-        r.vid = r.vid.map((item) => {
-          return item[0];
-        });
-        r.vpost = r.vpost.map((item) => {
-          return item[0];
-        });
-        r.vfac = r.vfac.map((item) => {
-          return item[0];
-        });
-        r.vdept = r.vdept.map((item) => {
-          return item[0];
-        });
+  // save data
 
-        $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
-        $('#vacancyPost').append(`<option label="Choose one" value="">Choose one</option>`);
-        $('#vacancyFaculty').append(`<option label="Choose one" value="">Choose one</option>`);
-        $('#vacancyDepartment').append(`<option label="Choose one" value="">Choose one</option>`);
-
-        r.vid.forEach((e) => {
-          $('#vacancyID').append(`<option value="${e}">${e}</option>`);
-        });
-        r.vpost.forEach((e) => {
-          $('#vacancyPost').append(`<option value="${e}">${e}</option>`);
-        });
-        r.vfac.forEach((e) => {
-          $('#vacancyFaculty').append(`<option value="${e}">${e}</option>`);
-        });
-        r.vdept.forEach((e) => {
-          $('#vacancyDepartment').append(`<option value="${e}">${e}</option>`);
-        });
-      })
-      .loadData();
-  }
+  $('#submitButton').click(submitForm);
 
   function submitForm() {
     // vacancy
@@ -126,6 +93,8 @@
       .saveData(request);
   }
 
+  // error handling for table data
+  
   function addError(error) {
     if (error === '') {
       $('#addEmpAlert').hide();
@@ -134,6 +103,8 @@
       $('#addEmpAlert').show().delay(10000).fadeOut();
     }
   }
+
+  // add & remove table data for pgdegree
 
   function savePgdegree() {
     const pgdegree = $('#pgdegree').val();
@@ -226,6 +197,47 @@
     const reqID = $(element).attr('data-id');
     const removed = pgdList.splice(reqID, 1);
     loadPgdData(pgdList);
+  }
+
+  // load data
+
+  function vacancyList() {
+    google.script.run
+      .withSuccessHandler(function (r) {
+        console.log(r);
+  
+        r.vid = r.vid.map((item) => {
+          return item[0];
+        });
+        r.vpost = r.vpost.map((item) => {
+          return item[0];
+        });
+        r.vfac = r.vfac.map((item) => {
+          return item[0];
+        });
+        r.vdept = r.vdept.map((item) => {
+          return item[0];
+        });
+
+        $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#vacancyPost').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#vacancyFaculty').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#vacancyDepartment').append(`<option label="Choose one" value="">Choose one</option>`);
+
+        r.vid.forEach((e) => {
+          $('#vacancyID').append(`<option value="${e}">${e}</option>`);
+        });
+        r.vpost.forEach((e) => {
+          $('#vacancyPost').append(`<option value="${e}">${e}</option>`);
+        });
+        r.vfac.forEach((e) => {
+          $('#vacancyFaculty').append(`<option value="${e}">${e}</option>`);
+        });
+        r.vdept.forEach((e) => {
+          $('#vacancyDepartment').append(`<option value="${e}">${e}</option>`);
+        });
+      })
+      .loadData();
   }
 
   function districtList() {

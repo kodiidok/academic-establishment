@@ -296,7 +296,7 @@
                           <div class="col-lg-2">
                             
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="pgdMethod" id="pgdCourse" value="pgdCourse" checked>
+                              <input class="form-check-input" type="radio" name="pgdMethod" id="pgdCourse" value="by Course Work" checked>
                               <label class="form-check-label" for="pgdCourse">
                                 By course work
                               </label>
@@ -307,7 +307,7 @@
                           <div class="col-lg-2">
                             
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="pgdMethod" id="pgdResearch" value="pgdResearch">
+                              <input class="form-check-input" type="radio" name="pgdMethod" id="pgdResearch" value="by Research">
                               <label class="form-check-label" for="pgdResearch">
                                 By research
                               </label>
@@ -356,7 +356,86 @@
                   </div>
                   <!--post graduate degree-->
 
-
+                  <div class="card bd-0 mg-b-20">
+                    <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                     Academic Award, Medal/Prizes and Scholarship
+                    </div>
+                    <!-- card-header -->
+                    <div class="card-body bd bd-t-0">
+                      <!-- card-body -->
+                      <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Award</p>
+                            <input
+                              id="award"
+                              name="award"
+                              class="form-control"
+                              placeholder="Award"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Institute(If any)/Country</p>
+                            <input
+                              id="institute_Country"
+                              name="institute_Country"
+                              class="form-control"
+                              placeholder="Institute/Country"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Year</p>
+                            <input
+                              id="awardYear"
+                              name="awardYear"
+                              class="form-control"
+                              placeholder="Year"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Details</p>
+                            <input
+                              id="awardDetails"
+                              name="awardDetails"
+                              class="form-control"
+                              placeholder="Details"
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <div class="col-lg-3">
+                          <input
+                            type="button"
+                            value="Add"
+                            class="btn btn-success btn-rounded"
+                            onclick="saveAward()"
+                            style="margin-top: 30px;"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <table class="table mg-t-20" id="tblAwards">
+                          <thead>
+                            <tr>
+                              <th>Award</th>
+                              <th>Institute/Country</th>
+                              <th>Year</th>
+                              <th>Details</th>
+                            </tr>
+                          </thead>
+                          <tbody></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <!--awards-->
 
                   <div class="row row-sm mg-b-20">
                     <button id="submitButton" type="submit" class="btn btn-indigo btn-rounded btn-block">
