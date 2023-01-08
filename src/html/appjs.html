@@ -1,0 +1,544 @@
+<script>
+  const pgdList = [];
+  const request = {};
+
+  $('#submitButton').click(submitForm);
+
+  $(document).ready(function () {
+    // Date
+    const d = new Date();
+    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    $('#sysDate').text(strDate);
+
+    onLoadExecutions();
+  });
+
+  function showLoadingModal(message) {
+    $('#loadingModalMessage').text(message);
+    $('#modalLoading').modal('show');
+  }
+
+  function showErrorModal(heading, message) {
+    $('#errorModalHeading').text(heading);
+    $('#errorModalMessage').text(message);
+    $('#modalError').modal('show');
+  }
+
+  function showSuccessModal(heading, message) {
+    $('#successModalHeading').text(heading);
+    $('#successModalMessage').text(message);
+    $('#modalSuccess').modal('show');
+    // $('#modalSuccess').modal('hide');
+  }
+
+  function onLoadExecutions() {
+    // showLoadingModal('Please Wait for Loading...');
+    // google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
+    vacancyList();
+    countryList();
+    provinceList();
+    districtList();
+  }
+
+  function onFailure(err) {
+    $('#modalLoading').modal('hide');
+    showErrorModal('Error Occured..!', err.message);
+  }
+
+  function initialLoading(retdata) {
+    $('#modalLoading').modal('hide');
+    const data = JSON.parse(retdata);
+    if (data) {
+      setMenu(data.scriptUrl);
+      setUserInfo(data.appUser.data[0]);
+      setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+    }
+  }
+
+  function vacancyList() {
+    google.script.run
+      .withSuccessHandler(function (r) {
+        console.log(r);
+  
+        r.vid = r.vid.map((item) => {
+          return item[0];
+        });
+        r.vpost = r.vpost.map((item) => {
+          return item[0];
+        });
+        r.vfac = r.vfac.map((item) => {
+          return item[0];
+        });
+        r.vdept = r.vdept.map((item) => {
+          return item[0];
+        });
+
+        $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#vacancyPost').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#vacancyFaculty').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#vacancyDepartment').append(`<option label="Choose one" value="">Choose one</option>`);
+
+        r.vid.forEach((e) => {
+          $('#vacancyID').append(`<option value="${e}">${e}</option>`);
+        });
+        r.vpost.forEach((e) => {
+          $('#vacancyPost').append(`<option value="${e}">${e}</option>`);
+        });
+        r.vfac.forEach((e) => {
+          $('#vacancyFaculty').append(`<option value="${e}">${e}</option>`);
+        });
+        r.vdept.forEach((e) => {
+          $('#vacancyDepartment').append(`<option value="${e}">${e}</option>`);
+        });
+      })
+      .loadData();
+  }
+
+  function submitForm() {
+    // vacancy
+    request.vid = $('#vacancyID').find(':selected').val();
+    request.vpost = $('#vacancyPost').find(':selected').val();
+    request.vfac = $('#vacancyFaculty').find(':selected').val();
+    request.vdept = $('#vacancyDepartment').find(':selected').val();
+  
+    // postgraduate degree
+    const pgd = [];
+    $('#tblPgDegree tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      pgd.push(row.slice(0, -1));
+    });
+    request.pgd = JSON.stringify(pgd);
+
+    console.log(request);
+    // eslint-disable-next-line no-undef
+    google.script.run
+      .withSuccessHandler(function () {
+        console.log('Submission Successful!');
+      })
+      .withFailureHandler(function () {
+        console.log('Submission Failed!!');
+      })
+      .saveData(request);
+  }
+
+  function addError(error) {
+    if (error === '') {
+      $('#addEmpAlert').hide();
+    } else {
+      $('#addEmpAlertMessage').text(error);
+      $('#addEmpAlert').show().delay(10000).fadeOut();
+    }
+  }
+
+  function savePgdegree() {
+    const pgdegree = $('#pgdegree').val();
+    const pgdUniversity = $('#pgdUniversity').val();
+    const pgdCountry = $('#pgdCountry').val();
+    const pgdFrom = $('#pgdFrom').val();
+    const pgdTo = $('#pgdTo').val();
+    const pgdClass = $('#pgdClass').val();
+    const pgdGPA = $('#pgdGPA').val();
+    const pgdMethod = $('#appMainForm input[name="pgdMethod"]:checked').val();
+  
+    if (pgdegree === '') {
+      addError('Please Enter Degree');
+    }
+    addError('');
+    if (pgdUniversity === '') {
+      addError('Please Enter University');
+    }
+    addError('');
+    if (pgdCountry === '') {
+      addError('Please Enter Country');
+    }
+    addError('');
+    if (pgdFrom === '') {
+      addError('Please Enter Starting Year');
+    }
+    addError('');
+    if (pgdTo === '') {
+      addError('Please Enter Year of Completion');
+    }
+    addError('');
+  
+    const obj = {
+      pgdegree: `${pgdegree}`,
+      pgdUniversity: `${pgdUniversity}`,
+      pgdCountry: `${pgdCountry}`,
+      pgdFrom: `${pgdFrom}`,
+      pgdTo: `${pgdTo}`,
+      pgdClass: `${pgdClass}`,
+      pgdGPA: `${pgdGPA}`,
+      pgdMethod: `${pgdMethod}`,
+    };
+
+    pgdList.push(obj);
+    loadPgdData(pgdList);
+
+    $('#pgdegree').val('');
+    $('#pgdUniversity').val('');
+    $('#pgdCountry').val('');
+    $('#pgdFrom').val('');
+    $('#pgdTo').val('');
+    $('#pgdClass').val('');
+    $('#pgdGPA').val('');
+    $('#pgdCourse').val('');
+    $('#pgdResearch').val('');
+  }
+
+  function loadPgdData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      var i = 0;
+      if (objects.length > 0) {
+        for (var i = 0; i < objects.length; i++) {
+          if (objects[i].name != '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].pgdegree}</td>`;
+            htmlElement += `<td>${objects[i].pgdUniversity}</td>`;
+            htmlElement += `<td>${objects[i].pgdCountry}</td>`;
+            htmlElement += `<td>${objects[i].pgdFrom}</td>`;
+            htmlElement += `<td>${objects[i].pgdTo}</td>`;
+            htmlElement += `<td>${objects[i].pgdClass}</td>`;
+            htmlElement += `<td>${objects[i].pgdGPA}</td>`;
+            htmlElement += `<td>${objects[i].pgdMethod}</td>`;
+            htmlElement += `<td><button name="rmPgd" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removePgdegree($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblPgDegree');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removePgdegree(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = pgdList.splice(reqID, 1);
+    loadPgdData(pgdList);
+  }
+
+  function districtList() {
+    const dlist = [
+      'Ampara',
+      'Anuradhapura',
+      'Badulla',
+      'Batticaloa',
+      'Colombo',
+      'Galle',
+      'Gampaha',
+      'Hambantota',
+      'Jaffna',
+      'Kalutara',
+      'Kandy',
+      'Kegalle',
+      'Kilinochchi',
+      'Kurunegala',
+      'Mannar',
+      'Matale',
+      'Matara',
+      'Monaragala',
+      'Mullaitivu',
+      'Nuwara Eliya',
+      'Polonnaruwa',
+      'Puttalam',
+      'Ratnapura',
+      'Trincomalee',
+      'Vavuniya',
+    ];
+    $('#district').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    for (let i = 0; i < dlist.length; i++) {
+      $('#district').append(`<option value="${dlist[i]}">${dlist[i]}</option>`);
+    }
+  }
+
+  function provinceList() {
+    const plist = [
+      'Northern',
+      'North Western',
+      'Western',
+      'North Central',
+      'Central',
+      'Sabaragamuwa',
+      'Eastern',
+      'Uva',
+      'Southern',
+    ];
+    $('#province').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    for (let i = 0; i < plist.length; i++) {
+      $('#province').append(`<option value="${plist[i]}">${plist[i]}</option>`);
+    }
+  }
+
+  function countryList() {
+    const cList = [
+      'Afghanistan',
+      'Albania',
+      'Algeria',
+      'American Samoa',
+      'Andorra',
+      'Angola',
+      'Anguilla',
+      'Antarctica',
+      'Antigua and Barbuda',
+      'Argentina',
+      'Armenia',
+      'Aruba',
+      'Australia',
+      'Austria',
+      'Azerbaijan',
+      'Bahamas (the)',
+      'Bahrain',
+      'Bangladesh',
+      'Barbados',
+      'Belarus',
+      'Belgium',
+      'Belize',
+      'Benin',
+      'Bermuda',
+      'Bhutan',
+      'Bolivia (Plurinational State of)',
+      'Bonaire, Sint Eustatius and Saba',
+      'Bosnia and Herzegovina',
+      'Botswana',
+      'Bouvet Island',
+      'Brazil',
+      'British Indian Ocean Territory (the)',
+      'Brunei Darussalam',
+      'Bulgaria',
+      'Burkina Faso',
+      'Burundi',
+      'Cabo Verde',
+      'Cambodia',
+      'Cameroon',
+      'Canada',
+      'Cayman Islands (the)',
+      'Central African Republic (the)',
+      'Chad',
+      'Chile',
+      'China',
+      'Christmas Island',
+      'Cocos (Keeling) Islands (the)',
+      'Colombia',
+      'Comoros (the)',
+      'Congo (the Democratic Republic of the)',
+      'Congo (the)',
+      'Cook Islands (the)',
+      'Costa Rica',
+      'Croatia',
+      'Cuba',
+      'Curaçao',
+      'Cyprus',
+      'Czechia',
+      "Côte d'Ivoire",
+      'Denmark',
+      'Djibouti',
+      'Dominica',
+      'Dominican Republic (the)',
+      'Ecuador',
+      'Egypt',
+      'El Salvador',
+      'Equatorial Guinea',
+      'Eritrea',
+      'Estonia',
+      'Eswatini',
+      'Ethiopia',
+      'Falkland Islands (the) [Malvinas]',
+      'Faroe Islands (the)',
+      'Fiji',
+      'Finland',
+      'France',
+      'French Guiana',
+      'French Polynesia',
+      'French Southern Territories (the)',
+      'Gabon',
+      'Gambia (the)',
+      'Georgia',
+      'Germany',
+      'Ghana',
+      'Gibraltar',
+      'Greece',
+      'Greenland',
+      'Grenada',
+      'Guadeloupe',
+      'Guam',
+      'Guatemala',
+      'Guernsey',
+      'Guinea',
+      'Guinea-Bissau',
+      'Guyana',
+      'Haiti',
+      'Heard Island and McDonald Islands',
+      'Holy See (the)',
+      'Honduras',
+      'Hong Kong',
+      'Hungary',
+      'Iceland',
+      'India',
+      'Indonesia',
+      'Iran (Islamic Republic of)',
+      'Iraq',
+      'Ireland',
+      'Isle of Man',
+      'Israel',
+      'Italy',
+      'Jamaica',
+      'Japan',
+      'Jersey',
+      'Jordan',
+      'Kazakhstan',
+      'Kenya',
+      'Kiribati',
+      "Korea (the Democratic People's Republic of)",
+      'Korea (the Republic of)',
+      'Kuwait',
+      'Kyrgyzstan',
+      "Lao People's Democratic Republic (the)",
+      'Latvia',
+      'Lebanon',
+      'Lesotho',
+      'Liberia',
+      'Libya',
+      'Liechtenstein',
+      'Lithuania',
+      'Luxembourg',
+      'Macao',
+      'Madagascar',
+      'Malawi',
+      'Malaysia',
+      'Maldives',
+      'Mali',
+      'Malta',
+      'Marshall Islands (the)',
+      'Martinique',
+      'Mauritania',
+      'Mauritius',
+      'Mayotte',
+      'Mexico',
+      'Micronesia (Federated States of)',
+      'Moldova (the Republic of)',
+      'Monaco',
+      'Mongolia',
+      'Montenegro',
+      'Montserrat',
+      'Morocco',
+      'Mozambique',
+      'Myanmar',
+      'Namibia',
+      'Nauru',
+      'Nepal',
+      'Netherlands (the)',
+      'New Caledonia',
+      'New Zealand',
+      'Nicaragua',
+      'Niger (the)',
+      'Nigeria',
+      'Niue',
+      'Norfolk Island',
+      'Northern Mariana Islands (the)',
+      'Norway',
+      'Oman',
+      'Pakistan',
+      'Palau',
+      'Palestine, State of',
+      'Panama',
+      'Papua New Guinea',
+      'Paraguay',
+      'Peru',
+      'Philippines (the)',
+      'Pitcairn',
+      'Poland',
+      'Portugal',
+      'Puerto Rico',
+      'Qatar',
+      'Republic of North Macedonia',
+      'Romania',
+      'Russian Federation (the)',
+      'Rwanda',
+      'Réunion',
+      'Saint Barthélemy',
+      'Saint Helena, Ascension and Tristan da Cunha',
+      'Saint Kitts and Nevis',
+      'Saint Lucia',
+      'Saint Martin (French part)',
+      'Saint Pierre and Miquelon',
+      'Saint Vincent and the Grenadines',
+      'Samoa',
+      'San Marino',
+      'Sao Tome and Principe',
+      'Saudi Arabia',
+      'Senegal',
+      'Serbia',
+      'Seychelles',
+      'Sierra Leone',
+      'Singapore',
+      'Sint Maarten (Dutch part)',
+      'Slovakia',
+      'Slovenia',
+      'Solomon Islands',
+      'Somalia',
+      'South Africa',
+      'South Georgia and the South Sandwich Islands',
+      'South Sudan',
+      'Spain',
+      'Sri Lanka',
+      'Sudan (the)',
+      'Suriname',
+      'Svalbard and Jan Mayen',
+      'Sweden',
+      'Switzerland',
+      'Syrian Arab Republic',
+      'Taiwan',
+      'Tajikistan',
+      'Tanzania, United Republic of',
+      'Thailand',
+      'Timor-Leste',
+      'Togo',
+      'Tokelau',
+      'Tonga',
+      'Trinidad and Tobago',
+      'Tunisia',
+      'Turkey',
+      'Turkmenistan',
+      'Turks and Caicos Islands (the)',
+      'Tuvalu',
+      'Uganda',
+      'Ukraine',
+      'United Arab Emirates (the)',
+      'United Kingdom of Great Britain and Northern Ireland (the)',
+      'United States Minor Outlying Islands (the)',
+      'United States of America (the)',
+      'Uruguay',
+      'Uzbekistan',
+      'Vanuatu',
+      'Venezuela (Bolivarian Republic of)',
+      'Viet Nam',
+      'Virgin Islands (British)',
+      'Virgin Islands (U.S.)',
+      'Wallis and Futuna',
+      'Western Sahara',
+      'Yemen',
+      'Zambia',
+      'Zimbabwe',
+      'Åland Islands',
+    ];
+
+    $('#pgdCountry').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    for (let i = 0; i < cList.length; i++) {
+      $('#pgdCountry').append(`<option value="${cList[i]}">${cList[i]}</option>`);
+    }
+  }
+</script>

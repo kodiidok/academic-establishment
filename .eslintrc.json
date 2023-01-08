@@ -32,6 +32,7 @@
   "rules": {
     "no-use-before-define": "off",
     "func-names": "off",
+    "no-undef": "off",
     "no-console": "off",
     "prettier/prettier": [
       "error",

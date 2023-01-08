@@ -1,30 +1,11 @@
-const DATABASE = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
-const ss = SpreadsheetApp.openById(DATABASE);
+const db = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const ss = SpreadsheetApp.openById(db);
+const retObj = {};
 
 function doGet(e) {
   if (!e.parameter.page) {
     // When no specific page requested, return "home page" Ex : ?page=hod
     const tmp = HtmlService.createTemplateFromFile('index');
-    tmp.vacancy = loadVacancies()
-      .vacancy.map(function (r) {
-        return `<option>${parseInt(r[0], 10)}</option>`;
-      })
-      .join();
-    tmp.post = loadVacancies()
-      .post.map(function (r) {
-        return `<option>${r[0]}</option>`;
-      })
-      .join('');
-    tmp.fac = loadVacancies()
-      .fac.map(function (r) {
-        return `<option>${r[0]}</option>`;
-      })
-      .join('');
-    tmp.dept = loadVacancies()
-      .dept.map(function (r) {
-        return `<option>${r[0]}</option>`;
-      })
-      .join('');
     return tmp
       .evaluate()
       .addMetaTag('viewport', 'width=device-width, initial-scale=1')
@@ -42,28 +23,25 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
-function loadVacancies() {
-  const wsVacancy = ss.getSheetByName('vacancy');
-  const wsPost = ss.getSheetByName('post');
-  const wsFac = ss.getSheetByName('faculty');
-  const wsDept = ss.getSheetByName('department');
+function loadData() {
+  const vid = ss.getSheetByName('vacancy').getDataRange().getValues();
+  const vpost = ss.getSheetByName('post').getDataRange().getValues();
+  const vfac = ss.getSheetByName('faculty').getDataRange().getValues();
+  const vdept = ss.getSheetByName('department').getDataRange().getValues();
 
-  const vacancy = wsVacancy.getDataRange().getValues();
-  const post = wsPost.getDataRange().getValues();
-  const fac = wsFac.getDataRange().getValues();
-  const dept = wsDept.getDataRange().getValues();
-
-  return { vacancy, post, fac, dept };
+  retObj.vid = vid;
+  retObj.vpost = vpost;
+  retObj.vfac = vfac;
+  retObj.vdept = vdept;
+  return retObj;
 }
 
-function saveRequest(request) {
+function saveData(r) {
   const ws = ss.getSheetByName('mainsheet');
-  Logger.log(request);
-  console.log(request);
-  ws.appendRow([new Date(), request.vacancyID, request.vacancyPost, request.vacancyFac, request.vacancyDept]);
+  ws.appendRow([new Date(), r.appid, r.vid, r.vpost, r.vfac, r.vdept, r.pgd]);
 }
 
 global.doGet = doGet;
 global.include = include;
-global.loadVacancies = loadVacancies;
-global.saveRequest = saveRequest;
+global.loadData = loadData;
+global.saveData = saveData;
