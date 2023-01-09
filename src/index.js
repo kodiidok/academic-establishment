@@ -58,9 +58,20 @@ function loadVacancies() {
 
 function saveRequest(request) {
   const ws = ss.getSheetByName('mainsheet');
+  const wsPd = ss.getSheetByName('sheetNamepd');
+  const wsBd = ss.getSheetByName('sheetNameBasicdegree');
   Logger.log(request);
   console.log(request);
+
   ws.appendRow([new Date(), request.vacancyID, request.vacancyPost, request.vacancyFac, request.vacancyDept]);
+
+  wsPd.appendRow([request.pdGender,request.personalTitle,request.personalNameInit,request.personalFullName,request.personalAddress,
+    request.civilstatus,request.personalMobile,request.personalTp,request.personalEmail,request.district,
+    request.electorate,request.province,request.city,  request.nic,request.specifyCountry,request.passportNo,
+    request.spouseName ,request.spouseDesignation,request.highestEducation]);
+
+  wsBd.appendRow([request.basicDegree,request.bdCountry,request.bdUniversity,request.bdYearFrom,request.bdYearTo,request.bdClass,request.bdGPA])
+
 }
 
 global.doGet = doGet;

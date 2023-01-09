@@ -1,9 +1,50 @@
 <script>
   const request = {
+    // vacancy
     vacancyID: '',
     vacancyPost: '',
     vacancyFac: '',
     vacancyDept: '',
+
+    //personal details
+    pdGender: '',
+    personalTitle: '',
+    personalNameInit: '',
+    personalFullName: '',
+    personalAddress: '',
+    civilstatus: '',
+    personalMobile: '',
+    personalTp: '',
+    personalEmail: '',
+    district: '',
+    electorate: '',
+    province: '',
+    city: '',
+    flexRadioSrilanka: '',
+    flexRadioOther: '',
+    flexRadioDescent: '',
+    flexRadioRegistration: '',
+    nic: '',
+    specifyCountry: '',
+    passportNo: '',
+    spouseName: '',
+    spouseDesignation: '',
+    highestEducation: '',
+    langSinhala: '',
+    langTamil: '',
+    langEnglish: '',
+
+    // basic degree *
+    basicDegree: '',
+    bdCountry: '',
+    bdUniversity: '',
+    bdYearFrom: '',
+    bdYearTo: '',
+    bdClass: '',
+    bdGPA: '',
+    
+
+
   };
 
   document.getElementById('submitButton').addEventListener('click', submitForm);
@@ -16,8 +57,38 @@
     request.vacancyDept = document.getElementById('vacancyDepartment').value;
   
     // personal details *
+    request.pdGender = document.getElementById('pdGender').value;
+    request.personalTitle = document.getElementById('personalTitle').value;
+    request.personalNameInit = document.getElementById('personalNameInit').value;
+    request.personalFullName = document.getElementById('personalFullName').value;
+    request.personalAddress = document.getElementById('personalAddress').value;
+    request.civilstatus = document.getElementById('civilstatus').value;
+    request.personalMobile = document.getElementById('personalMobile').value;
+    request.personalTp = document.getElementById('personalTp').value;
+    request.personalEmail = document.getElementById('personalEmail').value;
+    request.district = document.getElementById('district').value;
+    request.electorate = document.getElementById('electorate').value;
+    request.province = document.getElementById('province').value;
+    request.city = document.getElementById('city').value;
+      //flexRadioSrilanka
+      //flexRadioDescent
+    request.nic = document.getElementById('nic').value;
+    request.specifyCountry = document.getElementById('specifyCountry').value;
+    request.passportNo = document.getElementById('passportNo').value;
+    request.spouseName = document.getElementById('spouseName').value;
+    request.spouseDesignation = document.getElementById('spouseDesignation').value;
+    request.highestEducation = document.getElementById('highestEducation').value;
     
     // basic degree *
+    request.basicDegree = document.getElementById('basicDegree').value;
+    request.bdCountry = document.getElementById('bdCountry').value;
+    request.bdUniversity = document.getElementById('bdUniversity').value;
+    request.bdYearFrom = document.getElementById('bdYearFrom').value;
+    request.bdYearTo = document.getElementById('bdYearTo').value;
+    request.bdClass = document.getElementById('bdClass').value;
+    request.bdGPA = document.getElementById('bdGPA').value;
+
+
     
     // postgraduate degree 
     
@@ -26,8 +97,8 @@
     // research publications 
     
     // commendations *
-    
-    // vacations *
+
+    // vacations * 
     
     // extra curricular activities
     
