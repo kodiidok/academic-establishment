@@ -38,7 +38,7 @@ function loadData() {
 
 function saveData(r) {
   const ws = ss.getSheetByName('mainsheet');
-  ws.appendRow([new Date(), r.appid, r.vid, r.vpost, r.vfac, r.vdept, r.pgd]);
+  ws.appendRow([new Date(), r.appid, r.vid, r.vpost, r.vfac, r.vdept, r.pgd, r.awards, r.books, r.journals]);
 }
 
 global.doGet = doGet;

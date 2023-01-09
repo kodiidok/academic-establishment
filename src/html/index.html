@@ -358,7 +358,7 @@
 
                   <div class="card bd-0 mg-b-20">
                     <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                     Academic Award, Medal/Prizes and Scholarship
+                     Academic Awards (Distinctions, Scholarships and Medal/Prizes)
                     </div>
                     <!-- card-header -->
                     <div class="card-body bd bd-t-0">
@@ -378,8 +378,8 @@
                           <div class="col-lg-3">
                             <p class="mg-b-10">Institute(If any)/Country</p>
                             <input
-                              id="institute_Country"
-                              name="institute_Country"
+                              id="instituteCountry"
+                              name="instituteCountry"
                               class="form-control"
                               placeholder="Institute/Country"
                               type="text"
@@ -412,7 +412,7 @@
                         <div class="col-lg-3">
                           <input
                             type="button"
-                            value="Add"
+                            value="Add Award"
                             class="btn btn-success btn-rounded"
                             onclick="saveAward()"
                             style="margin-top: 30px;"
@@ -421,7 +421,7 @@
                       </div>
                       
                       <div class="row row-sm mg-b-20">
-                        <table class="table mg-t-20" id="tblAwards">
+                        <table class="table mg-t-20">
                           <thead>
                             <tr>
                               <th>Award</th>
@@ -430,12 +430,355 @@
                               <th>Details</th>
                             </tr>
                           </thead>
-                          <tbody></tbody>
+                          <tbody id="tblAwards"></tbody>
                         </table>
                       </div>
                     </div>
                   </div>
                   <!--awards-->
+
+                  <div class="card bd-0 mg-b-20">
+                    <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                      Research Publications
+                    </div>
+                    <!-- card-header -->
+                    
+                    <div class="card-body bd bd-t-0">
+                      <!-- card-body -->
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Books
+                      </div>
+                      <!-- card-header -->
+                      <div class="bg-gray-200 ">
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Name of the Book</p>
+                              <input
+                                id="nameOfTheBook"
+                                name="nameOfTheBook"
+                                class="form-control"
+                                placeholder="Name of the Book"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Author</p>
+                              <input
+                                id="bookAuthor"
+                                name="bookAauthor"
+                                class="form-control"
+                                placeholder="Author of the Book"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Date Published</p>
+                              <input 
+                                id="datePublished" 
+                                name="datePublished" 
+                                class="form-control" 
+                                type="date" />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">ISBN No</p>
+                              <input
+                                id="isbnNo"
+                                name="isbnNo"
+                                class="form-control"
+                                placeholder="Designation"
+                                type="text"
+                              />
+                            </div>
+                          </div>
+                          
+                        </div>  
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <div class="col-lg-3">
+                          <input
+                            type="button"
+                            value="Add Book"
+                            class="btn btn-success btn-rounded"
+                            onclick="saveBook()"
+                            style="margin-top: 30px;"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <table id="tblBooks" class="table mg-t-20">
+                          <thead>
+                            <tr>
+                              <th>Name of the Book</th>
+                              <th>Author</th>
+                              <th>Date</th>
+                              <th>ISBN</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tblBooks"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!--books-->
+
+                    <div class="card-body bd bd-t-0">
+                      <!-- card-body -->
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Journals
+                      </div>
+                      <!-- card-header -->
+                      <div class="bg-gray-200 ">
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Title</p>
+                              <input
+                                id="titleOfTheJournal"
+                                name="titleOfTheJournal"
+                                class="form-control"
+                                placeholder="Name of the Book"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Author</p>
+                              <input
+                                id="bookAuthor"
+                                name="bookAauthor"
+                                class="form-control"
+                                placeholder="Author of the Book"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Source</p>
+                              <input
+                                id="sourceOfTheJournal"
+                                name="sourceOfTheJournal"
+                                class="form-control"
+                                placeholder="Source"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Date Published</p>
+                              <input 
+                                id="datePublished" 
+                                name="datePublished" 
+                                class="form-control" 
+                                type="date" />
+                            </div>
+                          </div>
+                          <div class="row row-sm mg-b-20">
+                  
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="indexed" id="flexRadioIndexed" checked>
+                                <label class="form-check-label" for="flexRadioIndexed">
+                                  Indexed
+                                </label>
+                              </div>
+                              
+                            </div>
+                            
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="indexed" id="flexRadioNonIndexed" >
+                                <label class="form-check-label" for="flexRadioNonIndexed">
+                                  Non Indexed
+                                </label>
+                              </div>
+                            </div>
+                  
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conference" id="flexRadioConference" >
+                                <label class="form-check-label" for="flexRadioConference">
+                                  Conference
+                                </label>
+                              </div>
+                            </div>
+                  
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conference" id="flexRadioOther" checked>
+                                <label class="form-check-label" for="flexRadioOther">
+                                  Other
+                                </label>
+                              </div>
+                              
+                            </div>
+                  
+                          </div>
+                        </div>  
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <div class="col-lg-3">
+                          <input
+                            type="button"
+                            value="Add Journal"
+                            class="btn btn-success btn-rounded"
+                            onclick="saveJournal()"
+                            style="margin-top: 30px;"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <table id="tblJournals" class="table mg-t-20">
+                          <thead>
+                            <tr>
+                              <th>Title</th>
+                              <th>Author</th>
+                              <th>Source</th>
+                              <th>Date</th>
+                              <th>Indexed / Non Indexed</th>
+                              <th>Conference / Other</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tblJournals"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!--journals-->
+                    
+                    <div class="card-body bd bd-t-0">
+                      <!-- card-body -->
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Abstracts
+                      </div>
+                      <!-- card-header -->
+                      <div class="bg-gray-200 ">
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Title</p>
+                              <input
+                                id="titleOfTheAbstract"
+                                name="titleOfTheAbstract"
+                                class="form-control"
+                                placeholder="Name of the Abstract"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Author</p>
+                              <input
+                                id="bookAuthor"
+                                name="bookAauthor"
+                                class="form-control"
+                                placeholder="Author of the Abstract"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Source</p>
+                              <input
+                                id="sourceOfTheAbstract"
+                                name="sourceOfTheAbstract"
+                                class="form-control"
+                                placeholder="Source"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Date Published</p>
+                              <input 
+                                id="datePublished" 
+                                name="datePublished" 
+                                class="form-control" 
+                                type="date" />
+                            </div>
+                          </div>
+                          <div class="row row-sm mg-b-20">
+                  
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="indexed" id="flexRadioIndexed" checked>
+                                <label class="form-check-label" for="flexRadioIndexed">
+                                  Indexed
+                                </label>
+                              </div>
+                              
+                            </div>
+                            
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="indexed" id="flexRadioNonIndexed" >
+                                <label class="form-check-label" for="flexRadioNonIndexed">
+                                  Non Indexed
+                                </label>
+                              </div>
+                            </div>
+                  
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conference" id="flexRadioConference" >
+                                <label class="form-check-label" for="flexRadioConference">
+                                  Conference
+                                </label>
+                              </div>
+                            </div>
+                  
+                            <div class="col-lg-3">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="conference" id="flexRadioOther" checked>
+                                <label class="form-check-label" for="flexRadioOther">
+                                  Other
+                                </label>
+                              </div>
+                              
+                            </div>
+                  
+                          </div>
+                        </div>  
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <div class="col-lg-3">
+                          <input
+                            type="button"
+                            value="Add Abstract"
+                            class="btn btn-success btn-rounded"
+                            onclick="saveAbstract()"
+                            style="margin-top: 30px;"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <table class="table mg-t-20">
+                          <thead>
+                            <tr>
+                              <th>Title</th>
+                              <th>Author</th>
+                              <th>Source</th>
+                              <th>Date</th>
+                              <th>Indexed / Non Indexed</th>
+                              <th>Conference / Other</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tblAbstracts"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <!--abstract-->
+                  </div>
+                  <!--research publications-->
 
                   <div class="row row-sm mg-b-20">
                     <button id="submitButton" type="submit" class="btn btn-indigo btn-rounded btn-block">
