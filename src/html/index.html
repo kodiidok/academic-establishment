@@ -780,6 +780,95 @@
                   </div>
                   <!--research publications-->
 
+                  <div class="card bd-0 mg-b-20">
+                    <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                      Extra Curricular Activities (University, National & International level)
+                    </div>
+                    <!-- card-header -->
+                    <div class="card-body bd bd-t-0">
+                      <!-- card-body -->
+                      <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Activity</p>
+                            <input
+                              id="extraCurrActivity"
+                              name="extraCurrActivity"
+                              class="form-control"
+                              placeholder="Activity"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Duration / Year</p>
+                            <input
+                              id="extraCurrduration"
+                              name="extraCurrduration"
+                              class="form-control"
+                              placeholder="Duration/Year"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10"> Level </p>
+                            <select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              data-select2-id="13"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="extraCurrLevel"
+                              name="extraCurrLevel"
+                            >
+                              <option label="Choose one" value=""></option>
+                              <option label="university" value="University"></option>
+                              <option label="national" value="National"></option>
+                              <option label="international" value="International"></option>
+                            </select>
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Details</p>
+                            <input
+                              id="activityDetails"
+                              name="activityDetails"
+                              class="form-control"
+                              placeholder="Details"
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <div class="col-lg-3">
+                          <input
+                            type="button"
+                            value="Add"
+                            class="btn btn-success btn-rounded"
+                            onclick="saveExtraCurrAct()"
+                            style="margin-top: 30px;"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div class="row row-sm mg-b-20">
+                        <table class="table mg-t-20">
+                          <thead>
+                            <tr>
+                              <th>Activity</th>
+                              <th>Duration/Year</th>
+                              <th>Level</th>
+                              <th>Details</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tblExtraCurrAct"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <!--extra curricular activities-->
+
+                  
+
                   <div class="row row-sm mg-b-20">
                     <button id="submitButton" type="submit" class="btn btn-indigo btn-rounded btn-block">
                       SUBMIT
