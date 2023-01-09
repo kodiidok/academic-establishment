@@ -227,6 +227,449 @@
                         <!-- card-body -->
                       </div>
                       <!--vacancy-->
+
+                      <div class="card bd-0 mg-b-20">
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                          Personal Details
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Gender</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="pdGender"
+                                name="pdGender"
+                              >
+                                <option label="Choose one" value="">Choose one</option>
+                                <option label="Female">Female</option>
+                                <option value="Male">Male</option>
+                              </select>
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Title</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="personalTitle"
+                                name="personalTitle"
+                              >
+                                <option label="Choose one" value="">Choose one</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Rev">Rev.</option>
+                                <option value="Dr. Mr.">Dr. Mr.</option>
+                                <option value="Dr. Ms.">Dr. Ms.</option>
+                                <option value="Dr. Rev.">Dr. Rev.</option>
+                                <option value="Prof. Ms.">Prof. Ms.</option>
+                                <option value="Prof. Mr.">Prof. Mr.</option>
+                                <option value="Prof. Rev.">Prof. Rev.</option>
+                              </select>
+                            </div>
+                      
+                            <div class="col-lg-8">
+                              <p class="mg-b-10">Name with initials</p>
+                              <input
+                                id="personalNameInit"
+                                name="personalNameInit"
+                                class="form-control"
+                                placeholder="Name with Inititals"
+                                type="text"
+                              />
+                            </div>
+                            
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-10">
+                              <p class="mg-b-10">Full Name</p>
+                              <input
+                                id="personalFullName"
+                                name="personalFullName"
+                                class="form-control"
+                                placeholder="Full Name"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Date of Birth</p>
+                              <input type="date" id="personalDOB" name="personalDOB" class="form-control" />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-10">
+                              <p class="mg-b-10">Postal Address</p>
+                              <input
+                                id="personalAddress"
+                                name="personalAddress"
+                                class="form-control"
+                                placeholder="Postal Address"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">CivilStatus</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="civilstatus"
+                                name="civilstatus"
+                              >
+                                <option label="Choose one" value="">Choose one</option>
+                                <option value="Single">Single</option>
+                                <option value="Married">Married</option>
+                                <option value="Divorced">Divorced</option>
+                                <option value="Widowed">Widowed</option>
+                              </select>
+                            </div>
+                            
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Mobile</p>
+                              <input id="personalMobile" name="personalMobile" class="form-control" placeholder="Mobile" type="text" />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Telephone</p>
+                              <input id="personalTp" name="personalTp" class="form-control" placeholder="Telephone" type="text" />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Email</p>
+                              <input id="personalEmail" name="personalEmail" class="form-control" placeholder="Email" type="email" />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">District</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="district"
+                                name="district"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Electorate</p>
+                              <input
+                                id="electorate"
+                                name="electorate"
+                                class="form-control"
+                                placeholder="Electorate"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Province</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="province"
+                                name="province"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">City</p>
+                              <input id="city" name="city" class="form-control" placeholder="City" type="text" />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Citizenship</p>
+                              
+                              
+                            </div>
+                      
+                            <div class="col-lg-2">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="citizenship" id="flexRadioSrilanka" checked>
+                                <label class="form-check-label" for="flexRadioSrilanka">
+                                  Sri Lankan
+                                </label>
+                              </div>
+                              
+                            </div>
+                      
+                            <div class="col-lg-2">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="citizenship" id="flexRadioOther" >
+                                <label class="form-check-label" for="flexRadioOther">
+                                  Other
+                                </label>
+                              </div>
+                            </div>
+                      
+                      
+                            <div class="col-lg-6">
+                              
+                            </div>
+                          </div>
+                          
+                      
+                          <div class="row row-sm mg-b-20">
+                            
+                            <div class="col-lg-2">
+                      
+                            </div>
+                      
+                            <div class="col-lg-2">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault4" id="flexRadioDescent">
+                                <label class="form-check-label" for="flexRadioDescent">
+                                  By descent
+                                </label>
+                              </div>
+                              
+                            </div>
+                      
+                            <div class="col-lg-2">
+                              
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault4" id="flexRadioRegistration" checked>
+                                <label class="form-check-label" for="flexRadioRegistration">
+                                  By registration
+                                </label>
+                              </div>
+                            </div>
+                      
+                      
+                            <div class="col-lg-6">
+                              <p class="mg-b-10">NIC</p>
+                              <input id="nic" name="nic" class="form-control" placeholder="NIC" type="text" />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            
+                            <div class="col-lg-2">
+                      
+                            </div>
+                      
+                            <div class="col-lg-4">
+                            
+                              <p class="mg-b-10">Specify the Country</p>
+                              <input id="specifyCountry" name="specifyCountry" class="form-control" placeholder=" " type="text" />
+                              
+                            </div>
+                      
+                            
+                      
+                            <div class="col-lg-6">
+                              <p class="mg-b-10">Passport No</p>
+                              <input id="passportNo" name="passportNo" class="form-control" placeholder="Passport No" type="text" />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-8">
+                              <p class="mg-b-10">Spouse Name</p>
+                              <input
+                                id="spouseName"
+                                name="spouseName"
+                                class="form-control"
+                                placeholder="Spouse Name"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Spouse Designation</p>
+                              <input
+                                id="spouseDesignation"
+                                name="spouseDesignation"
+                                class="form-control"
+                                placeholder="Spouse Designation"
+                                type="text"
+                              />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-8">
+                              <p class="mg-b-10">Highest Education Qualification</p>
+                              <input
+                                id="highestEducation"
+                                name="highestEducation"
+                                class="form-control"
+                                placeholder="Highest Education Qualification"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Proficiency on Languages</p>
+                              <div class="row mg-t-10">
+                                <div class="col-lg-4">
+                                  <label class="ckbox">
+                                    <input type="checkbox" checked="" name="langSinhala" id="langSinhala" /><span
+                                      >Sinhala</span
+                                    >
+                                  </label>
+                                </div>
+                                <div class="col-lg-4">
+                                  <label class="ckbox">
+                                    <input type="checkbox" name="langTamil" id="langTamil" /><span>Tamil</span>
+                                  </label>
+                                </div>
+                                <div class="col-lg-4">
+                                  <label class="ckbox">
+                                    <input type="checkbox" name="langEnglish" id="langEnglish" /><span>English</span>
+                                  </label>
+                                </div>
+                              </div>
+                      
+                              <!--select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="proficiencyOnLanguages"
+                                name="proficiencyOnLanguages"
+                              >
+                                <option label="Choose one" value="">Choose one</option>
+                                <option value="Sinhala">Only Sinhala</option>
+                                <option value="Tamil">Only Tamil</option>
+                                <option value="English">Only English</option>
+                                <option value="Sinhala and Tamil">Sinhala and Tamil</option>
+                                <option value="Sinhala and English">Sinhala and English</option>
+                                <option value="Tamil and English">Tamil and English</option>
+                                <option value="Sinhala and Tamil">Sinhala, Tamil and English</option>
+                              </select-->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--personal details-->
+                      
+                      <div class="card bd-0 mg-b-20">
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                          Basic Degree
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Basic Degree</p>
+                              <input
+                                id="basicDegree"
+                                name="basicDegree"
+                                class="form-control"
+                                placeholder="Basic Degree"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Country</p>
+                              <input
+                                id="bdCountry"
+                                name="bdCountry"
+                                class="form-control"
+                                placeholder="Country"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">University</p>
+                              <input
+                                id="bdUniversity"
+                                name="bdUniversity"
+                                class="form-control"
+                                placeholder="University"
+                                type="text"
+                              />
+                            </div>
+                          </div>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">From</p>
+                              <input id="bdYearFrom" name="bdYearFrom" class="form-control" type="number" />
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">To</p>
+                              <input id="bdYearTo" name="bdYearTo" class="form-control" type="number" />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Class</p>
+                              <input id="bdClass" name="bdClass" class="form-control" placeholder="Class" type="text" />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">GPA</p>
+                              <input id="bdGPA" name="bdGPA" class="form-control" placeholder="GPA" type="text" />
+                            </div>
+                          </div>
+                      
+                        </div>
+                      </div>
+                      <!--basic degree-->
+
+                      <div class="card bd-0 mg-b-20">
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                          Commendations/Punishments
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          <div class="row row-sm ">
+                            <div class="col-lg-8">
+                              <br>
+                              <p style="font-size: larger;"><strong> Have you ever been Commended or Punished during your career in the 
+                                University / Educational Institution: </strong></p> <br> 
+                              <p style="font-size: larger;"><strong>If yes, please specify</strong></p>
+                            </div>
+                      
+                            <div class="col-lg-2">
+                              <br>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioCommendations" id="flexRadioCommendations1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                  YES
+                                </label>
+                              </div>
+                            </div>
+                            <div class="col-lg-2">
+                              <br>
+                              <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioCommendations" id="flexRadioCommendations2" checked>
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                  NO
+                                </label>
+                              </div>
+                      
+                            </div>
+                          </div>
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-12">
+                              <p class="mg-b-10"></p>
+                                <textarea id="publications" rows="8" name="publications" class="form-control"></textarea>
+                            </div>
+                            
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <!--commendations-->
+
                       <div class="row row-sm mg-b-20">
                         <button id="submitButton" type="submit" class="btn btn-indigo btn-rounded btn-block">
                           SUBMIT
