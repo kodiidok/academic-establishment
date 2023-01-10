@@ -25,13 +25,15 @@
 
   function initialLoading(retdata) {
     $('#modalLoading').modal('hide');
-    const data = JSON.parse(retdata);
+    /* const data = JSON.parse(retdata);
     if (data) {
       setMenu(data.scriptUrl);
       setUserInfo(data.appUser.data[0]);
       setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
-    }
+    } */
   }
+
+  // modal msgs
 
   function showLoadingModal(message) {
     $('#loadingModalMessage').text(message);
@@ -85,12 +87,43 @@
     request.vdept = $('#vacancyDepartment').find(':selected').val();
   
     // personal details
-    request.lang = $('#appMainForm input[name="optionChk"]:checked')
+    request.pdGender = $('#pdGender').find(':selected').val();
+    request.personalTitle = $('#personalTitle').find(':selected').val();
+    request.personalNameInit = $('#personalNameInit').val();
+    request.personalFullName = $('#personalFullName').val();
+    request.personalDOB = $('#personalDOB').val();
+    request.personalAddress = $('#personalAddress').val();
+    request.civilstatus = $('#civilstatus').find(':selected').val();
+    request.personalMobile = $('#personalMobile').val();
+    request.personalTp = $('#personalTp').val();
+    request.personalEmail = $('#personalEmail').val();
+    request.district = $('#district').find(':selected').val();
+    request.electorate = $('#electorate').val();
+    request.province = $('#province').find(':selected').val();
+    request.city = $('#city').val();
+    request.citizenship = $('#appMainForm input[name="radioCitizenship"]:checked').val();
+    request.descentOrReg = $('#appMainForm input[name="flexRadioDefault4"]:checked').val();
+    request.nic = $('#nic').val();
+    request.specifyCountry = $('#specifyCountry').val();
+    request.passportNo = $('#passportNo').val();
+    request.spouseName = $('#spouseName').val();
+    request.spouseDesignation = $('#spouseDesignation').val();
+    request.highestEducation = $('#highestEducation').val();
+    request.lang = $('#appMainForm input[name="lang"]:checked')
       .map(function () {
         return $(this).val();
       })
       .get();
 
+    // basic degree
+    request.basicDegree = $('#basicDegree').val();
+    request.bdCountry = $('#bdCountry').val();
+    request.bdUniversity = $('#bdUniversity').val();
+    request.bdYearFrom = $('#bdYearFrom').val();
+    request.bdYearTo = $('#bdYearTo').val();
+    request.bdClass = $('#bdClass').val();
+    request.bdGPA = $('#bdGPA').val();
+  
     // postgraduate degree
     const pgd = [];
     $('#tblPgDegree tr').each(function () {
@@ -156,6 +189,13 @@
     });
     request.abstracts = JSON.stringify(abstracts);
 
+    // commendations
+    request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
+    request.publications = $('#publications').val();
+
+    // vacations
+    request.vacation = $('#vacation').val();
+
     // extra curricular activities
     const extraCurrActivity = [];
     $('#tblExtraCurrAct tr').each(function () {
@@ -169,8 +209,34 @@
     });
     request.extraCurrActivity = JSON.stringify(extraCurrActivity);
 
+    // references
+    request.rName1 = $('#rName1').val();
+    request.rTelephone1 = $('#rTelephone1').val();
+    request.rAddress1 = $('#rAddress1').val();
+    request.rEmail1 = $('#rEmail1').val();
+    request.rName2 = $('#rName2').val();
+    request.rTelephone2 = $('#rTelephone2').val();
+    request.rAddress2 = $('#rAddress2').val();
+    request.rEmail2 = $('#rEmail2').val();
+
     // present occupation
   
+    // previous employements
+    const pEmployements = [];
+    $('#tblPreviousEmp tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      pEmployements.push(row.slice(0, -1));
+    });
+    request.pEmployements = JSON.stringify(pEmployements);
+    request.bondViolatorRadio = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
+    request.bondValue = $('#bondValue').val();
+    request.uniInstitute = $('#uniInstitute').val();
+
     console.log(request);
     // eslint-disable-next-line no-undef
     google.script.run.withSuccessHandler(saveRequestSuccess).withFailureHandler(onFailure).saveData(request);
@@ -704,6 +770,91 @@
     loadExtraCurrActData(extraCurrActivity);
   }
 
+  // add & remove table data for previous employements
+
+  const previousEmpList = [];
+
+  function saveEmployment() {
+    const previousEmpDesignation = $('#previousEmpDesignation').val();
+    const previousEmpDept = $('#previousEmpDept').val();
+    const previousEmpFrom = $('#previousEmpFrom').val();
+    const previousEmpTo = $('#previousEmpTo').val();
+    const previousEmpResonforLeaving = $('#previousEmpResonforLeaving').val();
+  
+    if (previousEmpDesignation === '') {
+      addError('Please Enter Degree');
+    }
+    addError('');
+    if (previousEmpDept === '') {
+      addError('Please Enter University');
+    }
+    addError('');
+    if (previousEmpFrom === '') {
+      addError('Please Enter Country');
+    }
+    addError('');
+    if (previousEmpTo === '') {
+      addError('Please Enter Starting Year');
+    }
+    addError('');
+    if (previousEmpResonforLeaving === '') {
+      addError('Please Enter Year of Completion');
+    }
+    addError('');
+  
+    const obj = {
+      previousEmpDesignation: `${previousEmpDesignation}`,
+      previousEmpDept: `${previousEmpDept}`,
+      previousEmpFrom: `${previousEmpFrom}`,
+      previousEmpTo: `${previousEmpTo}`,
+      previousEmpResonforLeaving: `${previousEmpResonforLeaving}`,
+    };
+
+    previousEmpList.push(obj);
+    loadEmployment(previousEmpList);
+
+    $('#previousEmpDesignation').val('');
+    $('#previousEmpDept').val('');
+    $('#previousEmpFrom').val('');
+    $('#previousEmpTo').val('');
+    $('#previousEmpResonforLeaving').val('');
+  }
+
+  function loadEmployment(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      var i = 0;
+      if (objects.length > 0) {
+        for (var i = 0; i < objects.length; i++) {
+          if (objects[i].name != '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].previousEmpDesignation}</td>`;
+            htmlElement += `<td>${objects[i].previousEmpDept}</td>`;
+            htmlElement += `<td>${objects[i].previousEmpFrom}</td>`;
+            htmlElement += `<td>${objects[i].previousEmpTo}</td>`;
+            htmlElement += `<td>${objects[i].previousEmpResonforLeaving}</td>`;
+  
+            htmlElement += `<td><button name="rmPem" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removePreviousEmp($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblPreviousEmp');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removePreviousEmp(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = previousEmpList.splice(reqID, 1);
+    loadEmployment(previousEmpList);
+  }
+
   // load form data
 
   function vacancyList() {
@@ -744,7 +895,7 @@
       })
       .loadData();
   }
-
+  
   function districtList() {
     const dlist = [
       'Ampara',

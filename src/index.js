@@ -44,20 +44,75 @@ function saveData(r) {
   ws.appendRow([
     new Date(),
     r.appid,
+
     r.vid,
     r.vpost,
     r.vfac,
     r.vdept,
+
+    r.pdGender,
+    r.personalTitle,
+    r.personalNameInit,
+    r.personalFullName,
+    r.personalDOB,
+    r.personalAddress,
+    r.civilstatus,
+    r.personalMobile,
+    r.personalTp,
+    r.personalEmail,
+    r.district,
+    r.electorate,
+    r.province,
+    r.city,
+    r.citizenship,
+    r.descentOrReg,
+    r.nic,
+    r.specifyCountry,
+    r.passportNo,
+    r.spouseName,
+    r.spouseDesignation,
+    r.highestEducation,
+    r.lang,
+
+    r.basicDegree,
+    r.bdCountry,
+    r.bdUniversity,
+    r.bdYearFrom,
+    r.bdYearTo,
+    r.bdClass,
+    r.bdGPA,
+
     r.pgd,
+
     r.awards,
     r.books,
     r.journals,
     r.abstracts,
+
+    r.commendations,
+    r.publications,
+
+    r.vacation,
+
     r.extraCurrActivity,
     r.poDesignation,
     r.poDept,
     r.poFrom,
     r.poSalaryDrawn,
+
+    r.rName1,
+    r.rTelephone1,
+    r.rAddress1,
+    r.rEmail1,
+    r.rName2,
+    r.rTelephone2,
+    r.rAddress2,
+    r.rEmail2,
+
+    r.pEmployements,
+    r.bondViolatorRadio,
+    r.bondValue,
+    r.uniInstitute,
   ]);
   status = true;
   return status;
