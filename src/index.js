@@ -1,9 +1,10 @@
 const db = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
-const data = 'cHRoil7Yt2VQXOk-iEw4IvBuXm3kXDMFm-lUUYl2B2g';
-const applications = '1-ujGTvr04DYNSEMDn4JYiO0x5jjwt8wBnXP61X07VTI';
+const dbApplications = 'https://docs.google.com/spreadsheets/d/1-ujGTvr04DYNSEMDn4JYiO0x5jjwt8wBnXP61X07VTI/edit#gid=0';
+const dbData =
+  'https://docs.google.com/spreadsheets/d/1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o/edit#gid=1219865254';
 const ss = SpreadsheetApp.openById(db);
-const ssData = SpreadsheetApp.openById(data);
-const ssApplications = SpreadsheetApp.openById(applications);
+const ssData = SpreadsheetApp.openByUrl(dbData);
+const ssApplications = SpreadsheetApp.openByUrl(dbApplications);
 
 function doGet(e) {
   if (!e.parameter.page) {
