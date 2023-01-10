@@ -1,6 +1,9 @@
 const db = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const data = 'cHRoil7Yt2VQXOk-iEw4IvBuXm3kXDMFm-lUUYl2B2g';
+const applications = '1-ujGTvr04DYNSEMDn4JYiO0x5jjwt8wBnXP61X07VTI';
 const ss = SpreadsheetApp.openById(db);
-const retObj = {};
+const ssData = SpreadsheetApp.openById(data);
+const ssApplications = SpreadsheetApp.openById(applications);
 
 function doGet(e) {
   if (!e.parameter.page) {
@@ -24,22 +27,23 @@ function include(filename) {
 }
 
 function loadData() {
-  const vid = ss.getSheetByName('vacancy').getDataRange().getValues();
-  const vpost = ss.getSheetByName('post').getDataRange().getValues();
-  const vfac = ss.getSheetByName('faculty').getDataRange().getValues();
-  const vdept = ss.getSheetByName('department').getDataRange().getValues();
+  const obj = {};
 
-  retObj.ss = ss;
-  retObj.vid = vid;
-  retObj.vpost = vpost;
-  retObj.vfac = vfac;
-  retObj.vdept = vdept;
+  const vid = ssData.getSheetByName('vacancy').getDataRange().getValues();
+  const vpost = ssData.getSheetByName('post').getDataRange().getValues();
+  const vfac = ssData.getSheetByName('faculty').getDataRange().getValues();
+  const vdept = ssData.getSheetByName('department').getDataRange().getValues();
 
-  return retObj;
+  obj.vid = vid;
+  obj.vpost = vpost;
+  obj.vfac = vfac;
+  obj.vdept = vdept;
+
+  return obj;
 }
 
 function saveData(r) {
-  const ws = ss.getSheetByName('mainsheet');
+  const ws = ssApplications.getSheetByName('mainsheet');
   let status = '';
   ws.appendRow([
     new Date(),
@@ -85,6 +89,7 @@ function saveData(r) {
     r.pgd,
 
     r.awards,
+
     r.books,
     r.journals,
     r.abstracts,
