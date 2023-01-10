@@ -95,6 +95,7 @@ function saveData(r) {
     r.vacation,
 
     r.extraCurrActivity,
+
     r.poDesignation,
     r.poDept,
     r.poFrom,
