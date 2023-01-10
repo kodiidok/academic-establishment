@@ -13,8 +13,8 @@
   });
 
   function onLoadExecutions() {
-    // showLoadingModal('Please Wait for Loading...');
-    // google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
+    showLoadingModal('Please Wait for Loading...');
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
     vacancyList();
     countryList();
     provinceList();
@@ -179,11 +179,11 @@
   function saveRequestSuccess(retdata) {
     $('#modalLoading').modal('hide');
     $('#submitButton').prop('disabled', false);
-    const data = JSON.parse(retdata);
-    if (data.status === true) {
+    showSuccessModal('Save Success..!', 'Data Saved to database');
+    /* if (data.status === true) {
       showSuccessModal('Save Success..!', 'Data Saved to database');
       // applicantList.length = 0;
-    }
+    } */
   }
 
   // error handling for table data
@@ -253,8 +253,6 @@
     $('#pgdTo').val('');
     $('#pgdClass').val('');
     $('#pgdGPA').val('');
-    $('#pgdCourse').val('');
-    $('#pgdResearch').val('');
   }
 
   function loadPgdData(data) {

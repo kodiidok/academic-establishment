@@ -29,16 +29,38 @@ function loadData() {
   const vfac = ss.getSheetByName('faculty').getDataRange().getValues();
   const vdept = ss.getSheetByName('department').getDataRange().getValues();
 
+  retObj.ss = ss;
   retObj.vid = vid;
   retObj.vpost = vpost;
   retObj.vfac = vfac;
   retObj.vdept = vdept;
+
   return retObj;
 }
 
 function saveData(r) {
   const ws = ss.getSheetByName('mainsheet');
-  ws.appendRow([new Date(), r.appid, r.vid, r.vpost, r.vfac, r.vdept, r.pgd, r.awards, r.books, r.journals]);
+  let status = '';
+  ws.appendRow([
+    new Date(),
+    r.appid,
+    r.vid,
+    r.vpost,
+    r.vfac,
+    r.vdept,
+    r.pgd,
+    r.awards,
+    r.books,
+    r.journals,
+    r.abstracts,
+    r.extraCurrActivity,
+    r.poDesignation,
+    r.poDept,
+    r.poFrom,
+    r.poSalaryDrawn,
+  ]);
+  status = true;
+  return status;
 }
 
 global.doGet = doGet;
