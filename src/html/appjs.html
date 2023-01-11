@@ -1,7 +1,37 @@
 <script>
-  const pgdList = [];
-  const previousEmpList = [];
   const request = {};
+
+  // web app intial execution
+
+  $(document).ready(function () {
+    // Date
+    const d = new Date();
+    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    $('#sysDate').text(strDate);
+
+    onLoadExecutions();
+  });
+
+  function onLoadExecutions() {
+    showLoadingModal('Please Wait for Loading...');
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
+    vacancyList();
+    countryList();
+    provinceList();
+    districtList();
+  }
+
+  // modal msgs
+
+  function initialLoading(retdata) {
+    $('#modalLoading').modal('hide');
+    /* const data = JSON.parse(retdata);
+    if (data) {
+      setMenu(data.scriptUrl);
+      setUserInfo(data.appUser.data[0]);
+      setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+    } */
+  }
 
   // modal msgs
 
@@ -23,42 +53,29 @@
     // $('#modalSuccess').modal('hide');
   }
 
-  // web app intial execution
-
-  $(document).ready(function () {
-    // Date
-    const d = new Date();
-    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-    $('#sysDate').text(strDate);
-
-    onLoadExecutions();
-  });
-
-  function onLoadExecutions() {
-    // showLoadingModal('Please Wait for Loading...');
-    // google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
-    vacancyList();
-    countryList();
-    provinceList();
-    districtList();
-  }
-
   function onFailure(err) {
     $('#modalLoading').modal('hide');
     showErrorModal('Error Occured..!', err.message);
   }
 
-  function initialLoading(retdata) {
-    $('#modalLoading').modal('hide');
-    const data = JSON.parse(retdata);
-    if (data) {
-      setMenu(data.scriptUrl);
-      setUserInfo(data.appUser.data[0]);
-      setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+  function showAppAlert(type, heading, message) {
+    if (type.toUpperCase() === 'SUCCESS') {
+      $('#appAlert').addClass('alert-success');
+    } else if (type.toUpperCase() === 'ERROR' || type.toUpperCase() === 'DANGER') {
+      $('#appAlert').addClass('alert-danger');
+    } else if (type.toUpperCase() === 'WARNING') {
+      $('#appAlert').addClass('alert-warning');
+    } else {
+      $('#appAlert').addClass('alert-info');
     }
-  }
 
-  // save data
+    $('#appAlertHeading').text(heading);
+    $('#appAlertMessage').text(message);
+
+    $('#appAlert').show().delay(10000).fadeOut();
+  }
+  
+  // save applicant data
 
   $('#submitButton').click(submitForm);
 
@@ -68,7 +85,7 @@
     request.vpost = $('#vacancyPost').find(':selected').val();
     request.vfac = $('#vacancyFaculty').find(':selected').val();
     request.vdept = $('#vacancyDepartment').find(':selected').val();
-
+  
     // personal details
     request.pdGender = $('#pdGender').find(':selected').val();
     request.personalTitle = $('#personalTitle').find(':selected').val();
@@ -119,13 +136,78 @@
       pgd.push(row.slice(0, -1));
     });
     request.pgd = JSON.stringify(pgd);
-  
+
+    // awards
+    const awards = [];
+    $('#tblAwards tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      awards.push(row.slice(0, -1));
+    });
+    request.awards = JSON.stringify(awards);
+
+    // research publications - books
+    const books = [];
+    $('#tblBooks tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      books.push(row.slice(0, -1));
+    });
+    request.books = JSON.stringify(books);
+
+    // research publications - books
+    const journals = [];
+    $('#tblJournals tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      journals.push(row.slice(0, -1));
+    });
+    request.journals = JSON.stringify(journals);
+
+    // research publications - abstracts
+    const abstracts = [];
+    $('#tblAbstracts tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      abstracts.push(row.slice(0, -1));
+    });
+    request.abstracts = JSON.stringify(abstracts);
+
     // commendations
     request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
     request.publications = $('#publications').val();
 
     // vacations
     request.vacation = $('#vacation').val();
+
+    // extra curricular activities
+    const extraCurrActivity = [];
+    $('#tblExtraCurrAct tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      extraCurrActivity.push(row.slice(0, -1));
+    });
+    request.extraCurrActivity = JSON.stringify(extraCurrActivity);
 
     // references
     request.rName1 = $('#rName1').val();
@@ -137,6 +219,12 @@
     request.rAddress2 = $('#rAddress2').val();
     request.rEmail2 = $('#rEmail2').val();
 
+    // present occupation
+    request.poDesignation = $('presentOccDesignation').val();
+    request.poDept = $('#presentOccDept').val();
+    request.poFrom = $('presentOccFrom').val();
+    request.poSalaryDrawn = $('#presentOccSalaryDrawn').val();
+  
     // previous employements
     const pEmployements = [];
     $('#tblPreviousEmp tr').each(function () {
@@ -155,14 +243,17 @@
 
     console.log(request);
     // eslint-disable-next-line no-undef
-    google.script.run
-      .withSuccessHandler(function () {
-        console.log('Submission Successful!');
-      })
-      .withFailureHandler(function () {
-        console.log('Submission Failed!!');
-      })
-      .saveData(request);
+    google.script.run.withSuccessHandler(saveRequestSuccess).withFailureHandler(onFailure).saveData(request);
+  }
+
+  function saveRequestSuccess(retdata) {
+    $('#modalLoading').modal('hide');
+    $('#submitButton').prop('disabled', false);
+    showSuccessModal('Save Success..!', 'Data Saved to database');
+    /* if (data.status === true) {
+      showSuccessModal('Save Success..!', 'Data Saved to database');
+      // applicantList.length = 0;
+    } */
   }
 
   // error handling for table data
@@ -177,6 +268,8 @@
   }
 
   // add & remove table data for pgdegree
+  
+  const pgdList = [];
 
   function savePgdegree() {
     const pgdegree = $('#pgdegree').val();
@@ -237,10 +330,10 @@
       const objects = data;
       let htmlElement = '';
 
-      var i = 0;
+      let i = 0;
       if (objects.length > 0) {
-        for (var i = 0; i < objects.length; i++) {
-          if (objects[i].name != '') {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].pgdegree}</td>`;
             htmlElement += `<td>${objects[i].pgdUniversity}</td>`;
@@ -269,7 +362,417 @@
     loadPgdData(pgdList);
   }
 
+  // add & remove table data for awards
+  
+  const awardList = [];
+
+  function saveAward() {
+    const award = $('#award').val();
+    const instituteCountry = $('#instituteCountry').val();
+    const awardYear = $('#awardYear').val();
+    const awardDetails = $('#awardDetails').val();
+  
+    if (award === '') {
+      addError('Please Enter Award');
+    }
+    addError('');
+    if (instituteCountry === '') {
+      addError('Please Enter Institue/Country');
+    }
+    addError('');
+    if (awardYear === '') {
+      addError('Please Enter Year');
+    }
+    addError('');
+    if (awardDetails === '') {
+      addError('Please Enter Award Details');
+    }
+    addError('');
+
+    const obj = {
+      award: `${award}`,
+      instituteCountry: `${instituteCountry}`,
+      awardYear: `${awardYear}`,
+      awardDetails: `${awardDetails}`,
+    };
+
+    awardList.push(obj);
+    loadAwardData(awardList);
+
+    $('#award').val('');
+    $('#instituteCountry').val('');
+    $('#awardYear').val('');
+    $('#awardDetails').val('');
+  }
+
+  function loadAwardData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].award}</td>`;
+            htmlElement += `<td>${objects[i].instituteCountry}</td>`;
+            htmlElement += `<td>${objects[i].awardYear}</td>`;
+            htmlElement += `<td>${objects[i].awardDetails}</td>`;
+            htmlElement += `<td><button name="rmAward" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeAward($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblAwards');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeAward(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = awardList.splice(reqID, 1);
+    loadAwardData(awardList);
+  }
+
+  // add & remove table data for books-research publications
+  
+  const bookList = [];
+
+  function saveBook() {
+    const nameOfTheBook = $('#nameOfTheBook').val();
+    const bookAuthor = $('#bookAuthor').val();
+    const datePublished = $('#datePublished').val();
+    const isbnNo = $('#isbnNo').val();
+  
+    if (nameOfTheBook === '') {
+      addError('Please Enter Name of the Book');
+    }
+    addError('');
+    if (bookAuthor === '') {
+      addError('Please Enter Author');
+    }
+    addError('');
+    if (datePublished === '') {
+      addError('Please Enter Date Published');
+    }
+    addError('');
+    if (isbnNo === '') {
+      addError('Please Enter ISBN number');
+    }
+    addError('');
+
+    const obj = {
+      nameOfTheBook: `${nameOfTheBook}`,
+      bookAuthor: `${bookAuthor}`,
+      datePublished: `${datePublished}`,
+      isbnNo: `${isbnNo}`,
+    };
+
+    bookList.push(obj);
+    loadBookData(bookList);
+
+    $('#nameOfTheBook').val('');
+    $('#bookAuthor').val('');
+    $('#datePublished').val('');
+    $('#isbnNo').val('');
+  }
+
+  function loadBookData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].nameOfTheBook}</td>`;
+            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].isbnNo}</td>`;
+            htmlElement += `<td><button name="rmBook" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeBook($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblBooks');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeBook(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = bookList.splice(reqID, 1);
+    loadBookData(bookList);
+  }
+
+  // add & remove table data for journals-research publications
+  
+  const journalList = [];
+
+  function saveJournal() {
+    const title = $('#titleOfTheJournal').val();
+    const bookAuthor = $('#bookAuthor').val();
+    const source = $('#sourceOfTheJournal').val();
+    const datePublished = $('#datePublished').val();
+    const indexed = $('#appMainForm input[name="indexed"]:checked').val();
+    const conference = $('#appMainForm input[name="conference"]:checked').val();
+
+    if (title === '') {
+      addError('Please Enter Title');
+    }
+    addError('');
+    if (bookAuthor === '') {
+      addError('Please Enter Author');
+    }
+    addError('');
+    if (source === '') {
+      addError('Please Enter Source');
+    }
+    addError('');
+    if (datePublished === '') {
+      addError('Please Enter Date');
+    }
+    addError('');
+    if (indexed === '') {
+      addError('Please Select an Option');
+    }
+    addError('');
+    if (conference === '') {
+      addError('Please Select an Option');
+    }
+    addError('');
+
+    const obj = {
+      title: `${title}`,
+      bookAuthor: `${bookAuthor}`,
+      source: `${source}`,
+      datePublished: `${datePublished}`,
+      indexed: `${indexed}`,
+      conference: `${conference}`,
+    };
+
+    journalList.push(obj);
+    loadJournalData(journalList);
+
+    $('#titleOfTheJournal').val('');
+    $('#bookAuthor').val('');
+    $('#sourceOfTheJournal').val('');
+    $('#datePublished').val('');
+  }
+
+  function loadJournalData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].title}</td>`;
+            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].source}</td>`;
+            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].indexed}</td>`;
+            htmlElement += `<td>${objects[i].conference}</td>`;
+            htmlElement += `<td><button name="rmJournal" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeJournal($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblJournals');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeJournal(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = journalList.splice(reqID, 1);
+    loadJournalData(journalList);
+  }
+
+  // add & remove table data for journals-research publications
+
+  const abstractList = [];
+
+  function saveAbstract() {
+    const title = $('#titleOfTheAbstract').val();
+    const bookAuthor = $('#bookAuthor').val();
+    const source = $('#sourceOfTheAbstract').val();
+    const datePublished = $('#datePublished').val();
+    const indexed = $('#appMainForm input[name="indexed"]:checked').val();
+    const conference = $('#appMainForm input[name="conference"]:checked').val();
+
+    if (title === '') {
+      addError('Please Enter Title');
+    }
+    addError('');
+    if (bookAuthor === '') {
+      addError('Please Enter Author');
+    }
+    addError('');
+    if (source === '') {
+      addError('Please Enter Source');
+    }
+    addError('');
+    if (datePublished === '') {
+      addError('Please Enter Date');
+    }
+    addError('');
+    if (indexed === '') {
+      addError('Please Select an Option');
+    }
+    addError('');
+    if (conference === '') {
+      addError('Please Select an Option');
+    }
+    addError('');
+
+    const obj = {
+      title: `${title}`,
+      bookAuthor: `${bookAuthor}`,
+      source: `${source}`,
+      datePublished: `${datePublished}`,
+      indexed: `${indexed}`,
+      conference: `${conference}`,
+    };
+
+    abstractList.push(obj);
+    loadAbstractData(abstractList);
+
+    $('#titleOfTheAbstract').val('');
+    $('#bookAuthor').val('');
+    $('#sourceOfTheAbstract').val('');
+    $('#datePublished').val('');
+  }
+
+  function loadAbstractData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].title}</td>`;
+            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].source}</td>`;
+            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].indexed}</td>`;
+            htmlElement += `<td>${objects[i].conference}</td>`;
+            htmlElement += `<td><button name="rmAbstract" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeAbstract($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblAbstracts');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeAbstract(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = abstractList.splice(reqID, 1);
+    loadAbstractData(abstractList);
+  }
+
+  // add & remove table data for extra-curricular activities
+
+  const extraCurrActivity = [];
+
+  function saveExtraCurrAct() {
+    const activity = $('#extraCurrActivity').val();
+    const duration = $('#extraCurrduration').val();
+    const level = $('#extraCurrLevel').find(':selected').val();
+    const details = $('#activityDetails').val();
+  
+    if (activity === '') {
+      addError('Please Enter Activity');
+    }
+    addError('');
+    if (duration === '') {
+      addError('Please Enter Duration');
+    }
+    addError('');
+    if (level === '') {
+      addError('Please Enter Level');
+    }
+    addError('');
+    if (details === '') {
+      addError('Please Enter Details');
+    }
+    addError('');
+
+    const obj = {
+      activity: `${activity}`,
+      duration: `${duration}`,
+      level: `${level}`,
+      details: `${details}`,
+    };
+
+    extraCurrActivity.push(obj);
+    loadExtraCurrActData(extraCurrActivity);
+
+    $('#extraCurrActivity').val('');
+    $('#extraCurrduration').val('');
+    $('#extraCurrLevel').find(':selected').val('');
+    $('#activityDetails').val('');
+  }
+
+  function loadExtraCurrActData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].activity}</td>`;
+            htmlElement += `<td>${objects[i].duration}</td>`;
+            htmlElement += `<td>${objects[i].level}</td>`;
+            htmlElement += `<td>${objects[i].details}</td>`;
+            htmlElement += `<td><button name="rmExtraCurrAct" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeExtraCurrAct($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblExtraCurrAct');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeExtraCurrAct(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = extraCurrActivity.splice(reqID, 1);
+    loadExtraCurrActData(extraCurrActivity);
+  }
+
   // add & remove table data for previous employements
+
+  const previousEmpList = [];
 
   function saveEmployment() {
     const previousEmpDesignation = $('#previousEmpDesignation').val();
@@ -352,7 +855,7 @@
     loadEmployment(previousEmpList);
   }
 
-  // load data
+  // load form data
 
   function vacancyList() {
     google.script.run
@@ -392,7 +895,7 @@
       })
       .loadData();
   }
-// load kartanna one mekn for loop ekata id  eka denna tiyne
+  
   function districtList() {
     const dlist = [
       'Ampara',
@@ -442,7 +945,7 @@
     ];
     $('#province').append(`<option label="Choose one" value="">Choose one</option>`);
 
-    for (let i = 0; i < plist.length; i++) {
+    for (let i = 0; i < plist.length; i += 1) {
       $('#province').append(`<option value="${plist[i]}">${plist[i]}</option>`);
     }
   }
@@ -702,7 +1205,7 @@
 
     $('#pgdCountry').append(`<option label="Choose one" value="">Choose one</option>`);
 
-    for (let i = 0; i < cList.length; i++) {
+    for (let i = 0; i < cList.length; i += 1) {
       $('#pgdCountry').append(`<option value="${cList[i]}">${cList[i]}</option>`);
     }
   }
