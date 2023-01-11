@@ -1,6 +1,10 @@
 const db = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const dbApplications = 'https://docs.google.com/spreadsheets/d/1-ujGTvr04DYNSEMDn4JYiO0x5jjwt8wBnXP61X07VTI/edit#gid=0';
+const dbData =
+  'https://docs.google.com/spreadsheets/d/1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o/edit#gid=1219865254';
 const ss = SpreadsheetApp.openById(db);
-const retObj = {};
+const ssData = SpreadsheetApp.openByUrl(dbData);
+const ssApplications = SpreadsheetApp.openByUrl(dbApplications);
 
 function doGet(e) {
   if (!e.parameter.page) {
@@ -24,23 +28,28 @@ function include(filename) {
 }
 
 function loadData() {
-  const vid = ss.getSheetByName('vacancy').getDataRange().getValues();
-  const vpost = ss.getSheetByName('post').getDataRange().getValues();
-  const vfac = ss.getSheetByName('faculty').getDataRange().getValues();
-  const vdept = ss.getSheetByName('department').getDataRange().getValues();
+  const obj = {};
 
-  retObj.vid = vid;
-  retObj.vpost = vpost;
-  retObj.vfac = vfac;
-  retObj.vdept = vdept;
-  return retObj;
+  const vid = ssData.getSheetByName('vacancy').getDataRange().getValues();
+  const vpost = ssData.getSheetByName('post').getDataRange().getValues();
+  const vfac = ssData.getSheetByName('faculty').getDataRange().getValues();
+  const vdept = ssData.getSheetByName('department').getDataRange().getValues();
+
+  obj.vid = vid;
+  obj.vpost = vpost;
+  obj.vfac = vfac;
+  obj.vdept = vdept;
+
+  return obj;
 }
 
 function saveData(r) {
-  const ws = ss.getSheetByName('mainsheet');
+  const ws = ssApplications.getSheetByName('mainsheet');
+  let status = '';
   ws.appendRow([
     new Date(),
     r.appid,
+
     r.vid,
     r.vpost,
     r.vfac,
@@ -80,10 +89,23 @@ function saveData(r) {
 
     r.pgd,
 
+    r.awards,
+
+    r.books,
+    r.journals,
+    r.abstracts,
+
     r.commendations,
     r.publications,
 
     r.vacation,
+
+    r.extraCurrActivity,
+
+    r.poDesignation,
+    r.poDept,
+    r.poFrom,
+    r.poSalaryDrawn,
 
     r.rName1,
     r.rTelephone1,
@@ -99,6 +121,8 @@ function saveData(r) {
     r.bondValue,
     r.uniInstitute,
   ]);
+  status = true;
+  return status;
 }
 
 global.doGet = doGet;
