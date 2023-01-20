@@ -10,13 +10,6 @@
     $('#sysDate').text(strDate);
 
     onLoadExecutions();
-
-    // $('#submitButton').click(submitForm);
-
-    $('#appMainForm').submit(function (event) {
-      event.preventDefault();
-      submitForm();
-    });
   });
 
   function onLoadExecutions() {
@@ -94,6 +87,8 @@
   }
 
   // save applicant data
+
+  $('#submitButton').click(submitForm);
 
   function submitForm() {
     // vacancy
@@ -256,31 +251,20 @@
     request.bondValue = $('#bondValue').val();
     request.uniInstitute = $('#uniInstitute').val();
 
-    // meta
-    request.status = '';
-    request.connectedDatabase = '';
-    request.applicationID = '';
-    request.timestamp = '';
-
-    console.log(JSON.stringify(request));
+    console.log(request);
     // eslint-disable-next-line no-undef
-    google.script.run
-      .withSuccessHandler(saveRequestSuccess)
-      .withFailureHandler(onFailure)
-      .saveRequest(JSON.stringify(request));
+    google.script.run.withSuccessHandler(saveRequestSuccess).withFailureHandler(onFailure).saveRequest(request);
   }
 
   function saveRequestSuccess(retdata) {
-    // const obj = JSON.parse(retdata);
-    const obj = retdata;
-    console.log(obj);
-    console.log(typeof obj);
+    console.log(retdata);
     $('#modalLoading').modal('hide');
     $('#submitButton').prop('disabled', false);
-    if (obj.status === true) {
-      showSuccessModal('Save Success..!', 'Data Saved to database');
-      // applicantList.length = 0;
-    }
+    showSuccessModal('Save Success..!', 'Data Saved to database');
+    // if (retdata.status === true) {
+    //   showSuccessModal('Save Success..!', 'Data Saved to database');
+    //   // applicantList.length = 0;
+    // }
   }
 
   // error handling for table data

@@ -20,7 +20,7 @@ const getSrcPath = (filePath) => {
 };
 
 module.exports = {
-  mode: 'production',
+  mode: 'none',
   context: __dirname,
   entry: getSrcPath('/index.js'),
   output: {

@@ -1,4 +1,5 @@
-<script>const request = {};
+<script>
+  const request = {};
   let redirectURL = '';
 
   // web app intial execution
@@ -10,13 +11,6 @@
     $('#sysDate').text(strDate);
 
     onLoadExecutions();
-
-    // $('#submitButton').click(submitForm);
-
-    $('#appMainForm').submit(function (event) {
-      event.preventDefault();
-      submitForm();
-    });
   });
 
   function onLoadExecutions() {
@@ -27,14 +21,15 @@
   function initialLoading(retdata) {
     const data = JSON.parse(retdata);
     console.log(data);
+    $('#modalLoading').modal('hide');
     if (data) {
-      setMenu(data.scriptUrl);
+      // setMenu(data.scriptUrl);
+      // setUserInfo(data.appUser.data[0]);
       setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
       vacancyList(data.vacancies, data.posts, data.faculties, data.departments);
       countryList();
       provinceList();
       districtList();
-      $('#modalLoading').modal('hide');
     }
   }
 
@@ -43,13 +38,24 @@
     $('#app-menu-02').attr('href', `${appurl}?page=hod`);
   }
 
+  function setUserInfo(user) {
+    $('#username').html(`${user.Name}<br/>${user.Email}`);
+    $('#userrole').text(`(${user.Role})`);
+  }
+
   function setAppInfo(appName, appDescription, appRedirectURL) {
     $('#appName').text(appName);
     $('#appDescription').text(appDescription);
     redirectURL = appRedirectURL;
   }
 
-  // logOut and setInfo methods will show an error: Unexpected input
+  function logOut() {
+    if (redirectURL && redirectURL !== '' && redirectURL.length !== 0) {
+      window.top.location.href = `https://www.google.com/accounts/Logout?continue=${redirectURL}`;
+    } else {
+      window.top.location.href = 'https://www.google.com/accounts/Logout';
+    }
+  }
 
   // modal msgs
 
@@ -92,8 +98,10 @@
 
     $('#appAlert').show().delay(10000).fadeOut();
   }
-
+  
   // save applicant data
+
+  $('#submitButton').click(submitForm);
 
   function submitForm() {
     // vacancy
@@ -256,31 +264,20 @@
     request.bondValue = $('#bondValue').val();
     request.uniInstitute = $('#uniInstitute').val();
 
-    // meta
-    request.status = '';
-    request.connectedDatabase = '';
-    request.applicationID = '';
-    request.timestamp = '';
-
-    console.log(JSON.stringify(request));
     // eslint-disable-next-line no-undef
-    google.script.run
-      .withSuccessHandler(saveRequestSuccess)
-      .withFailureHandler(onFailure)
-      .saveRequest(JSON.stringify(request));
+    google.script.run.withSuccessHandler(saveRequestSuccess).withFailureHandler(onFailure).saveRequest(request);
   }
 
   function saveRequestSuccess(retdata) {
-    // const obj = JSON.parse(retdata);
-    const obj = retdata;
-    console.log(obj);
-    console.log(typeof obj);
     $('#modalLoading').modal('hide');
     $('#submitButton').prop('disabled', false);
-    if (obj.status === true) {
-      showSuccessModal('Save Success..!', 'Data Saved to database');
-      // applicantList.length = 0;
-    }
+    showSuccessModal('Save Success..!', 'Data Saved to database');
+    console.log(retdata);
+    alert('Save Success..!');
+    // if (retdata.status === true) {
+    //   showSuccessModal('Save Success..!', 'Data Saved to database');
+    //   // applicantList.length = 0;
+    // }
   }
 
   // error handling for table data
