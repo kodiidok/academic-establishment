@@ -124,6 +124,18 @@ class Utils {
     return DBID;
   }
 
+  static getReqDBID() {
+    return REQ_DBID;
+  }
+
+  static getReqMainSheet() {
+    return REQUIREMENTS_MAINSHEET;
+  }
+
+  static getReqSheetName() {
+    return REQUIREMENTS_LIST_SHEET;
+  }
+
   static getAppRoleSheetName() {
     return APP_ROLE_SHEET;
   }

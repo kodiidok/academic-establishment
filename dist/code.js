@@ -26,6 +26,8 @@ function saveRequest() {}
                 (e.bdTitles = this.getBdTitleData()),
                 (e.pgdTitles = this.getPgdTitleData()),
                 (e.subjectAreas = this.getSubjectAreaData()),
+                (e.reqMain = this.getReqMainData()),
+                (e.requirements = this.getRequirements()),
                 e
               );
             } catch (e) {
@@ -88,15 +90,15 @@ function saveRequest() {}
                   default:
                     n = "UNIVERSITY OF PERADENIYA";
                 }
-                const c = {
+                const o = {
                     Name: "INTERNAL_USER",
                     Email: t,
                     Faculty: n,
                     Department: "",
                     Role: "USER_UOP",
                   },
-                  o = [];
-                return o.push(c), (e.data = o), e;
+                  c = [];
+                return c.push(o), (e.data = c), e;
               }
               const t = {
                   Name: "Guest",
@@ -117,6 +119,44 @@ function saveRequest() {}
               );
             }
           }
+          static getReqMainData() {
+            try {
+              (s.default.cacheEnabled = !1),
+                s.default.initilizeDatabase(i.default.getReqDBID()),
+                s.default.openDatabaseConnection(
+                  i.default.getReqMainSheetName()
+                );
+              const e = s.default.readDatabaseCache(),
+                t = {};
+              return (t.reqMain = e), t;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getReqMainData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getReqMainData"))
+              );
+            }
+          }
+          static getRequirements() {
+            try {
+              (s.default.cacheEnabled = !1),
+                s.default.initilizeDatabase(i.default.getReqDBID()),
+                s.default.openDatabaseConnection(i.default.getReqSheetName());
+              const e = s.default.readDatabaseCache(),
+                t = {};
+              return (t.requirements = e), t;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getReqData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getReqData"))
+              );
+            }
+          }
           static getBdTitleData() {
             try {
               (s.default.cacheEnabled = !1),
@@ -130,10 +170,10 @@ function saveRequest() {}
             } catch (e) {
               throw (
                 (console.error(
-                  "Error occurred while getVacancyData in Resources",
+                  "Error occurred while getBdTitleData in Resources",
                   e
                 ),
-                new Error("Error occurred while getVacancyData"))
+                new Error("Error occurred while getBdTitleData"))
               );
             }
           }
@@ -150,10 +190,10 @@ function saveRequest() {}
             } catch (e) {
               throw (
                 (console.error(
-                  "Error occurred while getVacancyData in Resources",
+                  "Error occurred while getPgdTitleData in Resources",
                   e
                 ),
-                new Error("Error occurred while getVacancyData"))
+                new Error("Error occurred while getPgdTitleData"))
               );
             }
           }
@@ -170,10 +210,10 @@ function saveRequest() {}
             } catch (e) {
               throw (
                 (console.error(
-                  "Error occurred while getVacancyData in Resources",
+                  "Error occurred while getSubjectAreaData in Resources",
                   e
                 ),
-                new Error("Error occurred while getVacancyData"))
+                new Error("Error occurred while getSubjectAreaData"))
               );
             }
           }
@@ -727,17 +767,17 @@ function saveRequest() {}
             const { sheetName: n } = this;
             e.forEach(function (e) {
               i = `${n}!${s[0]}${e.id}:${s[1]}${e.id}`;
-              const c = {};
-              (c.range = i), (c.majorDimension = "ROWS");
-              const o = [];
+              const o = {};
+              (o.range = i), (o.majorDimension = "ROWS");
+              const c = [];
               t.arrayNames.forEach(function (t, a) {
-                0 === a ? o.push("=ROW()") : o.push(e[t]);
+                0 === a ? c.push("=ROW()") : c.push(e[t]);
               }),
-                (c.values = [o]),
-                a.push(c);
+                (o.values = [c]),
+                a.push(o);
             });
-            const c = { valueInputOption: "USER_ENTERED", data: a };
-            Sheets.Spreadsheets.Values.batchUpdate(c, this.DBID);
+            const o = { valueInputOption: "USER_ENTERED", data: a };
+            Sheets.Spreadsheets.Values.batchUpdate(o, this.DBID);
           }
           static batchUpdateNew(e) {
             const t = LockService.getScriptLock();
@@ -780,9 +820,9 @@ function saveRequest() {}
         const s = "Asia/Colombo",
           i = "MM/dd/yyyy HH:mm:ss",
           n = "ONLINE APPLICATION",
-          c =
+          o =
             "https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec",
-          o = "portal@gs.pdn.ac.lk";
+          c = "portal@gs.pdn.ac.lk";
         let u = null,
           l = [];
         const h = class {
@@ -790,13 +830,13 @@ function saveRequest() {}
             return {
               put(a, s, i) {
                 const n = JSON.stringify(s),
-                  c = Math.floor(t / 2);
-                let o = 0;
-                for (; o < n.length; )
-                  (u = `${a}_${o}`),
+                  o = Math.floor(t / 2);
+                let c = 0;
+                for (; c < n.length; )
+                  (u = `${a}_${c}`),
                     l.push(u),
-                    e.put(u, n.substr(o, c), i + 5),
-                    (o += c);
+                    e.put(u, n.substr(c, o), i + 5),
+                    (c += o);
                 const h = { chunkSize: t, chunks: l, length: n.length };
                 e.put(a, JSON.stringify(h), i);
               },
@@ -844,16 +884,25 @@ function saveRequest() {}
             return "Academic Establishment. University of Peradeniya.";
           }
           static getAppRedirectURL() {
-            return c;
+            return o;
           }
           static getScriptUrl() {
             return ScriptApp.getService().getUrl();
           }
           static getALIASMAIL() {
-            return o;
+            return c;
           }
           static getMainDBID() {
             return "1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4";
+          }
+          static getReqDBID() {
+            return "1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8";
+          }
+          static getReqMainSheet() {
+            return "mainsheet";
+          }
+          static getReqSheetName() {
+            return "requirements";
           }
           static getAppRoleSheetName() {
             return "roles";
@@ -896,24 +945,24 @@ function saveRequest() {}
           }
           static sendMail(e, t, a, s, i, n, u, l, h) {
             try {
-              let p =
+              let d =
                 HtmlService.createHtmlOutputFromFile(
                   "email_template"
                 ).getContent();
-              (p = p.replace("%heading", e)),
-                (p = p.replace("%description", t)),
-                (p = p.replace("%param1", s)),
-                (p = p.replace("%param2", i)),
-                (p = p.replace("%param3", n)),
-                (p = p.replace("%param4", u)),
-                (p = p.replace("%param5", `${h} - ${l}`)),
-                (p = p.replace("%appURL", c));
-              const d = "Online Application -  University of Peradeniya";
-              GmailApp.sendEmail(a, d, "", {
-                from: o,
-                replyTo: o,
+              (d = d.replace("%heading", e)),
+                (d = d.replace("%description", t)),
+                (d = d.replace("%param1", s)),
+                (d = d.replace("%param2", i)),
+                (d = d.replace("%param3", n)),
+                (d = d.replace("%param4", u)),
+                (d = d.replace("%param5", `${h} - ${l}`)),
+                (d = d.replace("%appURL", o));
+              const p = "Online Application -  University of Peradeniya";
+              GmailApp.sendEmail(a, p, "", {
+                from: c,
+                replyTo: c,
                 name: "University of Peradeniya",
-                htmlBody: p,
+                htmlBody: d,
               });
             } catch (e) {
               throw (

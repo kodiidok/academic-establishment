@@ -275,7 +275,7 @@
     request.timestamp = '';
 
     console.log(request);
-    // console.log(JSON.stringify(request));
+    console.log(JSON.stringify(request));
     // eslint-disable-next-line no-undef
     // google.script.run
     //   .withSuccessHandler(saveRequestSuccess)
@@ -506,7 +506,7 @@
   function saveBook() {
     const nameOfTheBook = $('#nameOfTheBook').val();
     const bookAuthor = $('#bookAuthor').val();
-    const datePublished = $('#datePublished').val();
+    const bookDatePublished = $('#bookDatePublished').val();
     const isbnNo = $('#isbnNo').val();
   
     if (nameOfTheBook === '') {
@@ -517,7 +517,7 @@
       addError('Please Enter Author');
     }
     addError('');
-    if (datePublished === '') {
+    if (bookDatePublished === '') {
       addError('Please Enter Date Published');
     }
     addError('');
@@ -529,7 +529,7 @@
     const obj = {
       nameOfTheBook: `${nameOfTheBook}`,
       bookAuthor: `${bookAuthor}`,
-      datePublished: `${datePublished}`,
+      bookDatePublished: `${bookDatePublished}`,
       isbnNo: `${isbnNo}`,
     };
 
@@ -538,7 +538,7 @@
 
     $('#nameOfTheBook').val('');
     $('#bookAuthor').val('');
-    $('#datePublished').val('');
+    $('#bookDatePublished').val('');
     $('#isbnNo').val('');
   }
 
@@ -554,7 +554,7 @@
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].nameOfTheBook}</td>`;
             htmlElement += `<td>${objects[i].bookAuthor}</td>`;
-            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].bookDatePublished}</td>`;
             htmlElement += `<td>${objects[i].isbnNo}</td>`;
             htmlElement += `<td><button name="rmBook" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeBook($(this))"><i class="fa fa-trash"></i> Delete</button>`;
             htmlElement += '</tr>';
@@ -581,9 +581,9 @@
 
   function saveJournal() {
     const title = $('#titleOfTheJournal').val();
-    const bookAuthor = $('#bookAuthor').val();
+    const jounalAuthor = $('#jounalAuthor').val();
     const source = $('#sourceOfTheJournal').val();
-    const datePublished = $('#datePublished').val();
+    const journalDatePublished = $('#journalDatePublished').val();
     const indexed = $('#appMainForm input[name="indexed"]:checked').val();
     const conference = $('#appMainForm input[name="conference"]:checked').val();
 
@@ -591,7 +591,7 @@
       addError('Please Enter Title');
     }
     addError('');
-    if (bookAuthor === '') {
+    if (jounalAuthor === '') {
       addError('Please Enter Author');
     }
     addError('');
@@ -599,7 +599,7 @@
       addError('Please Enter Source');
     }
     addError('');
-    if (datePublished === '') {
+    if (journalDatePublished === '') {
       addError('Please Enter Date');
     }
     addError('');
@@ -614,9 +614,9 @@
 
     const obj = {
       title: `${title}`,
-      bookAuthor: `${bookAuthor}`,
+      jounalAuthor: `${jounalAuthor}`,
       source: `${source}`,
-      datePublished: `${datePublished}`,
+      journalDatePublished: `${journalDatePublished}`,
       indexed: `${indexed}`,
       conference: `${conference}`,
     };
@@ -625,9 +625,9 @@
     loadJournalData(journalList);
 
     $('#titleOfTheJournal').val('');
-    $('#bookAuthor').val('');
+    $('#jounalAuthor').val('');
     $('#sourceOfTheJournal').val('');
-    $('#datePublished').val('');
+    $('#journalDatePublished').val('');
   }
 
   function loadJournalData(data) {
@@ -641,9 +641,9 @@
           if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].title}</td>`;
-            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].jounalAuthor}</td>`;
             htmlElement += `<td>${objects[i].source}</td>`;
-            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].journalDatePublished}</td>`;
             htmlElement += `<td>${objects[i].indexed}</td>`;
             htmlElement += `<td>${objects[i].conference}</td>`;
             htmlElement += `<td><button name="rmJournal" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeJournal($(this))"><i class="fa fa-trash"></i> Delete</button>`;
@@ -671,9 +671,9 @@
 
   function saveAbstract() {
     const title = $('#titleOfTheAbstract').val();
-    const bookAuthor = $('#bookAuthor').val();
+    const abstractAuthor = $('#abstractAuthor').val();
     const source = $('#sourceOfTheAbstract').val();
-    const datePublished = $('#datePublished').val();
+    const abstractDatePublished = $('#abstractDatePublished').val();
     const indexed = $('#appMainForm input[name="indexed"]:checked').val();
     const conference = $('#appMainForm input[name="conference"]:checked').val();
 
@@ -681,7 +681,7 @@
       addError('Please Enter Title');
     }
     addError('');
-    if (bookAuthor === '') {
+    if (abstractAuthor === '') {
       addError('Please Enter Author');
     }
     addError('');
@@ -689,7 +689,7 @@
       addError('Please Enter Source');
     }
     addError('');
-    if (datePublished === '') {
+    if (abstractDatePublished === '') {
       addError('Please Enter Date');
     }
     addError('');
@@ -704,9 +704,9 @@
 
     const obj = {
       title: `${title}`,
-      bookAuthor: `${bookAuthor}`,
+      abstractAuthor: `${abstractAuthor}`,
       source: `${source}`,
-      datePublished: `${datePublished}`,
+      abstractDatePublished: `${abstractDatePublished}`,
       indexed: `${indexed}`,
       conference: `${conference}`,
     };
@@ -715,9 +715,9 @@
     loadAbstractData(abstractList);
 
     $('#titleOfTheAbstract').val('');
-    $('#bookAuthor').val('');
+    $('#abstractAuthor').val('');
     $('#sourceOfTheAbstract').val('');
-    $('#datePublished').val('');
+    $('#abstractDatePublished').val('');
   }
 
   function loadAbstractData(data) {
@@ -731,9 +731,9 @@
           if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].title}</td>`;
-            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].abstractAuthor}</td>`;
             htmlElement += `<td>${objects[i].source}</td>`;
-            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].abstractDatePublished}</td>`;
             htmlElement += `<td>${objects[i].indexed}</td>`;
             htmlElement += `<td>${objects[i].conference}</td>`;
             htmlElement += `<td><button name="rmAbstract" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeAbstract($(this))"><i class="fa fa-trash"></i> Delete</button>`;

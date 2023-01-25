@@ -20,6 +20,9 @@ class Resources {
       rtnObj.pgdTitles = this.getPgdTitleData();
       rtnObj.subjectAreas = this.getSubjectAreaData();
 
+      rtnObj.reqMain = this.getReqMainData();
+      rtnObj.requirements = this.getRequirements();
+
       return rtnObj;
     } catch (error) {
       console.error('Error occurred while saveLeave in Resources', error);
@@ -112,6 +115,44 @@ class Resources {
     }
   }
 
+  static getReqMainData() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getReqDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getReqMainSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      const retObj = {};
+
+      retObj.reqMain = foundObj;
+
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while getReqMainData in Resources', error);
+      throw new Error(`Error occurred while getReqMainData`);
+    }
+  }
+
+  static getRequirements() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getReqDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getReqSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      const retObj = {};
+
+      retObj.requirements = foundObj;
+
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while getReqData in Resources', error);
+      throw new Error(`Error occurred while getReqData`);
+    }
+  }
+
   static getBdTitleData() {
     try {
       DatabaseOperations.cacheEnabled = false;
@@ -126,8 +167,8 @@ class Resources {
 
       return retObj;
     } catch (error) {
-      console.error('Error occurred while getVacancyData in Resources', error);
-      throw new Error(`Error occurred while getVacancyData`);
+      console.error('Error occurred while getBdTitleData in Resources', error);
+      throw new Error(`Error occurred while getBdTitleData`);
     }
   }
 
@@ -145,8 +186,8 @@ class Resources {
 
       return retObj;
     } catch (error) {
-      console.error('Error occurred while getVacancyData in Resources', error);
-      throw new Error(`Error occurred while getVacancyData`);
+      console.error('Error occurred while getPgdTitleData in Resources', error);
+      throw new Error(`Error occurred while getPgdTitleData`);
     }
   }
 
@@ -164,8 +205,8 @@ class Resources {
 
       return retObj;
     } catch (error) {
-      console.error('Error occurred while getVacancyData in Resources', error);
-      throw new Error(`Error occurred while getVacancyData`);
+      console.error('Error occurred while getSubjectAreaData in Resources', error);
+      throw new Error(`Error occurred while getSubjectAreaData`);
     }
   }
 

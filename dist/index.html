@@ -509,19 +509,19 @@
                             <div class="row mg-t-12">
                               <div class="col-lg-4">
                                 <label class="ckbox">
-                                  <input type="checkbox" checked="" name="lang" id="langSinhala" /><span
+                                  <input type="checkbox" value="sinhala" checked="" name="lang" id="langSinhala" /><span
                                     >Sinhala</span
                                   >
                                 </label>
                               </div>
                               <div class="col-lg-4">
                                 <label class="ckbox">
-                                  <input type="checkbox" name="lang" id="langTamil" /><span>Tamil</span>
+                                  <input type="checkbox" value="tamil" name="lang" id="langTamil" /><span>Tamil</span>
                                 </label>
                               </div>
                               <div class="col-lg-4">
                                 <label class="ckbox">
-                                  <input type="checkbox" name="lang" id="langEnglish" /><span>English</span>
+                                  <input type="checkbox" value="english" name="lang" id="langEnglish" /><span>English</span>
                                 </label>
                               </div>
                             </div>
@@ -842,7 +842,7 @@
                                 <p class="mg-b-10">Author</p>
                                 <input
                                   id="bookAuthor"
-                                  name="bookAauthor"
+                                  name="bookAuthor"
                                   class="form-control"
                                   placeholder="Author of the Book"
                                   type="text"
@@ -851,8 +851,8 @@
                               <div class="col-lg-3">
                                 <p class="mg-b-10">Date Published</p>
                                 <input 
-                                  id="datePublished" 
-                                  name="datePublished" 
+                                  id="bookDatePublished" 
+                                  name="bookDatePublished" 
                                   class="form-control" 
                                   type="date" />
                               </div>
@@ -922,8 +922,8 @@
                               <div class="col-lg-3">
                                 <p class="mg-b-10">Author</p>
                                 <input
-                                  id="bookAuthor"
-                                  name="bookAauthor"
+                                  id="journalAuthor"
+                                  name="journalAuthor"
                                   class="form-control"
                                   placeholder="Author of the Book"
                                   type="text"
@@ -942,8 +942,8 @@
                               <div class="col-lg-3">
                                 <p class="mg-b-10">Date Published</p>
                                 <input 
-                                  id="datePublished" 
-                                  name="datePublished" 
+                                  id="journalDatePublished" 
+                                  name="journalDatePublished" 
                                   class="form-control" 
                                   type="date" />
                               </div>
@@ -953,7 +953,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="indexed" id="flexRadioIndexed" checked>
+                                  <input class="form-check-input" value="indexed" type="radio" name="indexed" id="flexRadioIndexed" checked>
                                   <label class="form-check-label" for="flexRadioIndexed">
                                     Indexed
                                   </label>
@@ -964,7 +964,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="indexed" id="flexRadioNonIndexed" >
+                                  <input class="form-check-input" value="non-indexed" type="radio" name="indexed" id="flexRadioNonIndexed" >
                                   <label class="form-check-label" for="flexRadioNonIndexed">
                                     Non Indexed
                                   </label>
@@ -974,7 +974,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="conference" id="flexRadioConference" >
+                                  <input class="form-check-input" value="conference" type="radio" name="conference" id="flexRadioConference" >
                                   <label class="form-check-label" for="flexRadioConference">
                                     Conference
                                   </label>
@@ -984,7 +984,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="conference" id="flexRadioOther" checked>
+                                  <input class="form-check-input" value="other" type="radio" name="conference" id="flexRadioOther" checked>
                                   <label class="form-check-label" for="flexRadioOther">
                                     Other
                                   </label>
@@ -1049,8 +1049,8 @@
                               <div class="col-lg-3">
                                 <p class="mg-b-10">Author</p>
                                 <input
-                                  id="bookAuthor"
-                                  name="bookAauthor"
+                                  id="abstractAuthor"
+                                  name="abstractAauthor"
                                   class="form-control"
                                   placeholder="Author of the Abstract"
                                   type="text"
@@ -1069,8 +1069,8 @@
                               <div class="col-lg-3">
                                 <p class="mg-b-10">Date Published</p>
                                 <input 
-                                  id="datePublished" 
-                                  name="datePublished" 
+                                  id="abstractDatePublished" 
+                                  name="abstractDatePublished" 
                                   class="form-control" 
                                   type="date" />
                               </div>
@@ -1080,7 +1080,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="indexed" id="flexRadioIndexed" checked>
+                                  <input class="form-check-input" value="indexed" type="radio" name="indexed" id="flexRadioIndexed" checked>
                                   <label class="form-check-label" for="flexRadioIndexed">
                                     Indexed
                                   </label>
@@ -1091,7 +1091,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="indexed" id="flexRadioNonIndexed" >
+                                  <input class="form-check-input" value="non-indexed" type="radio" name="indexed" id="flexRadioNonIndexed" >
                                   <label class="form-check-label" for="flexRadioNonIndexed">
                                     Non Indexed
                                   </label>
@@ -1101,7 +1101,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="conference" id="flexRadioConference" >
+                                  <input class="form-check-input" value="conference" type="radio" name="conference" id="flexRadioConference" >
                                   <label class="form-check-label" for="flexRadioConference">
                                     Conference
                                   </label>
@@ -1111,7 +1111,7 @@
                               <div class="col-lg-3">
                                 
                                 <div class="form-check">
-                                  <input class="form-check-input" type="radio" name="conference" id="flexRadioOther" checked>
+                                  <input class="form-check-input" value="other" type="radio" name="conference" id="flexRadioOther" checked>
                                   <label class="form-check-label" for="flexRadioOther">
                                     Other
                                   </label>
@@ -1391,7 +1391,7 @@
                               <p class="mg-b-10">Designation</p>
                               <input
                                 id="previousEmpDesignation"
-                                name="previousEmpDDesignation"
+                                name="previousEmpDesignation"
                                 class="form-control"
                                 placeholder="Designation"
                                 type="text"
