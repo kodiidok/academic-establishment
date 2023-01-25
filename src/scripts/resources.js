@@ -16,6 +16,10 @@ class Resources {
       rtnObj.faculties = this.getFacultyData();
       rtnObj.departments = this.getDepartmentData();
 
+      rtnObj.bdTitles = this.getBdTitleData();
+      rtnObj.pgdTitles = this.getPgdTitleData();
+      rtnObj.subjectAreas = this.getSubjectAreaData();
+
       return rtnObj;
     } catch (error) {
       console.error('Error occurred while saveLeave in Resources', error);
@@ -105,6 +109,63 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while resolveAppUser in Resources', error);
       throw new Error(`Error occurred while resolveAppUser`);
+    }
+  }
+
+  static getBdTitleData() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getBdTitlesListSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      const retObj = {};
+
+      retObj.bdTitles = foundObj;
+
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while getVacancyData in Resources', error);
+      throw new Error(`Error occurred while getVacancyData`);
+    }
+  }
+
+  static getPgdTitleData() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getPgdTitlesListSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      const retObj = {};
+
+      retObj.pgdTitles = foundObj;
+
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while getVacancyData in Resources', error);
+      throw new Error(`Error occurred while getVacancyData`);
+    }
+  }
+
+  static getSubjectAreaData() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getSubjectAreaListSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      const retObj = {};
+
+      retObj.subjectAreas = foundObj;
+
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while getVacancyData in Resources', error);
+      throw new Error(`Error occurred while getVacancyData`);
     }
   }
 

@@ -17,6 +17,16 @@
       event.preventDefault();
       submitForm();
     });
+
+    $("input[name='radioCitizenship']").change(function () {
+      if ($(this).val() === 'SriLankan') {
+        $('#nicNo').show();
+        $('#notSriLankan').hide();
+      } else {
+        $('#nicNo').hide();
+        $('#notSriLankan').show();
+      }
+    });
   });
 
   function onLoadExecutions() {
@@ -34,6 +44,7 @@
       countryList();
       provinceList();
       districtList();
+      requirementList(data.bdTitles, data.pgdTitles, data.subjectAreas);
       $('#modalLoading').modal('hide');
     }
   }
@@ -122,9 +133,9 @@
     request.nic = $('#nic').val();
     request.specifyCountry = $('#specifyCountry').val();
     request.passportNo = $('#passportNo').val();
-    request.spouseName = $('#spouseName').val();
-    request.spouseDesignation = $('#spouseDesignation').val();
-    request.highestEducation = $('#highestEducation').val();
+    // request.spouseName = $('#spouseName').val();
+    // request.spouseDesignation = $('#spouseDesignation').val();
+    // request.highestEducation = $('#highestEducation').val();
     request.lang = $('#appMainForm input[name="lang"]:checked')
       .map(function () {
         return $(this).val();
@@ -132,7 +143,10 @@
       .get();
 
     // basic degree
-    request.basicDegree = $('#basicDegree').val();
+    request.bdTitle = $('#bdTitle').find(':selected').val();
+    request.bdTitleOther = $('#bdTitleOther').val();
+    request.bdSubject = $('#bdSubject').find(':selected').val();
+    request.bdSubjectOther = $('#bdSubjectOther').val();
     request.bdCountry = $('#bdCountry').val();
     request.bdUniversity = $('#bdUniversity').val();
     request.bdYearFrom = $('#bdYearFrom').val();
@@ -153,19 +167,6 @@
     });
     request.pgd = JSON.stringify(pgd);
 
-    // awards
-    const awards = [];
-    $('#tblAwards tr').each(function () {
-      const row = [];
-      $(this)
-        .find('td')
-        .each(function () {
-          row.push($(this).text());
-        });
-      awards.push(row.slice(0, -1));
-    });
-    request.awards = JSON.stringify(awards);
-
     // research publications - books
     const books = [];
     $('#tblBooks tr').each(function () {
@@ -179,7 +180,7 @@
     });
     request.books = JSON.stringify(books);
 
-    // research publications - books
+    // research publications - journals
     const journals = [];
     $('#tblJournals tr').each(function () {
       const row = [];
@@ -205,11 +206,18 @@
     });
     request.abstracts = JSON.stringify(abstracts);
 
-    // commendations
-    request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
-
-    // vacations
-    request.vacations = $('#vacation').val();
+    // awards
+    const awards = [];
+    $('#tblAwards tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      awards.push(row.slice(0, -1));
+    });
+    request.awards = JSON.stringify(awards);
 
     // extra curricular activities
     const extraCurrActivity = [];
@@ -223,16 +231,6 @@
       extraCurrActivity.push(row.slice(0, -1));
     });
     request.extraCurrActivity = JSON.stringify(extraCurrActivity);
-
-    // references
-    request.rName1 = $('#rName1').val();
-    request.rTelephone1 = $('#rTelephone1').val();
-    request.rAddress1 = $('#rAddress1').val();
-    request.rEmail1 = $('#rEmail1').val();
-    request.rName2 = $('#rName2').val();
-    request.rTelephone2 = $('#rTelephone2').val();
-    request.rAddress2 = $('#rAddress2').val();
-    request.rEmail2 = $('#rEmail2').val();
 
     // present occupation
     request.poDesignation = $('presentOccDesignation').val();
@@ -252,21 +250,37 @@
       pEmployements.push(row.slice(0, -1));
     });
     request.pEmployements = JSON.stringify(pEmployements);
+  
+    // references
+    request.rName1 = $('#rName1').val();
+    request.rTelephone1 = $('#rTelephone1').val();
+    request.rAddress1 = $('#rAddress1').val();
+    request.rEmail1 = $('#rEmail1').val();
+    request.rName2 = $('#rName2').val();
+    request.rTelephone2 = $('#rTelephone2').val();
+    request.rAddress2 = $('#rAddress2').val();
+    request.rEmail2 = $('#rEmail2').val();
+  
+    // declaration
+    request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
+    request.vacations = $('#vacation').val();
     request.bondViolator = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
     request.bondValue = $('#bondValue').val();
     request.uniInstitute = $('#uniInstitute').val();
 
+    // meta
     request.status = '';
     request.connectedDatabase = '';
     request.applicationID = '';
     request.timestamp = '';
 
-    console.log(JSON.stringify(request));
+    console.log(request);
+    // console.log(JSON.stringify(request));
     // eslint-disable-next-line no-undef
-    google.script.run
-      .withSuccessHandler(saveRequestSuccess)
-      .withFailureHandler(onFailure)
-      .saveRequest(JSON.stringify(request));
+    // google.script.run
+    //   .withSuccessHandler(saveRequestSuccess)
+    //   .withFailureHandler(onFailure)
+    //   .saveRequest(JSON.stringify(request));
   }
 
   function saveRequestSuccess(retdata) {
@@ -298,7 +312,10 @@
   const pgdList = [];
 
   function savePgdegree() {
-    const pgdegree = $('#pgdegree').val();
+    const pgdTitle = $('#bdTitle').find(':selected').val();
+    const pgdTitleOther = $('#bdTitleOther').val();
+    const pgdSubject = $('#bdSubject').find(':selected').val();
+    const pgdSubjectOther = $('#bdSubjectOther').val();
     const pgdUniversity = $('#pgdUniversity').val();
     const pgdCountry = $('#pgdCountry').val();
     const pgdFrom = $('#pgdFrom').val();
@@ -307,7 +324,16 @@
     const pgdGPA = $('#pgdGPA').val();
     const pgdMethod = $('#appMainForm input[name="pgdMethod"]:checked').val();
   
-    if (pgdegree === '') {
+    if (pgdTitle === '') {
+      addError('Please Enter Degree');
+    }
+    if (pgdTitleOther === '') {
+      addError('Please Enter Degree');
+    }
+    if (pgdSubject === '') {
+      addError('Please Enter Degree');
+    }
+    if (pgdSubjectOther === '') {
       addError('Please Enter Degree');
     }
     addError('');
@@ -329,7 +355,10 @@
     addError('');
   
     const obj = {
-      pgdegree: `${pgdegree}`,
+      pgdTitle: `${pgdTitle}`,
+      pgdTitleOther: `${pgdTitleOther}`,
+      pgdSubject: `${pgdSubject}`,
+      pgdSubjectOther: `${pgdSubjectOther}`,
       pgdUniversity: `${pgdUniversity}`,
       pgdCountry: `${pgdCountry}`,
       pgdFrom: `${pgdFrom}`,
@@ -342,7 +371,10 @@
     pgdList.push(obj);
     loadPgdData(pgdList);
 
-    $('#pgdegree').val('');
+    $('#pgdTitle').val('');
+    $('#pgdTitleOther').val('');
+    $('#pgdSubject').val('');
+    $('#pgdSubjectOther').val('');
     $('#pgdUniversity').val('');
     $('#pgdCountry').val('');
     $('#pgdFrom').val('');
@@ -361,7 +393,10 @@
         for (i = 0; i < objects.length; i += 1) {
           if (objects[i].name !== '') {
             htmlElement += '<tr>';
-            htmlElement += `<td>${objects[i].pgdegree}</td>`;
+            htmlElement += `<td>${objects[i].pgdTitle}</td>`;
+            htmlElement += `<td>${objects[i].pgdTitleOther}</td>`;
+            htmlElement += `<td>${objects[i].pgdSubject}</td>`;
+            htmlElement += `<td>${objects[i].pgdSubjectOther}</td>`;
             htmlElement += `<td>${objects[i].pgdUniversity}</td>`;
             htmlElement += `<td>${objects[i].pgdCountry}</td>`;
             htmlElement += `<td>${objects[i].pgdFrom}</td>`;
@@ -883,6 +918,32 @@
 
   // set form data
 
+  function requirementList(ObjBdTitles, ObjPgdTitles, ObjSubjectAreas) {
+    bdTitles = ObjBdTitles.bdTitles.map((x) => x[0]);
+    pgdTitles = ObjPgdTitles.pgdTitles.map((x) => x[0]);
+    subjectAreas = ObjSubjectAreas.subjectAreas.map((x) => x[0]);
+
+    console.log(bdTitles);
+    console.log(pgdTitles);
+    console.log(subjectAreas);
+
+    $('#bdTitle').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#bdSubject').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#pgdTitle').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#pgdSubject').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    bdTitles.forEach((e) => {
+      $('#bdTitle').append(`<option value="${e}">${e}</option>`);
+    });
+    pgdTitles.forEach((e) => {
+      $('#pgdTitle').append(`<option value="${e}">${e}</option>`);
+    });
+    subjectAreas.forEach((e) => {
+      $('#bdSubject').append(`<option value="${e}">${e}</option>`);
+      $('#pgdSubject').append(`<option value="${e}">${e}</option>`);
+    });
+  }
+
   function vacancyList(objVacancies, objPosts, objFaculties, objDepartments) {
     vacancies = objVacancies.vacancies.map((x) => x[0]);
     posts = objPosts.posts.map((x) => x[0]);
@@ -1221,9 +1282,11 @@
     ];
 
     $('#pgdCountry').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#bdCountry').append(`<option label="Choose one" value="">Choose one</option>`);
 
     for (let i = 0; i < cList.length; i += 1) {
       $('#pgdCountry').append(`<option value="${cList[i]}">${cList[i]}</option>`);
+      $('#bdCountry').append(`<option value="${cList[i]}">${cList[i]}</option>`);
     }
   }
 </script>

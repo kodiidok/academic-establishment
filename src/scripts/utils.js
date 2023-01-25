@@ -11,6 +11,7 @@ const UUID_CODE = 'OA';
 
 const DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
 const DATA_DBID = '1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o';
+const REQ_DBID = '1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8';
 
 const APP_ROLE_SHEET = 'roles';
 const VACANCY_APPLICATION_SHEET = 'mainsheet';
@@ -18,6 +19,13 @@ const VACANCY_LIST_SHEET = 'vacancy';
 const POST_LIST_SHEET = 'post';
 const FAC_LIST_SHEET = 'faculty';
 const DEPT_LIST_SHEET = 'department';
+
+const BASIC_DEGREE_LIST_SHEET = 'bdTitle';
+const POSTGRAD_DEGREE_LIST_SHEET = 'pgdTitle';
+const SUBJECT_AREA_LIST_SHEET = 'subjectArea';
+
+const REQUIREMENTS_MAINSHEET = 'mainsheet';
+const REQUIREMENTS_LIST_SHEET = 'requirements';
 
 const DBID_FAC_DEPT = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
 const SHEET_FAC_DEPT = 'RolesAccount';
@@ -127,6 +135,18 @@ class Utils {
   // static getVacanciesDBID() {
   //   return VACANCY_DBID;
   // }
+
+  static getBdTitlesListSheetName() {
+    return BASIC_DEGREE_LIST_SHEET;
+  }
+
+  static getPgdTitlesListSheetName() {
+    return POSTGRAD_DEGREE_LIST_SHEET;
+  }
+
+  static getSubjectAreaListSheetName() {
+    return SUBJECT_AREA_LIST_SHEET;
+  }
 
   static getApplicationSheetName() {
     return VACANCY_APPLICATION_SHEET;

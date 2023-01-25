@@ -7,22 +7,25 @@ function saveRequest() {}
   var __webpack_modules__ = [
       ,
       (e, t, a) => {
-        a.r(t), a.d(t, { default: () => i });
+        a.r(t), a.d(t, { default: () => n });
         var s = a(2),
-          n = a(3);
-        const i = class {
+          i = a(3);
+        const n = class {
           static initialLoading() {
             const e = {};
             try {
               return (
-                (e.scriptUrl = n.default.getScriptUrl()),
-                (e.appName = n.default.getAppName()),
-                (e.appDescription = n.default.getAppDescription()),
-                (e.appRedirectURL = n.default.getAppRedirectURL()),
+                (e.scriptUrl = i.default.getScriptUrl()),
+                (e.appName = i.default.getAppName()),
+                (e.appDescription = i.default.getAppDescription()),
+                (e.appRedirectURL = i.default.getAppRedirectURL()),
                 (e.posts = this.getPostData()),
                 (e.vacancies = this.getVacancyData()),
                 (e.faculties = this.getFacultyData()),
                 (e.departments = this.getDepartmentData()),
+                (e.bdTitles = this.getBdTitleData()),
+                (e.pgdTitles = this.getPgdTitleData()),
+                (e.subjectAreas = this.getSubjectAreaData()),
                 e
               );
             } catch (e) {
@@ -38,62 +41,62 @@ function saveRequest() {}
           static resolveAppUser() {
             try {
               const e = {};
-              if (n.default.getCurrentUser()) {
-                const t = n.default.getCurrentUser();
+              if (i.default.getCurrentUser()) {
+                const t = i.default.getCurrentUser();
                 if (
                   ((s.default.cacheEnabled = !1),
-                  s.default.initilizeDatabase(n.default.getMainDBID()),
+                  s.default.initilizeDatabase(i.default.getMainDBID()),
                   s.default.openDatabaseConnection(
-                    n.default.getAppRoleSheetName()
+                    i.default.getAppRoleSheetName()
                   ),
                   foundObj && "undefined" != typeof foundObj)
                 )
                   return (e.data = foundObj), e;
-                const a = n.default
+                const a = i.default
                   .getCurrentUser()
                   .split("@")[1]
                   .split(".")[0];
-                let i = "";
+                let n = "";
                 switch (a) {
                   case "agri":
-                    i = "Faculty of Agriculture";
+                    n = "Faculty of Agriculture";
                     break;
                   case "ahs":
-                    i = "Faculty of Allied Health Sciences";
+                    n = "Faculty of Allied Health Sciences";
                     break;
                   case "arts":
-                    i = "Faculty of Arts";
+                    n = "Faculty of Arts";
                     break;
                   case "dental":
-                    i = "Faculty of Dental Sciences";
+                    n = "Faculty of Dental Sciences";
                     break;
                   case "eng":
-                    i = "Faculty of Engineering";
+                    n = "Faculty of Engineering";
                     break;
                   case "mgt":
-                    i = "Faculty of Management";
+                    n = "Faculty of Management";
                     break;
                   case "med":
-                    i = "Faculty of Medicine";
+                    n = "Faculty of Medicine";
                     break;
                   case "sci":
-                    i = "Faculty of Science";
+                    n = "Faculty of Science";
                     break;
                   case "vet":
-                    i = "Faculty of Veterinary Medicine and Animal Science";
+                    n = "Faculty of Veterinary Medicine and Animal Science";
                     break;
                   default:
-                    i = "UNIVERSITY OF PERADENIYA";
+                    n = "UNIVERSITY OF PERADENIYA";
                 }
-                const o = {
+                const c = {
                     Name: "INTERNAL_USER",
                     Email: t,
-                    Faculty: i,
+                    Faculty: n,
                     Department: "",
                     Role: "USER_UOP",
                   },
-                  c = [];
-                return c.push(o), (e.data = c), e;
+                  o = [];
+                return o.push(c), (e.data = o), e;
               }
               const t = {
                   Name: "Guest",
@@ -114,12 +117,72 @@ function saveRequest() {}
               );
             }
           }
+          static getBdTitleData() {
+            try {
+              (s.default.cacheEnabled = !1),
+                s.default.initilizeDatabase(i.default.getMainDBID()),
+                s.default.openDatabaseConnection(
+                  i.default.getBdTitlesListSheetName()
+                );
+              const e = s.default.readDatabaseCache(),
+                t = {};
+              return (t.bdTitles = e), t;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getVacancyData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getVacancyData"))
+              );
+            }
+          }
+          static getPgdTitleData() {
+            try {
+              (s.default.cacheEnabled = !1),
+                s.default.initilizeDatabase(i.default.getMainDBID()),
+                s.default.openDatabaseConnection(
+                  i.default.getPgdTitlesListSheetName()
+                );
+              const e = s.default.readDatabaseCache(),
+                t = {};
+              return (t.pgdTitles = e), t;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getVacancyData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getVacancyData"))
+              );
+            }
+          }
+          static getSubjectAreaData() {
+            try {
+              (s.default.cacheEnabled = !1),
+                s.default.initilizeDatabase(i.default.getMainDBID()),
+                s.default.openDatabaseConnection(
+                  i.default.getSubjectAreaListSheetName()
+                );
+              const e = s.default.readDatabaseCache(),
+                t = {};
+              return (t.subjectAreas = e), t;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getVacancyData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getVacancyData"))
+              );
+            }
+          }
           static getVacancyData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(n.default.getDataDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
-                  n.default.getVacanciesListSheetName()
+                  i.default.getVacanciesListSheetName()
                 );
               const e = s.default.readDatabaseCache(),
                 t = {};
@@ -137,9 +200,9 @@ function saveRequest() {}
           static getPostData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(n.default.getDataDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
-                  n.default.getPostListSheetName()
+                  i.default.getPostListSheetName()
                 );
               const e = s.default.readDatabaseCache(),
                 t = {};
@@ -157,9 +220,9 @@ function saveRequest() {}
           static getFacultyData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(n.default.getDataDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
-                  n.default.getFacListSheetName()
+                  i.default.getFacListSheetName()
                 );
               const e = s.default.readDatabaseCache(),
                 t = {};
@@ -177,9 +240,9 @@ function saveRequest() {}
           static getDepartmentData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(n.default.getDataDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
-                  n.default.getDeptListSheetName()
+                  i.default.getDeptListSheetName()
                 );
               const e = s.default.readDatabaseCache(),
                 t = {};
@@ -200,9 +263,9 @@ function saveRequest() {}
               return (
                 e &&
                   ((s.default.cacheEnabled = !1),
-                  s.default.initilizeDatabase(n.default.getMainDBID()),
+                  s.default.initilizeDatabase(i.default.getMainDBID()),
                   s.default.openDatabaseConnection(
-                    n.default.getApplicationSheetName()
+                    i.default.getApplicationSheetName()
                   ),
                   (t = s.default.saveItem(e))),
                 t
@@ -271,8 +334,8 @@ function saveRequest() {}
                 (t.shortlisted = "");
               const a = [];
               return (
-                a.push(t.applicationID),
                 a.push(t.timestamp),
+                a.push(t.applicationID),
                 a.push(t.vacancyID),
                 a.push(t.vacancyPost),
                 a.push(t.vacancyFac),
@@ -483,11 +546,11 @@ function saveRequest() {}
                 );
               {
                 const e = this.findObjectRow(s),
-                  n = [];
-                n.push(a),
+                  i = [];
+                i.push(a),
                   this.connectedDatabase
                     .getRange(e + 1, 1, 1, a.length)
-                    .setValues(n),
+                    .setValues(i),
                   this.cacheEnabled &&
                     CacheService.getScriptCache().remove(this.CACHE_KEY),
                   (t = 1);
@@ -644,9 +707,9 @@ function saveRequest() {}
             return (
               t.forEach(function (e) {
                 const t = {};
-                let n = 0;
+                let i = 0;
                 e.c.forEach(function (e) {
-                  e && e.v && (t[a[n]] = e.v), (n += 1);
+                  e && e.v && (t[a[i]] = e.v), (i += 1);
                 }),
                   s.push(t);
               }),
@@ -660,21 +723,21 @@ function saveRequest() {}
                 ),
               a = [],
               s = t.range.split(":");
-            let n = "";
-            const { sheetName: i } = this;
+            let i = "";
+            const { sheetName: n } = this;
             e.forEach(function (e) {
-              n = `${i}!${s[0]}${e.id}:${s[1]}${e.id}`;
-              const o = {};
-              (o.range = n), (o.majorDimension = "ROWS");
-              const c = [];
+              i = `${n}!${s[0]}${e.id}:${s[1]}${e.id}`;
+              const c = {};
+              (c.range = i), (c.majorDimension = "ROWS");
+              const o = [];
               t.arrayNames.forEach(function (t, a) {
-                0 === a ? c.push("=ROW()") : c.push(e[t]);
+                0 === a ? o.push("=ROW()") : o.push(e[t]);
               }),
-                (o.values = [c]),
-                a.push(o);
+                (c.values = [o]),
+                a.push(c);
             });
-            const o = { valueInputOption: "USER_ENTERED", data: a };
-            Sheets.Spreadsheets.Values.batchUpdate(o, this.DBID);
+            const c = { valueInputOption: "USER_ENTERED", data: a };
+            Sheets.Spreadsheets.Values.batchUpdate(c, this.DBID);
           }
           static batchUpdateNew(e) {
             const t = LockService.getScriptLock();
@@ -715,27 +778,27 @@ function saveRequest() {}
       (e, t, a) => {
         a.r(t), a.d(t, { default: () => h });
         const s = "Asia/Colombo",
-          n = "MM/dd/yyyy HH:mm:ss",
-          i = "ONLINE APPLICATION",
-          o =
+          i = "MM/dd/yyyy HH:mm:ss",
+          n = "ONLINE APPLICATION",
+          c =
             "https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec",
-          c = "portal@gs.pdn.ac.lk";
+          o = "portal@gs.pdn.ac.lk";
         let u = null,
           l = [];
         const h = class {
           static ChunkyCache(e, t) {
             return {
-              put(a, s, n) {
-                const i = JSON.stringify(s),
-                  o = Math.floor(t / 2);
-                let c = 0;
-                for (; c < i.length; )
-                  (u = `${a}_${c}`),
+              put(a, s, i) {
+                const n = JSON.stringify(s),
+                  c = Math.floor(t / 2);
+                let o = 0;
+                for (; o < n.length; )
+                  (u = `${a}_${o}`),
                     l.push(u),
-                    e.put(u, i.substr(c, o), n + 5),
-                    (c += o);
-                const h = { chunkSize: t, chunks: l, length: i.length };
-                e.put(a, JSON.stringify(h), n);
+                    e.put(u, n.substr(o, c), i + 5),
+                    (o += c);
+                const h = { chunkSize: t, chunks: l, length: n.length };
+                e.put(a, JSON.stringify(h), i);
               },
               get(t) {
                 const a = e.get(t);
@@ -756,10 +819,10 @@ function saveRequest() {}
             };
           }
           static getDateFormat() {
-            return n;
+            return i;
           }
           static getCurrentDate() {
-            return Utilities.formatDate(new Date(), s, n);
+            return Utilities.formatDate(new Date(), s, i);
           }
           static generateUUID() {
             return `OA_${Utilities.formatDate(
@@ -769,25 +832,25 @@ function saveRequest() {}
             )}`;
           }
           static parseDate(e) {
-            return Utilities.formatDate(new Date(e), s, n);
+            return Utilities.formatDate(new Date(e), s, i);
           }
           static getCurrentUser() {
             return Session.getActiveUser().getEmail();
           }
           static getAppName() {
-            return i;
+            return n;
           }
           static getAppDescription() {
             return "Academic Establishment. University of Peradeniya.";
           }
           static getAppRedirectURL() {
-            return o;
+            return c;
           }
           static getScriptUrl() {
             return ScriptApp.getService().getUrl();
           }
           static getALIASMAIL() {
-            return c;
+            return o;
           }
           static getMainDBID() {
             return "1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4";
@@ -797,6 +860,15 @@ function saveRequest() {}
           }
           static getDataDBID() {
             return "1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o";
+          }
+          static getBdTitlesListSheetName() {
+            return "bdTitle";
+          }
+          static getPgdTitlesListSheetName() {
+            return "pgdTitle";
+          }
+          static getSubjectAreaListSheetName() {
+            return "subjectArea";
           }
           static getApplicationSheetName() {
             return "mainsheet";
@@ -822,7 +894,7 @@ function saveRequest() {}
           static getProcessingEmails() {
             return "portal@gs.pdn.ac.lk";
           }
-          static sendMail(e, t, a, s, n, i, u, l, h) {
+          static sendMail(e, t, a, s, i, n, u, l, h) {
             try {
               let p =
                 HtmlService.createHtmlOutputFromFile(
@@ -831,15 +903,15 @@ function saveRequest() {}
               (p = p.replace("%heading", e)),
                 (p = p.replace("%description", t)),
                 (p = p.replace("%param1", s)),
-                (p = p.replace("%param2", n)),
-                (p = p.replace("%param3", i)),
+                (p = p.replace("%param2", i)),
+                (p = p.replace("%param3", n)),
                 (p = p.replace("%param4", u)),
                 (p = p.replace("%param5", `${h} - ${l}`)),
-                (p = p.replace("%appURL", o));
+                (p = p.replace("%appURL", c));
               const d = "Online Application -  University of Peradeniya";
               GmailApp.sendEmail(a, d, "", {
-                from: c,
-                replyTo: c,
+                from: o,
+                replyTo: o,
                 name: "University of Peradeniya",
                 htmlBody: p,
               });
@@ -852,7 +924,7 @@ function saveRequest() {}
           }
           static errHandler(e, t) {
             let a = `${e.message}\n in file: ${e.fileName} on line: ${e.lineNumber}`;
-            const s = `${i} ERROR OCCURED | FOS APPS |  ${t}`;
+            const s = `${n} ERROR OCCURED | FOS APPS |  ${t}`;
             (a = `${s}\n${a}\n onError: ${JSON.stringify(this.onError)}`),
               GmailApp.sendEmail("youremail@sci.pdn.ac.lk", s, a);
           }

@@ -194,7 +194,7 @@
   
                         <div class="row row-sm mg-b-20">
                           <div class="col-lg-6">
-                            <p class="mg-b-10">Faculty</p>
+                            <p class="mg-b-10">Faculty / Center/ Institute</p>
                             <select
                               class="form-control select2-no-search select2-hidden-accessible"
                               data-select2-id="13"
@@ -207,7 +207,7 @@
                           </select>
                           </div>
                           <div class="col-lg-6">
-                            <p class="mg-b-10">Department</p>
+                            <p class="mg-b-10">Department (Only for Faculties)</p>
                             <select
                               class="form-control select2-no-search select2-hidden-accessible"
                               data-select2-id="13"
@@ -391,14 +391,12 @@
                           
                           <div class="col-lg-2">
                             <p class="mg-b-10">Citizenship</p>
-                            
-                            
                           </div>
                     
                           <div class="col-lg-2">
                             
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="radioCitizenship" id="flexRadioSrilanka" checked>
+                              <input class="form-check-input" type="radio" value="SriLankan" name="radioCitizenship" id="flexRadioSrilanka" checked>
                               <label class="form-check-label" for="flexRadioSrilanka">
                                 Sri Lankan
                               </label>
@@ -406,19 +404,18 @@
                             
                           </div>
                     
-                          <div class="col-lg-2">
-                            
+                          <div class="col-lg-2"> 
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="radioCitizenship" id="flexRadioOther" >
+                              <input class="form-check-input" type="radio" value="Other" name="radioCitizenship" id="flexRadioOther" >
                               <label class="form-check-label" for="flexRadioOther">
                                 Other
                               </label>
                             </div>
                           </div>
                     
-                    
-                          <div class="col-lg-6">
-                            
+                          <div class="col-lg-6" id="nicNo" name="nicNo">
+                            <p class="mg-b-10">NIC</p>
+                            <input id="nic" name="nic" class="form-control" placeholder="NIC" type="text"/>
                           </div>
                         </div>
                         
@@ -451,13 +448,10 @@
                           </div>
                     
                     
-                          <div class="col-lg-6">
-                            <p class="mg-b-10">NIC</p>
-                            <input id="nic" name="nic" class="form-control" placeholder="NIC" type="text" />
-                          </div>
+                          
                         </div>
                     
-                        <div class="row row-sm mg-b-20">
+                        <div class="row row-sm mg-b-20" id="notSriLankan" style="display: none;">
                           
                           <div class="col-lg-2">
                     
@@ -469,16 +463,14 @@
                             <input id="specifyCountry" name="specifyCountry" class="form-control" placeholder=" " type="text" />
                             
                           </div>
-                    
-                          
-                    
+
                           <div class="col-lg-6">
                             <p class="mg-b-10">Passport No</p>
                             <input id="passportNo" name="passportNo" class="form-control" placeholder="Passport No" type="text" />
                           </div>
                         </div>
                     
-                        <div class="row row-sm mg-b-20" id="spouseDIV" style="display: none;">
+                        <!-- <div class="row row-sm mg-b-20" id="spouseDIV" style="display: none;">
                           <div class="col-lg-8">
                             <p class="mg-b-10">Spouse Name</p>
                             <input
@@ -499,10 +491,10 @@
                               type="text"
                             />
                           </div>
-                        </div>
+                        </div> -->
                     
                         <div class="row row-sm mg-b-20">
-                          <div class="col-lg-8">
+                          <!-- <div class="col-lg-8">
                             <p class="mg-b-10">Highest Education Qualification</p>
                             <input
                               id="highestEducation"
@@ -511,10 +503,10 @@
                               placeholder="Highest Education Qualification"
                               type="text"
                             />
-                          </div>
-                          <div class="col-lg-4">
+                          </div> -->
+                          <div class="col-lg-12">
                             <p class="mg-b-10">Proficiency on Languages</p>
-                            <div class="row mg-t-10">
+                            <div class="row mg-t-12">
                               <div class="col-lg-4">
                                 <label class="ckbox">
                                   <input type="checkbox" checked="" name="lang" id="langSinhala" /><span
@@ -565,25 +557,62 @@
                       <div class="card-body bd bd-t-0">
                         <!-- card-body -->
                         <div class="row row-sm mg-b-20">
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">Basic Degree</p>
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">Title</p>
+                            <select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="bdTitle"
+                              name="bdTitle"
+                            >
+                            </select>
+                          </div>
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">Title (other)</p>
                             <input
-                              id="basicDegree"
-                              name="basicDegree"
+                              id="bdTitleOther"
+                              name="bdTitleOther"
                               class="form-control"
-                              placeholder="Basic Degree"
+                              placeholder=""
                               type="text"
                             />
                           </div>
                           <div class="col-lg-4">
-                            <p class="mg-b-10">Country</p>
+                            <p class="mg-b-10">Subject</p>
+                            <select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="bdSubject"
+                              name="bdSubject"
+                            >
+                            </select>
+                          </div>
+                          <div class="col-lg-4">
+                            <p class="mg-b-10">Subject (Other)</p>
                             <input
-                              id="bdCountry"
-                              name="bdCountry"
+                              id="bdSubjectOther"
+                              name="bdSubjectOther"
                               class="form-control"
-                              placeholder="Country"
+                              placeholder=""
                               type="text"
                             />
+                          </div>
+                        </div>
+
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-4">
+                            <p class="mg-b-10">Country</p>
+                            <select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              data-select2-id="13"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="bdCountry"
+                              name="bdCountry"
+                            >
+                            </select>
                           </div>
                           <div class="col-lg-4">
                             <p class="mg-b-10">University</p>
@@ -595,17 +624,17 @@
                               type="text"
                             />
                           </div>
-                        </div>
-                    
-                        <div class="row row-sm mg-b-20">
                           <div class="col-lg-2">
                             <p class="mg-b-10">From</p>
-                            <input id="bdYearFrom" name="bdYearFrom" class="form-control" type="number" />
+                            <input id="bdYearFrom" name="bdYearFrom" class="form-control" type="date" />
                           </div>
                           <div class="col-lg-2">
                             <p class="mg-b-10">To</p>
-                            <input id="bdYearTo" name="bdYearTo" class="form-control" type="number" />
+                            <input id="bdYearTo" name="bdYearTo" class="form-control" type="date" />
                           </div>
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
                           <div class="col-lg-4">
                             <p class="mg-b-10">Class</p>
                             <input id="bdClass" name="bdClass" class="form-control" placeholder="Class" type="text" />
@@ -629,16 +658,50 @@
                         <!-- card-body -->
                         <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
                           <div class="row row-sm mg-b-20">
-                            <div class="col-lg-4">
-                              <p class="mg-b-10">Postgraduate Degree</p>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Title</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="pgdTitle"
+                                name="pgdTitle"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Title (other)</p>
                               <input
-                                id="pgdegree"
-                                name="pgdegree"
+                                id="pgdTitleOther"
+                                name="pgdTitleOther"
                                 class="form-control"
-                                placeholder="Postgraduate Degree"
+                                placeholder=""
                                 type="text"
                               />
                             </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Subject</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="pgdSubject"
+                                name="pgdSubject"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Subject (Other)</p>
+                              <input
+                                id="pgdSubjectOther"
+                                name="pgdSubjectOther"
+                                class="form-control"
+                                placeholder=""
+                                type="text"
+                              />
+                            </div>
+                          </div>
+                          <div class="row row-sm mg-b-20">
                             <div class="col-lg-4">
                               <p class="mg-b-10">University</p>
                               <input
@@ -661,16 +724,16 @@
                               >
                               </select>
                             </div>
-                          </div>
-                          <div class="row row-sm mg-b-20">
                             <div class="col-lg-2">
                               <p class="mg-b-10">From</p>
-                              <input id="pgdFrom" name="pgdFrom" class="form-control" type="number" />
+                              <input id="pgdFrom" name="pgdFrom" class="form-control" type="date" />
                             </div>
                             <div class="col-lg-2">
                               <p class="mg-b-10">To</p>
-                              <input id="pgdTo" name="pgdTo" class="form-control" type="number" />
+                              <input id="pgdTo" name="pgdTo" class="form-control" type="date" />
                             </div>
+                          </div>
+                          <div class="row row-sm mg-b-20">
                             <div class="col-lg-4">
                               <p class="mg-b-10">Class(If any)</p>
                               <input
@@ -685,22 +748,15 @@
                               <p class="mg-b-10">GPA(If relavant)</p>
                               <input id="pgdGPA" name="pgdGPA" class="form-control" placeholder="GPA" type="text" />
                             </div>
-                          </div>
-                          <div class="row row-sm mg-b-20">
-                    
                             <div class="col-lg-2">
-                              
                               <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pgdMethod" id="pgdCourse" value="by Course Work" checked>
                                 <label class="form-check-label" for="pgdCourse">
                                   By course work
                                 </label>
                               </div>
-                              
-                            </div>
-                    
+                            </div>                    
                             <div class="col-lg-2">
-                              
                               <div class="form-check">
                                 <input class="form-check-input" type="radio" name="pgdMethod" id="pgdResearch" value="by Research">
                                 <label class="form-check-label" for="pgdResearch">
@@ -708,6 +764,8 @@
                                 </label>
                               </div>
                             </div>
+                          </div>
+                          <div class="row row-sm mg-b-20">
                           </div>  
                         </div>
                     
@@ -734,7 +792,10 @@
                           <table class="table mg-t-20">
                             <thead>
                               <tr>
-                                <th>Degree Name</th>
+                                <th>Title</th>
+                                <th>Title (Other)</th>
+                                <th>Subject</th>
+                                <th>Subject (Other)</th>
                                 <th>University</th>
                                 <th>Country</th>
                                 <th>From</th>
@@ -750,87 +811,6 @@
                       </div>
                     </div>
                     <!--post graduate degree-->
-  
-                    <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                       Academic Awards (Distinctions, Scholarships and Medal/Prizes)
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
-                        <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
-                          <div class="row row-sm mg-b-20">
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Award</p>
-                              <input
-                                id="award"
-                                name="award"
-                                class="form-control"
-                                placeholder="Award"
-                                type="text"
-                              />
-                            </div>
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Institute(If any)/Country</p>
-                              <input
-                                id="instituteCountry"
-                                name="instituteCountry"
-                                class="form-control"
-                                placeholder="Institute/Country"
-                                type="text"
-                              />
-                            </div>
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Year</p>
-                              <input
-                                id="awardYear"
-                                name="awardYear"
-                                class="form-control"
-                                placeholder="Year"
-                                type="text"
-                              />
-                            </div>
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Details</p>
-                              <input
-                                id="awardDetails"
-                                name="awardDetails"
-                                class="form-control"
-                                placeholder="Details"
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-3">
-                            <input
-                              type="button"
-                              value="Add Award"
-                              class="btn btn-success btn-rounded"
-                              onclick="saveAward()"
-                              style="margin-top: 30px;"
-                            />
-                          </div>
-                        </div>
-                        
-                        <div class="row row-sm mg-b-20">
-                          <table class="table mg-t-20">
-                            <thead>
-                              <tr>
-                                <th>Award</th>
-                                <th>Institute/Country</th>
-                                <th>Year</th>
-                                <th>Details</th>
-                              </tr>
-                            </thead>
-                            <tbody id="tblAwards"></tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                    <!--awards-->
   
                     <div class="card bd-0 mg-b-20">
                       <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
@@ -1174,73 +1154,88 @@
                       <!--abstract-->
                     </div>
                     <!--research publications-->
-  
+
                     <div class="card bd-0 mg-b-20">
                       <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        Commendations/Punishments
+                       Academic Awards (Distinctions, Scholarships and Medal/Prizes)
                       </div>
                       <!-- card-header -->
                       <div class="card-body bd bd-t-0">
                         <!-- card-body -->
-                        <div class="row row-sm ">
-                          <div class="col-lg-8">
-                            <br>
-                            <p style="font-size: larger;"><strong> Have you ever been Commended or Punished during your career in the 
-                              University / Educational Institution: </strong></p> <br> 
-                            <p style="font-size: larger;"><strong>If yes, please specify</strong></p>
-                          </div>
-                    
-                          <div class="col-lg-2">
-                            <br>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="commendations" value="Yes" id="flexRadioDefault1">
-                              <label class="form-check-label" for="flexRadioDefault1">
-                                YES
-                              </label>
+                        <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Award</p>
+                              <input
+                                id="award"
+                                name="award"
+                                class="form-control"
+                                placeholder="Award"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Institute(If any)/Country</p>
+                              <input
+                                id="instituteCountry"
+                                name="instituteCountry"
+                                class="form-control"
+                                placeholder="Institute/Country"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Year</p>
+                              <input
+                                id="awardYear"
+                                name="awardYear"
+                                class="form-control"
+                                placeholder="Year"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Details</p>
+                              <input
+                                id="awardDetails"
+                                name="awardDetails"
+                                class="form-control"
+                                placeholder="Details"
+                                type="text"
+                              />
                             </div>
                           </div>
-                          <div class="col-lg-2">
-                            <br>
-                            <div class="form-check">
-                              <input class="form-check-input" type="radio" name="commendations" value="No" id="flexRadioDefault2" checked>
-                              <label class="form-check-label" for="flexRadioDefault2">
-                                NO
-                              </label>
-                            </div>
-                    
-                          </div>
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-12">
-                            <p class="mg-b-10"></p>
-                              <textarea id="publications" rows="8" name="publications" class="form-control"></textarea>
-                          </div>
-                          
                         </div>
                         
-                      </div>
-                    </div>
-                    <!--commendations-->
-  
-                    <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        Have you ever been served with a Vacation of Post notice by any other University/ Government Institution? If so please provide details.
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
                         <div class="row row-sm mg-b-20">
-                          <div class="col-lg-12">
-                            <p class="mg-b-10"></p>
-                              <textarea id="vacation" rows="8" name="Vacation" class="form-control"></textarea>
+                          <div class="col-lg-3">
+                            <input
+                              type="button"
+                              value="Add Award"
+                              class="btn btn-success btn-rounded"
+                              onclick="saveAward()"
+                              style="margin-top: 30px;"
+                            />
                           </div>
-                          
                         </div>
                         
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Award</th>
+                                <th>Institute/Country</th>
+                                <th>Year</th>
+                                <th>Details</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tblAwards"></tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
-                    <!--vacations-->
-  
+                    <!--awards-->
+
                     <div class="card bd-0 mg-b-20">
                       <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
                         Extra Curricular Activities (University, National & International level)
@@ -1327,109 +1322,7 @@
                       </div>
                     </div>
                     <!--extra curricular activities-->
-  
-                    <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        References
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-6">
-                            <p class="mg-b-10">01  Name & Address</p>
-                            <input
-                            id="rName1"
-                            name="rName1"
-                            class="form-control"
-                            placeholder="Name"
-                            type="text"
-                          />
-                          </div>
-                          <div class="col-lg-6">
-                            <p class="mg-b-10">Telephone No & e-mail</p>
-                            <input
-                            id="rTelephone1"
-                            name="rTelephone1"
-                            class="form-control"
-                            placeholder="Telephone"
-                            type="text"
-                          />
-                          </div>    
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-6">
-                            
-                            <input
-                            id="rAddress1"
-                            name="rAddress1"
-                            class="form-control"
-                            placeholder="Address"
-                            type="text"
-                          />
-                          </div>
-                          <div class="col-lg-6">
-                            
-                            <input
-                            id="rEmail1"
-                            name="rEmail1"
-                            class="form-control"
-                            placeholder="e-mail"
-                            type="text"
-                          />
-                          </div>    
-                        </div>
-                    
-                    
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-6">
-                            <p class="mg-b-10">02  Name & Address</p>
-                            <input
-                            id="rName2"
-                            name="rName2"
-                            class="form-control"
-                            placeholder="Name"
-                            type="text"
-                          />
-                          </div>
-                          <div class="col-lg-6">
-                            <p class="mg-b-10">Telephone No & e-mail</p>
-                            <input
-                            id="rTelephone2"
-                            name="rTelephone2"
-                            class="form-control"
-                            placeholder="Telephone"
-                            type="text"
-                          />
-                          </div>    
-                        </div>
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-6">
-                            
-                            <input
-                            id="rAddress2"
-                            name="rAddress2"
-                            class="form-control"
-                            placeholder="Address"
-                            type="text"
-                          />
-                          </div>
-                          <div class="col-lg-6">
-                            
-                            <input
-                            id="rEmail2"
-                            name="rEmail2"
-                            class="form-control"
-                            placeholder="e-mail"
-                            type="text"
-                          />
-                          </div>    
-                        </div>
-                        
-                      </div>
-                    </div>
-                    <!--references-->
-  
+
                     <div class="card bd-0 mg-b-20">
                       <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
                         Present Occupation
@@ -1537,64 +1430,6 @@
                             </div>
                           </div>
                         <hr>
-                      
-                          <div class="row row-sm ">
-                            <div class="col-lg-6">
-                              <br>
-                              <p style="font-size: larger;"><strong> Have you ever been treated as a bond violator : </strong></p>
-                            </div>
-                    
-                            <div class="col-lg-3">
-                              <br>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="bondViolatorRadio" value="Yes" id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                  YES
-                                </label>
-                              </div>
-                            </div>
-                            <div class="col-lg-3">
-                              <br>
-                              <div class="form-check">
-                                <input class="form-check-input" type="radio" name="bondViolatorRadio" value="No" id="flexRadioDefault2" checked>
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                  NO
-                                </label>
-                              </div>
-                    
-                            </div>
-                          </div>
-                    
-                          <div class="row row-sm ">
-                            <div class="col-lg-4">
-                              <br>
-                              <p style="font-size: larger;"><strong>If yes</strong>, Please provide details : </p>
-                            </div>
-                    
-                            <div class="col-lg-4">
-                              <br>
-                              <p class="mg-b-10">Bond Value </p>
-                              <input
-                                id="bondValue"
-                                name="bondValue"
-                                class="form-control"
-                                placeholder="Bond Value"
-                                type="text"
-                              />
-                            </div>
-                            <div class="col-lg-4">
-                              <br>
-                              <p class="mg-b-10">University/Institute</p>
-                              <input
-                                id="uniInstitute"
-                                name="uniInstitute"
-                                class="form-control"
-                                placeholder="University of Peradeniya"
-                                type="text"
-                              />
-                            </div>
-                          </div>
-                    
                         </div>
                     
                         <div class="row row-sm mg-b-20">
@@ -1627,6 +1462,255 @@
                       </div>
                     </div>
                     <!--previous employements-->
+  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        References
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">01  Name & Address</p>
+                            <input
+                            id="rName1"
+                            name="rName1"
+                            class="form-control"
+                            placeholder="Name"
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Telephone No & e-mail</p>
+                            <input
+                            id="rTelephone1"
+                            name="rTelephone1"
+                            class="form-control"
+                            placeholder="Telephone"
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rAddress1"
+                            name="rAddress1"
+                            class="form-control"
+                            placeholder="Address"
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rEmail1"
+                            name="rEmail1"
+                            class="form-control"
+                            placeholder="e-mail"
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                    
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">02  Name & Address</p>
+                            <input
+                            id="rName2"
+                            name="rName2"
+                            class="form-control"
+                            placeholder="Name"
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Telephone No & e-mail</p>
+                            <input
+                            id="rTelephone2"
+                            name="rTelephone2"
+                            class="form-control"
+                            placeholder="Telephone"
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rAddress2"
+                            name="rAddress2"
+                            class="form-control"
+                            placeholder="Address"
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rEmail2"
+                            name="rEmail2"
+                            class="form-control"
+                            placeholder="e-mail"
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!--references-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Declaration
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-8">
+                            <br>
+                            <p style="font-size: larger;"><strong> Have you ever been Commended or Punished during your career in the 
+                              University / Educational Institution: </strong></p> <br> 
+                            <p style="font-size: larger;"><strong>If yes, please specify</strong></p>
+                          </div>
+                          <div class="col-lg-2">
+                            <br>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="commendations" value="Yes" id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                YES
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <br>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="commendations" value="No" id="flexRadioDefault2" checked>
+                              <label class="form-check-label" for="flexRadioDefault2">
+                                NO
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-12">
+                            <p class="mg-b-10"></p>
+                              <textarea id="commendations" rows="4" name="commendations" class="form-control"></textarea>
+                          </div>
+                        </div>
+                        <!-- commendation -->
+
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-8">
+                            <br>
+                            <p style="font-size: larger;"><strong> Have you ever been served with a Vacation of Post notice by any other University/ Government Institution? If so please provide details. </strong></p> <br> 
+                            <p style="font-size: larger;"><strong>If yes, please provide details</strong></p>
+                          </div>
+                          <div class="col-lg-2">
+                            <br>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="vacation" value="Yes" id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                YES
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-lg-2">
+                            <br>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="vacation" value="No" id="flexRadioDefault2" checked>
+                              <label class="form-check-label" for="flexRadioDefault2">
+                                NO
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-12">
+                            <p class="mg-b-10"></p>
+                              <textarea id="vacation" rows="4" name="vacation" class="form-control"></textarea>
+                          </div>
+                        </div>
+                        <!-- vacation post -->
+
+                        <div class="row row-sm ">
+                          <div class="col-lg-6">
+                            <br>
+                            <p style="font-size: larger;"><strong> Have you ever been treated as a bond violator : </strong></p>
+                          </div>
+                  
+                          <div class="col-lg-3">
+                            <br>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="bondViolatorRadio" value="Yes" id="flexRadioDefault1">
+                              <label class="form-check-label" for="flexRadioDefault1">
+                                YES
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-lg-3">
+                            <br>
+                            <div class="form-check">
+                              <input class="form-check-input" type="radio" name="bondViolatorRadio" value="No" id="flexRadioDefault2" checked>
+                              <label class="form-check-label" for="flexRadioDefault2">
+                                NO
+                              </label>
+                            </div>
+                  
+                          </div>
+                        </div>
+                        <div class="row row-sm ">
+                          <div class="col-lg-4">
+                            <br>
+                            <p style="font-size: larger;"><strong>If yes, Please provide details : </strong></p>
+                          </div>
+                  
+                          <div class="col-lg-4">
+                            <br>
+                            <p class="mg-b-10">Bond Value </p>
+                            <input
+                              id="bondValue"
+                              name="bondValue"
+                              class="form-control"
+                              placeholder="Bond Value"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-4">
+                            <br>
+                            <p class="mg-b-10">University/Institute</p>
+                            <input
+                              id="uniInstitute"
+                              name="uniInstitute"
+                              class="form-control"
+                              placeholder="University of Peradeniya"
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                        <!-- bond violation -->
+
+                        <div class="row row-sm ">
+                          <div class="col-lg-12">
+                            <br>
+                            <br>
+                            <br>
+                            <p style="font-size: larger;">
+                              <strong>
+                                "I hereby certify that the information provided in this submission is accurate and true to the best of my knowledge and understand that submitting false information will result in the rejection of this application."
+                              </strong>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--declaration-->
 
                     <div class="row row-sm mg-b-20">
                       <button id="submitButton" type="submit" class="btn btn-indigo btn-rounded btn-block">
