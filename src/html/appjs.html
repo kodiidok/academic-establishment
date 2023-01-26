@@ -421,14 +421,14 @@
   }
 
   function saveRequestSuccess(retdata) {
-    // const obj = JSON.parse(retdata);
-    const obj = retdata;
+    const obj = JSON.parse(retdata);
+    // const obj = retdata;
     console.log(obj);
-    console.log(typeof obj);
+    // console.log(typeof obj);
     $('#modalLoading').modal('hide');
     $('#submitButton').prop('disabled', false);
     if (obj.status === true) {
-      showSuccessModal('Save Success..!', 'Data Saved to database');
+      showSuccessModal('Save Success..!', 'Please submit a valid hard copy of your application for further evaluation.');
       // applicantList.length = 0;
     }
   }
@@ -562,10 +562,10 @@
   const pgdList = [];
 
   function savePgdegree() {
-    const pgdTitle = $('#bdTitle').find(':selected').val();
-    const pgdTitleOther = $('#bdTitleOther').val();
-    const pgdSubject = $('#bdSubject').find(':selected').val();
-    const pgdSubjectOther = $('#bdSubjectOther').val();
+    const pgdTitle = $('#pgdTitle').find(':selected').val();
+    const pgdTitleOther = $('#pgdTitleOther').val();
+    const pgdSubject = $('#pgdSubject').find(':selected').val();
+    const pgdSubjectOther = $('#pgdSubjectOther').val();
     const pgdUniversity = $('#pgdUniversity').val();
     const pgdCountry = $('#pgdCountry').val();
     const pgdFrom = $('#pgdFrom').val();

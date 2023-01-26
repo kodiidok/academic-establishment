@@ -332,10 +332,10 @@
     console.log(request);
     console.log(JSON.stringify(request));
     // eslint-disable-next-line no-undef
-    // google.script.run
-    //   .withSuccessHandler(saveRequestSuccess)
-    //   .withFailureHandler(onFailure)
-    //   .saveRequest(JSON.stringify(request));
+    google.script.run
+      .withSuccessHandler(saveRequestSuccess)
+      .withFailureHandler(onFailure)
+      .saveRequest(JSON.stringify(request));
   }
 
   // shortlisting algorithm
@@ -421,14 +421,14 @@
   }
 
   function saveRequestSuccess(retdata) {
-    // const obj = JSON.parse(retdata);
-    const obj = retdata;
+    const obj = JSON.parse(retdata);
+    // const obj = retdata;
     console.log(obj);
-    console.log(typeof obj);
+    // console.log(typeof obj);
     $('#modalLoading').modal('hide');
     $('#submitButton').prop('disabled', false);
     if (obj.status === true) {
-      showSuccessModal('Save Success..!', 'Data Saved to database');
+      showSuccessModal('Save Success..!', 'Please submit a valid hard copy of your application for further evaluation.');
       // applicantList.length = 0;
     }
   }

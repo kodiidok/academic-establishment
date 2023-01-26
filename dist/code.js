@@ -367,73 +367,62 @@ function saveRequest() {}
                 _utils__WEBPACK_IMPORTED_MODULE_0__.default.getCurrentDate()),
                 (t.applicationID =
                   _utils__WEBPACK_IMPORTED_MODULE_0__.default.genApplicationID()),
-                (t.connectedDatabase = this.connectedDatabase.getName()),
-                (t.status = !0),
-                (t.shortlisted = "");
+                (t.connectedDatabase = this.connectedDatabase.getName());
               const a = [];
               return (
                 a.push(t.timestamp),
                 a.push(t.applicationID),
-                a.push(t.vacancyID),
-                a.push(t.vacancyPost),
-                a.push(t.vacancyFac),
-                a.push(t.vacancyDept),
-                a.push(t.pdGender),
-                a.push(t.personalTitle),
-                a.push(t.personalNameInit),
-                a.push(t.personalFullName),
-                a.push(t.personalDOB),
-                a.push(t.personalAddress),
-                a.push(t.civilstatus),
-                a.push(t.personalMobile),
-                a.push(t.personalTp),
-                a.push(t.personalEmail),
-                a.push(t.district),
-                a.push(t.electorate),
-                a.push(t.province),
-                a.push(t.city),
-                a.push(t.citizenship),
-                a.push(t.descentOrReg),
-                a.push(t.nic),
-                a.push(t.passportNo),
-                a.push(t.spouseName),
-                a.push(t.spouseDesignation),
-                a.push(t.highestEducation),
-                a.push(t.lang),
-                a.push(t.basicDegree),
-                a.push(t.bdCountry),
-                a.push(t.bdUniversity),
-                a.push(t.bdYearFrom),
-                a.push(t.bdYearTo),
-                a.push(t.bdClass),
-                a.push(t.bdGPA),
-                a.push(t.pgd),
-                a.push(t.awards),
-                a.push(t.books),
-                a.push(t.journals),
-                a.push(t.abstracts),
-                a.push(t.commendations),
-                a.push(t.vacations),
-                a.push(t.extraCurrActivity),
-                a.push(t.rName1),
-                a.push(t.rTelephone1),
-                a.push(t.rAddress1),
-                a.push(t.rEmail1),
-                a.push(t.rName2),
-                a.push(t.rTelephone2),
-                a.push(t.rAddress2),
-                a.push(t.rEmail2),
-                a.push(t.poDesignation),
-                a.push(t.poDept),
-                a.push(t.poFrom),
-                a.push(t.poSalaryDrawn),
-                a.push(t.pEmployements),
-                a.push(t.bondViolator),
-                a.push(t.bondValue),
-                a.push(t.uniInstitute),
-                a.push(t.shortlisted),
+                a.push(t.vacancy.vid),
+                a.push(t.vacancy.vfac),
+                a.push(t.vacancy.vdept),
+                a.push(t.vacancy.vpost),
+                a.push(t.personalDetails.pdGender),
+                a.push(t.personalDetails.personalTitle),
+                a.push(t.personalDetails.personalNameInit),
+                a.push(t.personalDetails.personalFullName),
+                a.push(t.personalDetails.personalDOB),
+                a.push(t.personalDetails.personalAddress),
+                a.push(t.personalDetails.civilstatus),
+                a.push(t.personalDetails.personalMobile),
+                a.push(t.personalDetails.personalTp),
+                a.push(t.personalDetails.personalEmail),
+                a.push(t.personalDetails.district),
+                a.push(t.personalDetails.electorate),
+                a.push(t.personalDetails.province),
+                a.push(t.personalDetails.city),
+                a.push(t.personalDetails.citizenship),
+                a.push(t.personalDetails.nic),
+                a.push(t.personalDetails.descentOrReg),
+                a.push(t.personalDetails.specifyCountry),
+                a.push(t.personalDetails.passportNo),
+                a.push(JSON.stringify(t.personalDetails.lang)),
+                a.push(JSON.stringify(t.basicDegree)),
+                a.push(JSON.stringify(t.postgradDegree)),
+                a.push(JSON.stringify(t.researchPublications.researchBooks)),
+                a.push(JSON.stringify(t.researchPublications.researchJournals)),
+                a.push(
+                  JSON.stringify(t.researchPublications.researchAbstracts)
+                ),
+                a.push(JSON.stringify(t.awards)),
+                a.push(JSON.stringify(t.extraCurrActivity)),
+                a.push(t.presentOccupation.poDesignation),
+                a.push(t.presentOccupation.poDept),
+                a.push(t.presentOccupation.poFrom),
+                a.push(t.presentOccupation.poSalaryDrawn),
+                a.push(JSON.stringify(t.previousEmployements)),
+                a.push(JSON.stringify(t.refrees.refree1)),
+                a.push(JSON.stringify(t.refrees.refree2)),
+                a.push(t.declaration.commendations),
+                a.push(t.declaration.vacations),
+                a.push(t.declaration.bondViolator),
+                a.push(t.declaration.bondValue),
+                a.push(t.declaration.bondUniInstitute),
+                !0 === t.shortListStatus
+                  ? a.push("short listed")
+                  : a.push("pending"),
+                (t.status = !0),
                 this.connectedDatabase.appendRow(a),
-                t
+                e
               );
             } catch (e) {
               throw (
@@ -820,8 +809,8 @@ function saveRequest() {}
           o =
             "https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec",
           c = "portal@gs.pdn.ac.lk";
-        let u = null,
-          l = [];
+        let l = null,
+          u = [];
         const h = class {
           static ChunkyCache(e, t) {
             return {
@@ -830,11 +819,11 @@ function saveRequest() {}
                   o = Math.floor(t / 2);
                 let c = 0;
                 for (; c < n.length; )
-                  (u = `${a}_${c}`),
-                    l.push(u),
-                    e.put(u, n.substr(c, o), i + 5),
+                  (l = `${a}_${c}`),
+                    u.push(l),
+                    e.put(l, n.substr(c, o), i + 5),
                     (c += o);
-                const h = { chunkSize: t, chunks: l, length: n.length };
+                const h = { chunkSize: t, chunks: u, length: n.length };
                 e.put(a, JSON.stringify(h), i);
               },
               get(t) {
@@ -842,14 +831,14 @@ function saveRequest() {}
                 if (null != a) {
                   const t = JSON.parse(a);
                   if (
-                    ((l = t.chunks.map(function (t) {
+                    ((u = t.chunks.map(function (t) {
                       return e.get(t);
                     })),
-                    l.every(function (e) {
+                    u.every(function (e) {
                       return null != e;
                     }))
                   )
-                    return JSON.parse(l.join(""));
+                    return JSON.parse(u.join(""));
                 }
                 return null;
               },
@@ -940,26 +929,26 @@ function saveRequest() {}
           static getProcessingEmails() {
             return "portal@gs.pdn.ac.lk";
           }
-          static sendMail(e, t, a, s, i, n, u, l, h) {
+          static sendMail(e, t, a, s, i, n, l, u, h) {
             try {
-              let d =
+              let p =
                 HtmlService.createHtmlOutputFromFile(
                   "email_template"
                 ).getContent();
-              (d = d.replace("%heading", e)),
-                (d = d.replace("%description", t)),
-                (d = d.replace("%param1", s)),
-                (d = d.replace("%param2", i)),
-                (d = d.replace("%param3", n)),
-                (d = d.replace("%param4", u)),
-                (d = d.replace("%param5", `${h} - ${l}`)),
-                (d = d.replace("%appURL", o));
-              const p = "Online Application -  University of Peradeniya";
-              GmailApp.sendEmail(a, p, "", {
+              (p = p.replace("%heading", e)),
+                (p = p.replace("%description", t)),
+                (p = p.replace("%param1", s)),
+                (p = p.replace("%param2", i)),
+                (p = p.replace("%param3", n)),
+                (p = p.replace("%param4", l)),
+                (p = p.replace("%param5", `${h} - ${u}`)),
+                (p = p.replace("%appURL", o));
+              const d = "Online Application -  University of Peradeniya";
+              GmailApp.sendEmail(a, d, "", {
                 from: c,
                 replyTo: c,
                 name: "University of Peradeniya",
-                htmlBody: d,
+                htmlBody: p,
               });
             } catch (e) {
               throw (
