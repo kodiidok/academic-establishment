@@ -1027,7 +1027,7 @@ function saveRequest() {}
         return JSON.stringify(e.default.initialLoading());
       }),
       (__webpack_require__.g.saveRequest = function (t) {
-        return e.default.saveRequest(t);
+        return JSON.stringify(e.default.saveRequest(t));
       });
   })();
 })();
