@@ -20,12 +20,12 @@ class Resources {
       rtnObj.pgdTitles = this.getPgdTitleData();
       rtnObj.subjectAreas = this.getSubjectAreaData();
 
-      rtnObj.reqMain = this.getReqMainData();
-      rtnObj.requirements = this.getRequirements();
+      // rtnObj.reqMain = this.getReqMainData();
+      // rtnObj.requirements = this.getRequirements();
 
       return rtnObj;
     } catch (error) {
-      console.error('Error occurred while saveLeave in Resources', error);
+      console.error('Error occurred while initialLoading in Resources', error);
       throw new Error(`Error occurred while initialLoading`);
     }
   }

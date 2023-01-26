@@ -75,113 +75,95 @@ class Database {
   //   }
   // }
 
-  static saveItem(obj) {
+  static saveItem(request) {
     try {
-      const request = JSON.parse(obj);
+      const obj = JSON.parse(request);
 
-      request.timestamp = Utils.getCurrentDate();
-      request.applicationID = Utils.genApplicationID();
-      request.connectedDatabase = this.connectedDatabase.getName();
-      request.status = true;
-      request.shortlisted = '';
+      obj.timestamp = Utils.getCurrentDate();
+      obj.applicationID = Utils.genApplicationID();
+      obj.connectedDatabase = this.connectedDatabase.getName();
 
       const row = [];
 
       // meta
-      // row.push(request.status);
-      // row.push(request.connectedDatabase);
-      row.push(request.timestamp);
-      row.push(request.applicationID);
+      row.push(obj.timestamp);
+      row.push(obj.applicationID);
 
       // vacancy
-      row.push(request.vacancyID);
-      row.push(request.vacancyPost);
-      row.push(request.vacancyFac);
-      row.push(request.vacancyDept);
+      row.push(obj.vacancy.vid);
+      row.push(obj.vacancy.vfac);
+      row.push(obj.vacancy.vdept);
+      row.push(obj.vacancy.vpost);
 
       // personal details
-      row.push(request.pdGender);
-      row.push(request.personalTitle);
-      row.push(request.personalNameInit);
-      row.push(request.personalFullName);
-      row.push(request.personalDOB);
-      row.push(request.personalAddress);
-      row.push(request.civilstatus);
-      row.push(request.personalMobile);
-      row.push(request.personalTp);
-      row.push(request.personalEmail);
-      row.push(request.district);
-      row.push(request.electorate);
-      row.push(request.province);
-      row.push(request.city);
-      row.push(request.citizenship);
-      row.push(request.descentOrReg);
-      row.push(request.nic);
-      row.push(request.specifyCountry);
-      row.push(request.passportNo);
-      row.push(request.spouseName);
-      row.push(request.spouseDesignation);
-      row.push(request.highestEducation);
-      row.push(request.lang);
+      row.push(obj.personalDetails.pdGender);
+      row.push(obj.personalDetails.personalTitle);
+      row.push(obj.personalDetails.personalNameInit);
+      row.push(obj.personalDetails.personalFullName);
+      row.push(obj.personalDetails.personalDOB);
+      row.push(obj.personalDetails.personalAddress);
+      row.push(obj.personalDetails.civilstatus);
+      row.push(obj.personalDetails.personalMobile);
+      row.push(obj.personalDetails.personalTp);
+      row.push(obj.personalDetails.personalEmail);
+      row.push(obj.personalDetails.district);
+      row.push(obj.personalDetails.electorate);
+      row.push(obj.personalDetails.province);
+      row.push(obj.personalDetails.city);
+      row.push(obj.personalDetails.citizenship);
+      row.push(obj.personalDetails.nic);
+      row.push(obj.personalDetails.descentOrReg);
+      row.push(obj.personalDetails.specifyCountry);
+      row.push(obj.personalDetails.passportNo);
+      row.push(JSON.stringify(obj.personalDetails.lang));
 
       // basic degree
-      row.push(request.basicDegree);
-      row.push(request.bdCountry);
-      row.push(request.bdUniversity);
-      row.push(request.bdYearFrom);
-      row.push(request.bdYearTo);
-      row.push(request.bdClass);
-      row.push(request.bdGPA);
+      row.push(JSON.stringify(obj.basicDegree));
 
-      // postgraduate degree
-      row.push(request.pgd);
+      // postgrad degree
+      row.push(JSON.stringify(obj.postgradDegree));
+
+      // research publications
+      row.push(JSON.stringify(obj.researchPublications.researchBooks));
+      row.push(JSON.stringify(obj.researchPublications.researchJournals));
+      row.push(JSON.stringify(obj.researchPublications.researchAbstracts));
 
       // awards
-      row.push(request.awards);
+      row.push(JSON.stringify(obj.awards));
 
-      // research publications - books
-      row.push(request.books);
+      // extra curricular activites
+      row.push(JSON.stringify(obj.extraCurrActivity));
 
-      // research publications - books
-      row.push(request.journals);
+      // present employment
+      row.push(obj.presentOccupation.poDesignation);
+      row.push(obj.presentOccupation.poDept);
+      row.push(obj.presentOccupation.poFrom);
+      row.push(obj.presentOccupation.poSalaryDrawn);
 
-      // research publications - abstracts
-      row.push(request.abstracts);
-
-      // commendations
-      row.push(request.commendations);
-
-      // vacations
-      row.push(request.vacations);
-
-      // extra curricular activities
-      row.push(request.extraCurrActivity);
+      // previous employments
+      row.push(JSON.stringify(obj.previousEmployements));
 
       // references
-      row.push(request.rName1);
-      row.push(request.rTelephone1);
-      row.push(request.rAddress1);
-      row.push(request.rEmail1);
-      row.push(request.rName2);
-      row.push(request.rTelephone2);
-      row.push(request.rAddress2);
-      row.push(request.rEmail2);
+      row.push(JSON.stringify(obj.refrees.refree1));
+      row.push(JSON.stringify(obj.refrees.refree2));
 
-      // present occupation
-      row.push(request.poDesignation);
-      row.push(request.poDept);
-      row.push(request.poFrom);
-      row.push(request.poSalaryDrawn);
+      // declaration
+      row.push(obj.declaration.commendations);
+      row.push(obj.declaration.vacations);
+      row.push(obj.declaration.bondViolator);
+      row.push(obj.declaration.bondValue);
+      row.push(obj.declaration.bondUniInstitute);
 
-      // previous employement
-      row.push(request.pEmployements);
-      row.push(request.bondViolator);
-      row.push(request.bondValue);
-      row.push(request.uniInstitute);
+      // short list status
+      if (obj.shortListStatus === true) {
+        row.push('short listed');
+      } else {
+        row.push('pending');
+      }
 
-      // short listing
-      row.push(request.shortlisted);
+      obj.status = true;
 
+      // save data to google sheet
       this.connectedDatabase.appendRow(row);
       return request;
     } catch (error) {

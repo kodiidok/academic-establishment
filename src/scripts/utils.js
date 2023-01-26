@@ -128,7 +128,7 @@ class Utils {
     return REQ_DBID;
   }
 
-  static getReqMainSheet() {
+  static getReqMainSheetName() {
     return REQUIREMENTS_MAINSHEET;
   }
 

@@ -108,51 +108,75 @@
 
   function submitForm() {
     // vacancy
-    request.vacancyID = $('#vacancyID').find(':selected').val();
-    request.vacancyPost = $('#vacancyPost').find(':selected').val();
-    request.vacancyFac = $('#vacancyFaculty').find(':selected').val();
-    request.vacancyDept = $('#vacancyDepartment').find(':selected').val();
+    vid = $('#vacancyID').find(':selected').val();
+    vpost = $('#vacancyPost').find(':selected').val();
+    vfac = $('#vacancyFaculty').find(':selected').val();
+    vdept = $('#vacancyDepartment').find(':selected').val();
+    request.vacancy = { vid, vpost, vfac, vdept };
   
     // personal details
-    request.pdGender = $('#pdGender').find(':selected').val();
-    request.personalTitle = $('#personalTitle').find(':selected').val();
-    request.personalNameInit = $('#personalNameInit').val();
-    request.personalFullName = $('#personalFullName').val();
-    request.personalDOB = $('#personalDOB').val();
-    request.personalAddress = $('#personalAddress').val();
-    request.civilstatus = $('#civilstatus').find(':selected').val();
-    request.personalMobile = $('#personalMobile').val();
-    request.personalTp = $('#personalTp').val();
-    request.personalEmail = $('#personalEmail').val();
-    request.district = $('#district').find(':selected').val();
-    request.electorate = $('#electorate').val();
-    request.province = $('#province').find(':selected').val();
-    request.city = $('#city').val();
-    request.citizenship = $('#appMainForm input[name="radioCitizenship"]:checked').val();
-    request.descentOrReg = $('#appMainForm input[name="flexRadioDefault4"]:checked').val();
-    request.nic = $('#nic').val();
-    request.specifyCountry = $('#specifyCountry').val();
-    request.passportNo = $('#passportNo').val();
-    // request.spouseName = $('#spouseName').val();
-    // request.spouseDesignation = $('#spouseDesignation').val();
-    // request.highestEducation = $('#highestEducation').val();
-    request.lang = $('#appMainForm input[name="lang"]:checked')
+    pdGender = $('#pdGender').find(':selected').val();
+    personalTitle = $('#personalTitle').find(':selected').val();
+    personalNameInit = $('#personalNameInit').val();
+    personalFullName = $('#personalFullName').val();
+    personalDOB = $('#personalDOB').val();
+    personalAddress = $('#personalAddress').val();
+    civilstatus = $('#civilstatus').find(':selected').val();
+    personalMobile = $('#personalMobile').val();
+    personalTp = $('#personalTp').val();
+    personalEmail = $('#personalEmail').val();
+    district = $('#district').find(':selected').val();
+    electorate = $('#electorate').val();
+    province = $('#province').find(':selected').val();
+    city = $('#city').val();
+    citizenship = $('#appMainForm input[name="radioCitizenship"]:checked').val();
+    descentOrReg = $('#appMainForm input[name="flexRadioDefault4"]:checked').val();
+    nic = $('#nic').val();
+    specifyCountry = $('#specifyCountry').val();
+    passportNo = $('#passportNo').val();
+    // spouseName = $('#spouseName').val();
+    // spouseDesignation = $('#spouseDesignation').val();
+    // highestEducation = $('#highestEducation').val();
+    lang = $('#appMainForm input[name="lang"]:checked')
       .map(function () {
         return $(this).val();
       })
       .get();
+    request.personalDetails = {
+      pdGender,
+      personalTitle,
+      personalNameInit,
+      personalFullName,
+      personalDOB,
+      personalAddress,
+      civilstatus,
+      personalMobile,
+      personalTp,
+      personalEmail,
+      district,
+      electorate,
+      province,
+      city,
+      citizenship,
+      descentOrReg,
+      nic,
+      specifyCountry,
+      passportNo,
+      lang,
+    };
 
     // basic degree
-    request.bdTitle = $('#bdTitle').find(':selected').val();
-    request.bdTitleOther = $('#bdTitleOther').val();
-    request.bdSubject = $('#bdSubject').find(':selected').val();
-    request.bdSubjectOther = $('#bdSubjectOther').val();
-    request.bdCountry = $('#bdCountry').val();
-    request.bdUniversity = $('#bdUniversity').val();
-    request.bdYearFrom = $('#bdYearFrom').val();
-    request.bdYearTo = $('#bdYearTo').val();
-    request.bdClass = $('#bdClass').val();
-    request.bdGPA = $('#bdGPA').val();
+    const bd = [];
+    $('#tblBasicDegree tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      bd.push(row.slice(0, -1));
+    });
+    request.basicDegree = JSON.stringify(bd);
   
     // postgraduate degree
     const pgd = [];
@@ -165,7 +189,7 @@
         });
       pgd.push(row.slice(0, -1));
     });
-    request.pgd = JSON.stringify(pgd);
+    request.postgradDegree = JSON.stringify(pgd);
 
     // research publications - books
     const books = [];
@@ -178,7 +202,7 @@
         });
       books.push(row.slice(0, -1));
     });
-    request.books = JSON.stringify(books);
+    researchBooks = JSON.stringify(books);
 
     // research publications - journals
     const journals = [];
@@ -191,7 +215,7 @@
         });
       journals.push(row.slice(0, -1));
     });
-    request.journals = JSON.stringify(journals);
+    researchJournals = JSON.stringify(journals);
 
     // research publications - abstracts
     const abstracts = [];
@@ -204,7 +228,13 @@
         });
       abstracts.push(row.slice(0, -1));
     });
-    request.abstracts = JSON.stringify(abstracts);
+    researchAbstracts = JSON.stringify(abstracts);
+
+    request.researchPublications = {
+      researchBooks,
+      researchJournals,
+      researchAbstracts,
+    };
 
     // awards
     const awards = [];
@@ -233,10 +263,16 @@
     request.extraCurrActivity = JSON.stringify(extraCurrActivity);
 
     // present occupation
-    request.poDesignation = $('presentOccDesignation').val();
-    request.poDept = $('#presentOccDept').val();
-    request.poFrom = $('presentOccFrom').val();
-    request.poSalaryDrawn = $('#presentOccSalaryDrawn').val();
+    poDesignation = $('#presentOccDesignation').val();
+    poDept = $('#presentOccDept').val();
+    poFrom = $('#presentOccFrom').val();
+    poSalaryDrawn = $('#presentOccSalaryDrawn').val();
+    request.presentOccupation = {
+      poDesignation,
+      poDept,
+      poFrom,
+      poSalaryDrawn,
+    };
   
     // previous employements
     const pEmployements = [];
@@ -249,31 +285,50 @@
         });
       pEmployements.push(row.slice(0, -1));
     });
-    request.pEmployements = JSON.stringify(pEmployements);
+    request.previousEmployements = JSON.stringify(pEmployements);
   
     // references
-    request.rName1 = $('#rName1').val();
-    request.rTelephone1 = $('#rTelephone1').val();
-    request.rAddress1 = $('#rAddress1').val();
-    request.rEmail1 = $('#rEmail1').val();
-    request.rName2 = $('#rName2').val();
-    request.rTelephone2 = $('#rTelephone2').val();
-    request.rAddress2 = $('#rAddress2').val();
-    request.rEmail2 = $('#rEmail2').val();
+    rName1 = $('#rName1').val();
+    rTelephone1 = $('#rTelephone1').val();
+    rAddress1 = $('#rAddress1').val();
+    rEmail1 = $('#rEmail1').val();
+    rName2 = $('#rName2').val();
+    rTelephone2 = $('#rTelephone2').val();
+    rAddress2 = $('#rAddress2').val();
+    rEmail2 = $('#rEmail2').val();
+    refree1 = { rName1, rTelephone1, rAddress1, rEmail1 };
+    refree2 = { rName2, rTelephone2, rAddress2, rEmail2 };
+    request.refrees = { refree1, refree2 };
   
     // declaration
-    request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
-    request.vacations = $('#vacation').val();
-    request.bondViolator = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
-    request.bondValue = $('#bondValue').val();
-    request.uniInstitute = $('#uniInstitute').val();
+    commendations = $('#appMainForm input[name="commendations"]:checked').val();
+    vacations = $('#vacation').val();
+    bondViolator = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
+    bondValue = $('#bondValue').val();
+    bondUniInstitute = $('#uniInstitute').val();
+    request.declaration = {
+      commendations,
+      vacations,
+      bondViolator,
+      bondValue,
+      bondUniInstitute,
+    };
 
     // meta
+
     request.status = '';
     request.connectedDatabase = '';
     request.applicationID = '';
     request.timestamp = '';
-
+    request.shortListStatus = checkQualifications(
+      request.vacancy,
+      request.basicDegree,
+      request.postgradDegree,
+      request.declaration,
+      request.presentOccupation,
+      request.previousEmployements
+    );
+  
     console.log(request);
     console.log(JSON.stringify(request));
     // eslint-disable-next-line no-undef
@@ -281,6 +336,88 @@
     //   .withSuccessHandler(saveRequestSuccess)
     //   .withFailureHandler(onFailure)
     //   .saveRequest(JSON.stringify(request));
+  }
+
+  // shortlisting algorithm
+
+  function checkQualifications(vacancy, basic, postgrad, declaration, currentEmployement, previousEmployement) {
+    let result = true;
+
+    // criteria 1: basic degree
+    const basicDegree = JSON.parse(basic);
+    const bdTitle = [];
+    const bdTitleOther = [];
+    const bdSubject = [];
+    const bdSubjectOther = [];
+  
+    basicDegree.forEach((x) => {
+      bdTitle.push(x[0]);
+      bdTitleOther.push(x[1]);
+      bdSubject.push(x[2]);
+      bdSubjectOther.push(x[3]);
+    });
+  
+    if (bdTitle.length === 0 && bdSubject.length === 0) {
+      result = false;
+    }
+
+    // criteria 2: postgraduate degree
+    const postgradDegree = JSON.parse(postgrad);
+    const pgdTitle = [];
+    const pgdTitleOther = [];
+    const pgdSubject = [];
+    const pgdSubjectOther = [];
+  
+    postgradDegree.forEach((x) => {
+      pgdTitle.push(x[0]);
+      pgdTitleOther.push(x[1]);
+      pgdSubject.push(x[2]);
+      pgdSubjectOther.push(x[3]);
+    });
+  
+    if (pgdTitle.length === 0 && pgdSubject.length === 0) {
+      result = false;
+    }
+
+    // criteria 3: years of experience
+    let yearsOfExperience = '';
+    // years of experience in current employement
+    yearsOfExperience += calculateDurationInMonths(currentEmployement.poFrom);
+    // years of experience in previous employements
+    JSON.parse(previousEmployement).forEach((x) => {
+      yearsOfExperience += calculateDurationInMonths(x[2], x[3]);
+    });
+    // years of experience and post criteria
+    if (vacancy.vpost === 'Senior Lecturer Grade II' && yearsOfExperience < 6) {
+      result = false;
+    }
+
+    // criteria 4: declaration
+
+    if (
+      declaration.bondUniInstitute === 'Yes' ||
+      declaration.bondValue === 'Yes' ||
+      declaration.bondViolator === 'Yes' ||
+      declaration.commendations === 'Yes' ||
+      declaration.vacations === 'Yes'
+    ) {
+      result = false;
+    }
+
+    return result;
+  }
+
+  function calculateDurationInMonths(startDate, endDate) {
+    let end = '';
+    const start = new Date(startDate);
+    if (endDate === undefined || endDate === null) {
+      end = new Date();
+    } else {
+      end = new Date(endDate);
+    }
+    const diffInTime = end.getTime() - start.getTime();
+    const diffInMonths = Math.round(diffInTime / (1000 * 3600 * 24 * 30));
+    return Math.ceil(diffInMonths / 12);
   }
 
   function saveRequestSuccess(retdata) {
@@ -305,6 +442,119 @@
       $('#addEmpAlertMessage').text(error);
       $('#addEmpAlert').show().delay(10000).fadeOut();
     }
+  }
+
+  // add & remove table dadta for bdegree
+
+  const bdList = [];
+
+  function saveBasicDegree() {
+    const bdTitle = $('#bdTitle').find(':selected').val();
+    const bdTitleOther = $('#bdTitleOther').val();
+    const bdSubject = $('#bdSubject').find(':selected').val();
+    const bdSubjectOther = $('#bdSubjectOther').val();
+    const bdUniversity = $('#bdUniversity').val();
+    const bdCountry = $('#bdCountry').val();
+    const bdFrom = $('#bdYearFrom').val();
+    const bdTo = $('#bdYearTo').val();
+    const bdClass = $('#bdClass').val();
+    const bdGPA = $('#bdGPA').val();
+  
+    if (bdTitle === '') {
+      addError('Please Enter Degree');
+    }
+    if (bdTitleOther === '') {
+      addError('Please Enter Degree');
+    }
+    if (bdSubject === '') {
+      addError('Please Enter Degree');
+    }
+    if (bdSubjectOther === '') {
+      addError('Please Enter Degree');
+    }
+    addError('');
+    if (bdUniversity === '') {
+      addError('Please Enter University');
+    }
+    addError('');
+    if (bdCountry === '') {
+      addError('Please Enter Country');
+    }
+    addError('');
+    if (bdFrom === '') {
+      addError('Please Enter Starting Year');
+    }
+    addError('');
+    if (bdTo === '') {
+      addError('Please Enter Year of Completion');
+    }
+    addError('');
+  
+    const obj = {
+      bdTitle: `${bdTitle}`,
+      bdTitleOther: `${bdTitleOther}`,
+      bdSubject: `${bdSubject}`,
+      bdSubjectOther: `${bdSubjectOther}`,
+      bdUniversity: `${bdUniversity}`,
+      bdCountry: `${bdCountry}`,
+      bdFrom: `${bdFrom}`,
+      bdTo: `${bdTo}`,
+      bdClass: `${bdClass}`,
+      bdGPA: `${bdGPA}`,
+    };
+
+    bdList.push(obj);
+    loadBasicDegreeData(bdList);
+
+    $('#bdTitle').val('');
+    $('#bdTitleOther').val('');
+    $('#bdSubject').val('');
+    $('#bdSubjectOther').val('');
+    $('#bdUniversity').val('');
+    $('#bdCountry').val('');
+    $('#bdYearFrom').val('');
+    $('#bdYearTo').val('');
+    $('#bdClass').val('');
+    $('#bdGPA').val('');
+  }
+
+  function loadBasicDegreeData(data) {
+    if (data) {
+      const objects = data;
+      let htmlElement = '';
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
+            htmlElement += '<tr>';
+            htmlElement += `<td>${objects[i].bdTitle}</td>`;
+            htmlElement += `<td>${objects[i].bdTitleOther}</td>`;
+            htmlElement += `<td>${objects[i].bdSubject}</td>`;
+            htmlElement += `<td>${objects[i].bdSubjectOther}</td>`;
+            htmlElement += `<td>${objects[i].bdUniversity}</td>`;
+            htmlElement += `<td>${objects[i].bdCountry}</td>`;
+            htmlElement += `<td>${objects[i].bdFrom}</td>`;
+            htmlElement += `<td>${objects[i].bdTo}</td>`;
+            htmlElement += `<td>${objects[i].bdClass}</td>`;
+            htmlElement += `<td>${objects[i].bdGPA}</td>`;
+            htmlElement += `<td><button name="rmBd" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeBasicDegree($(this))"><i class="fa fa-trash"></i> Delete</button>`;
+            htmlElement += '</tr>';
+          }
+        }
+      } else {
+        htmlElement = '';
+      }
+      const divContentHistory = document.getElementById('tblBasicDegree');
+
+      divContentHistory.innerHTML = htmlElement;
+    }
+  }
+
+  function removeBasicDegree(element) {
+    const reqID = $(element).attr('data-id');
+    const removed = bdList.splice(reqID, 1);
+    loadBasicDegreeData(bdList);
   }
 
   // add & remove table data for pgdegree

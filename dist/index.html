@@ -556,95 +556,134 @@
                       <!-- card-header -->
                       <div class="card-body bd bd-t-0">
                         <!-- card-body -->
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-2">
-                            <p class="mg-b-10">Title</p>
-                            <select
-                              class="form-control select2-no-search select2-hidden-accessible"
-                              tabindex="-1"
-                              aria-hidden="true"
-                              id="bdTitle"
-                              name="bdTitle"
-                            >
-                            </select>
+                        <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Title</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="bdTitle"
+                                name="bdTitle"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">Title (other)</p>
+                              <input
+                                id="bdTitleOther"
+                                name="bdTitleOther"
+                                class="form-control"
+                                placeholder=""
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Subject</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="bdSubject"
+                                name="bdSubject"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Subject (Other)</p>
+                              <input
+                                id="bdSubjectOther"
+                                name="bdSubjectOther"
+                                class="form-control"
+                                placeholder=""
+                                type="text"
+                              />
+                            </div>
                           </div>
-                          <div class="col-lg-2">
-                            <p class="mg-b-10">Title (other)</p>
-                            <input
-                              id="bdTitleOther"
-                              name="bdTitleOther"
-                              class="form-control"
-                              placeholder=""
-                              type="text"
-                            />
-                          </div>
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">Subject</p>
-                            <select
-                              class="form-control select2-no-search select2-hidden-accessible"
-                              tabindex="-1"
-                              aria-hidden="true"
-                              id="bdSubject"
-                              name="bdSubject"
-                            >
-                            </select>
-                          </div>
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">Subject (Other)</p>
-                            <input
-                              id="bdSubjectOther"
-                              name="bdSubjectOther"
-                              class="form-control"
-                              placeholder=""
-                              type="text"
-                            />
-                          </div>
-                        </div>
 
-                        <div class="row row-sm mg-b-20">
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">Country</p>
-                            <select
-                              class="form-control select2-no-search select2-hidden-accessible"
-                              data-select2-id="13"
-                              tabindex="-1"
-                              aria-hidden="true"
-                              id="bdCountry"
-                              name="bdCountry"
-                            >
-                            </select>
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Country</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="bdCountry"
+                                name="bdCountry"
+                              >
+                              </select>
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">University</p>
+                              <input
+                                id="bdUniversity"
+                                name="bdUniversity"
+                                class="form-control"
+                                placeholder="University"
+                                type="text"
+                              />
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">From</p>
+                              <input id="bdYearFrom" name="bdYearFrom" class="form-control" type="date" />
+                            </div>
+                            <div class="col-lg-2">
+                              <p class="mg-b-10">To (Effective Date)</p>
+                              <input id="bdYearTo" name="bdYearTo" class="form-control" type="date" />
+                            </div>
                           </div>
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">University</p>
+                      
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Class</p>
+                              <input id="bdClass" name="bdClass" class="form-control" placeholder="Class" type="text" />
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">GPA</p>
+                              <input id="bdGPA" name="bdGPA" class="form-control" placeholder="GPA" type="text" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-lg-4">
+                          
+                        </div>
+                        <div class="col-lg-4">
+                          
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-3">
                             <input
-                              id="bdUniversity"
-                              name="bdUniversity"
-                              class="form-control"
-                              placeholder="University"
-                              type="text"
+                              type="button"
+                              value="Add Basic Degree"
+                              class="btn btn-success btn-rounded"
+                              onclick="saveBasicDegree()"
+                              style="margin-top: 30px;"
                             />
                           </div>
-                          <div class="col-lg-2">
-                            <p class="mg-b-10">From</p>
-                            <input id="bdYearFrom" name="bdYearFrom" class="form-control" type="date" />
-                          </div>
-                          <div class="col-lg-2">
-                            <p class="mg-b-10">To</p>
-                            <input id="bdYearTo" name="bdYearTo" class="form-control" type="date" />
-                          </div>
                         </div>
-                    
+                        
                         <div class="row row-sm mg-b-20">
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">Class</p>
-                            <input id="bdClass" name="bdClass" class="form-control" placeholder="Class" type="text" />
-                          </div>
-                          <div class="col-lg-4">
-                            <p class="mg-b-10">GPA</p>
-                            <input id="bdGPA" name="bdGPA" class="form-control" placeholder="GPA" type="text" />
-                          </div>
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Title</th>
+                                <th>Title (Other)</th>
+                                <th>Subject</th>
+                                <th>Subject (Other)</th>
+                                <th>University</th>
+                                <th>Country</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Class</th>
+                                <th>GPA</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tblBasicDegree"></tbody>
+                          </table>
                         </div>
-                    
                       </div>
                     </div>
                     <!--basic degree-->
@@ -769,12 +808,12 @@
                           </div>  
                         </div>
                     
-                          <div class="col-lg-4">
-                            
-                          </div>
-                          <div class="col-lg-4">
-                            
-                          </div>
+                        <div class="col-lg-4">
+                          
+                        </div>
+                        <div class="col-lg-4">
+                          
+                        </div>
                     
                         <div class="row row-sm mg-b-20">
                           <div class="col-lg-3">

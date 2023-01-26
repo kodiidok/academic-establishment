@@ -26,14 +26,12 @@ function saveRequest() {}
                 (e.bdTitles = this.getBdTitleData()),
                 (e.pgdTitles = this.getPgdTitleData()),
                 (e.subjectAreas = this.getSubjectAreaData()),
-                (e.reqMain = this.getReqMainData()),
-                (e.requirements = this.getRequirements()),
                 e
               );
             } catch (e) {
               throw (
                 (console.error(
-                  "Error occurred while saveLeave in Resources",
+                  "Error occurred while initialLoading in Resources",
                   e
                 ),
                 new Error("Error occurred while initialLoading"))
@@ -397,7 +395,6 @@ function saveRequest() {}
                 a.push(t.citizenship),
                 a.push(t.descentOrReg),
                 a.push(t.nic),
-                a.push(t.specifyCountry),
                 a.push(t.passportNo),
                 a.push(t.spouseName),
                 a.push(t.spouseDesignation),
@@ -898,7 +895,7 @@ function saveRequest() {}
           static getReqDBID() {
             return "1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8";
           }
-          static getReqMainSheet() {
+          static getReqMainSheetName() {
             return "mainsheet";
           }
           static getReqSheetName() {
