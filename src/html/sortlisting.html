@@ -1,143 +1,295 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template" />
+    <meta
+      name="description"
+      content="Responsive Bootstrap 4 Dashboard Template"
+    />
     <meta name="author" content="BootstrapDash" />
     <title>Sort Listing</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css"
+    />
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" />
-    <link rel="stylesheet" href="../css//custom.css">
-    <link rel="stylesheet" href="../css//theme.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css"
+    />
+    <link rel="stylesheet" href="../css//custom.css" />
+    <link rel="stylesheet" href="../css//theme.css" />
     <?!= include('theme_css') ?>
     <?!= include('custom_css') ?>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light m-3">
-        <a class="navbar-brand" href="#">University of Peradeniya</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-          <div class="navbar-nav">
-            <!--add nav any req-->
-          </div>
+      <a class="navbar-brand" href="#">University of Peradeniya</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <!--add nav any req-->
         </div>
-      </nav>
+      </div>
+    </nav>
 
-      <div class="card bd-0 mg-b-20 m-3">
-        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-          Sort Listing
-        </div>
-        <!-- card-header -->
+    <div class="card bd-0 mg-b-20 m-3">
+      <div
+        class="card-header tx-medium bd-0 tx-white"
+        style="background-color: #34495e"
+      >
+        Sort Listing
+      </div>
+      <!-- card-header -->
 
-        <div class="card-body bd bd-t-0">
-          <div class="row row-sm mg-b-20">
-            <div class="col-lg-2">
-                <!--Faculty Drop douwn-->
-                <div class="dropdown" id="facultyDD">
-                    <button class="dropbtn">Faculty</button>
-                    <div class="dropdown-content">
-                      <a href="#">Link 1</a>
-                      <a href="#">Link 2</a>
-                      <a href="#">Link 3</a>
-                    </div>
-                  </div>
-              
-            </div>
-
-            <div class="col-lg-2">
-                <input type="text" class="textInput" value="Select Faculty" readonly />
-            </div>
-
-            <div class="col-lg-2">
-                <!--Department Drop douwn-->
-                <div class="dropdown" id="departmentDD">
-                    <button class="dropbtn">Department</button>
-                    <div class="dropdown-content">
-                      <a href="#">Link 1</a>
-                      <a href="#">Link 2</a>
-                      <a href="#">Link 3</a>
-                    </div>
-                  </div>
-                
-              </div>
-
-              <div class="col-lg-2">
-                <input type="text" class="textInput" value="Select Department" readonly />
-            </div>
-
-              <div class="col-lg-2">
-                <!--Post Drop douwn-->
-                <div class="dropdown" id="postDD">
-                    <button class="dropbtn">Post</button>
-                    <div class="dropdown-content">
-                      <a href="#">Link 1</a>
-                      <a href="#">Link 2</a>
-                      <a href="#">Link 3</a>
-                    </div>
-                  </div>
-                
-              </div>
-
-              <div class="col-lg-2">
-                <input type="text" class="textInput" value="Select Post" readonly />
+      <div class="card-body bd bd-t-0">
+        <div class="row row-sm mg-b-20">
+          <div class="col-lg-2">
+            <!--Faculty Drop douwn-->
+            <div class="dropdown">
+              <button class="dropbtn">Faculty</button>
+              <div
+                class="dropdown-content"
+                id="facultyDD"
+                name="facultyDD"
+              ></div>
             </div>
           </div>
 
-          <div class="row row-sm mg-b-20">
+          <div class="col-lg-2">
+            <input
+              type="text"
+              id="facTxt"
+              class="textInput"
+              value=""
+              readonly
+            />
+          </div>
 
-            <div class="col-lg-6"></div>
-            <div class="col-lg-2"></div>
-            <div class="col-lg-2"></div>
-            <div class="col-lg-2">
-                <button class="dropbtnSearch">Sort</button>
+          <div class="col-lg-2">
+            <!--Department Drop douwn-->
+            <div class="dropdown">
+              <button class="dropbtn">Department</button>
+              <div
+                class="dropdown-content"
+                id="departmentDD"
+                name="departmentDD"
+              ></div>
             </div>
+          </div>
 
+          <div class="col-lg-2">
+            <input
+              type="text"
+              id="DepTxt"
+              class="textInput"
+              value=""
+              readonly
+            />
+          </div>
+
+          <div class="col-lg-2">
+            <!--Post Drop douwn-->
+            <div class="dropdown">
+              <button class="dropbtn">Post</button>
+              <div class="dropdown-content" id="postDD" name="postDD"></div>
+            </div>
+          </div>
+
+          <div class="col-lg-2">
+            <input
+              type="text"
+              id="postTxt"
+              class="textInput"
+              value=""
+              readonly
+            />
+          </div>
         </div>
 
+        <div class="row row-sm mg-b-20">
+          <div class="col-lg-6"></div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-2">
+            <button class="dropbtnSearch" id="sortbt">Sort</button>
+          </div>
         </div>
-        <!-- card-body -->
       </div>
+      <!-- card-body -->
+    </div>
 
-      <div class="row row-sm mg-b-20 m-4">
-        <table class="table mg-t-20">
-          <thead>
-            <tr>
-              <th>Name with initials</th>
-              <th>Basic Degree</th>
-              <th>Basic Degree(Other)</th>
-              <th>Postgraduate Degree</th>
-              <th>Postgraduate Degree(Other)</th>
-              <th>Experience</th>
-              <th>Sort list Status</th>
-              <th>Approve</th>
-              <th>Remove</th>
-              <th>View</th>
-            </tr>
-          </thead>
-          <tbody id="tblDetails"></tbody>
-        </table>
+    <div class="row row-sm mg-b-20 m-4">
+      <table class="table mg-t-20">
+        <thead>
+          <tr>
+            <th>Name with initials</th>
+            <th>Basic Degree</th>
+            <th>Basic Degree(Other)</th>
+            <th>Postgraduate Degree</th>
+            <th>Postgraduate Degree(Other)</th>
+            <th>Experience</th>
+            <th>Sort list Status</th>
+            <th>Approve</th>
+            <th>Remove</th>
+            <th>View</th>
+          </tr>
+        </thead>
+        <tbody id="tblDetails"></tbody>
+      </table>
+    </div>
+
+    <div class="card bd-0 mg-b-20 m-3">
+      <div
+        class="card-header tx-medium bd-0 tx-white"
+        style="background-color: #34495e"
+      >
+        View Details
       </div>
-     
+    </div>
+    <!-- card-header -->
 
-      <div class="card bd-0 mg-b-20 m-3">
-        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-         View Details
-        </div>
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
-      </div>
-        <!-- card-header -->
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
-  
     <?!= include('theme_js') ?>
-</body>
+    <script>
+      let data = '';
+      $(document).ready(function () {
+        // Date
+
+        // onLoadExecutions();
+        google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
+        // $('#submitButton').click(submitForm);
+        $('#facultyDD').on('click', 'a', function () {
+          $('#facTxt').val($(this).attr('value'));
+          console.log($(this).attr('value'));
+        });
+
+        $('#departmentDD').on('click', 'a', function () {
+          $('#DepTxt').val($(this).attr('value'));
+          console.log($(this).attr('value'));
+        });
+
+        $('#postDD').on('click', 'a', function () {
+          $('#postTxt').val($(this).attr('value'));
+          console.log($(this).attr('value'));
+        });
+
+        $('#sortbt').click(filterdata);
+      });
+
+      function onFailure(retdata) {
+        console.log('error');
+      }
+      function initialLoading(retdata) {
+        data = JSON.parse(retdata);
+        console.log(retdata);
+        if (data) {
+          vacancyList(data.vacancies, data.posts, data.faculties, data.departments);
+        }
+      }
+
+      function filterdata(faculty, department, post) {
+        if (faculty === '' && department === '' && post === '') {
+          console.log('erro');
+        } else {
+          $('#tblDetails tr').remove();
+
+          for (let i = 0; i < data.length; i++) {
+            const row = '<tr>';
+            // for (let j = 0; j < data[i].length; j++) {
+            //   row += `<td>${data[i][j]}</td>`;
+            // }
+            if (data[i].faculties === faculty || data[i].departments === department || data[i].posts === post) {
+              row += `<td>${data[i].personalNameInit}</td>`;
+              row += `<td>${data[i].bdTitle}</td>`;
+              row += `<td>${data[i].bdTitleOther}</td>`;
+              row += `<td>${data[i].pgdTitle}</td>`;
+              row += `<td>${data[i].pgdTitleOther}</td>`;
+              row += `<td>'Test Years of Experience'</td>`;
+              row += `<td>${data[i][j]}</td>`;
+              row += `<td>${data[i][j]}</td>`;
+              row += `<td>${data[i][j]}</td>`;
+            }
+    }
+  }
+}
+
+      function vacancyList(objVacancies, objPosts, objFaculties, objDepartments) {
+        // vacancies = objVacancies.vacancies.map((x) => x[0]);
+        posts = objPosts.posts.map((x) => x[0]);
+        faculties = objFaculties.faculties.map((x) => x[0]);
+        departments = objDepartments.departments.map((x) => x[0]);
+
+        // console.log(vacancies);
+        console.log(posts);
+        console.log(faculties);
+        console.log(departments);
+
+        // $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
+        $('#postDD').append(`<a value="">None</a>`);
+        $('#facultyDD').append(`<a value="">None</a>`);
+        $('#departmentDD').append(`<a value="">None</a>`);
+
+        // vacancies.forEach((e) => {
+        //   $('#vacancyID').append(`<option value="${e}">${e}</option>`);
+        // });
+        posts.forEach((e) => {
+          $('#postDD').append(`<a value="${e}">${e}</a>`);
+        });
+        faculties.forEach((e) => {
+          $('#facultyDD').append(`<a value="${e}">${e}</a>`);
+        });
+        departments.forEach((e) => {
+          $('#departmentDD').append(`<a value="${e}">${e}</a>`);
+        });
+      }
+    </script>
+  </body>
 </html>

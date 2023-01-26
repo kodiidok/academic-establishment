@@ -16,12 +16,12 @@ class Resources {
       rtnObj.faculties = this.getFacultyData();
       rtnObj.departments = this.getDepartmentData();
 
-      rtnObj.bdTitles = this.getBdTitleData();
-      rtnObj.pgdTitles = this.getPgdTitleData();
-      rtnObj.subjectAreas = this.getSubjectAreaData();
+      // rtnObj.bdTitles = this.getBdTitleData();
+      // rtnObj.pgdTitles = this.getPgdTitleData();
+      // rtnObj.subjectAreas = this.getSubjectAreaData();
 
-      rtnObj.reqMain = this.getReqMainData();
-      rtnObj.requirements = this.getRequirements();
+      // rtnObj.reqMain = this.getReqMainData();
+      // rtnObj.requirements = this.getRequirements();
 
       return rtnObj;
     } catch (error) {
@@ -114,7 +114,7 @@ class Resources {
       throw new Error(`Error occurred while resolveAppUser`);
     }
   }
-
+  /*
   static getReqMainData() {
     try {
       DatabaseOperations.cacheEnabled = false;
@@ -208,7 +208,7 @@ class Resources {
       console.error('Error occurred while getSubjectAreaData in Resources', error);
       throw new Error(`Error occurred while getSubjectAreaData`);
     }
-  }
+  } */
 
   static getVacancyData() {
     try {
