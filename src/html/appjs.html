@@ -1,5 +1,5 @@
-<script>
-  const request = {};
+<script>const request = {};
+  let redirectURL = '';
 
   // web app intial execution
 
@@ -10,28 +10,57 @@
     $('#sysDate').text(strDate);
 
     onLoadExecutions();
+
+    // $('#submitButton').click(submitForm);
+
+    $('#appMainForm').submit(function (event) {
+      event.preventDefault();
+      submitForm();
+    });
+
+    $("input[name='radioCitizenship']").change(function () {
+      if ($(this).val() === 'SriLankan') {
+        $('#nicNo').show();
+        $('#notSriLankan').hide();
+      } else {
+        $('#nicNo').hide();
+        $('#notSriLankan').show();
+      }
+    });
   });
 
   function onLoadExecutions() {
     showLoadingModal('Please Wait for Loading...');
     google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
-    vacancyList();
-    countryList();
-    provinceList();
-    districtList();
   }
-
-  // modal msgs
 
   function initialLoading(retdata) {
-    $('#modalLoading').modal('hide');
-    /* const data = JSON.parse(retdata);
+    const data = JSON.parse(retdata);
+    console.log(data);
     if (data) {
       setMenu(data.scriptUrl);
-      setUserInfo(data.appUser.data[0]);
       setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
-    } */
+      vacancyList(data.vacancies, data.posts, data.faculties, data.departments);
+      countryList();
+      provinceList();
+      districtList();
+      requirementList(data.bdTitles, data.pgdTitles, data.subjectAreas);
+      $('#modalLoading').modal('hide');
+    }
   }
+
+  function setMenu(appurl) {
+    $('#app-menu-01').attr('href', appurl);
+    $('#app-menu-02').attr('href', `${appurl}?page=hod`);
+  }
+
+  function setAppInfo(appName, appDescription, appRedirectURL) {
+    $('#appName').text(appName);
+    $('#appDescription').text(appDescription);
+    redirectURL = appRedirectURL;
+  }
+
+  // logOut and setInfo methods will show an error: Unexpected input
 
   // modal msgs
 
@@ -74,17 +103,15 @@
 
     $('#appAlert').show().delay(10000).fadeOut();
   }
-  
-  // save applicant data
 
-  $('#submitButton').click(submitForm);
+  // save applicant data
 
   function submitForm() {
     // vacancy
-    request.vid = $('#vacancyID').find(':selected').val();
-    request.vpost = $('#vacancyPost').find(':selected').val();
-    request.vfac = $('#vacancyFaculty').find(':selected').val();
-    request.vdept = $('#vacancyDepartment').find(':selected').val();
+    request.vacancyID = $('#vacancyID').find(':selected').val();
+    request.vacancyPost = $('#vacancyPost').find(':selected').val();
+    request.vacancyFac = $('#vacancyFaculty').find(':selected').val();
+    request.vacancyDept = $('#vacancyDepartment').find(':selected').val();
   
     // personal details
     request.pdGender = $('#pdGender').find(':selected').val();
@@ -106,9 +133,9 @@
     request.nic = $('#nic').val();
     request.specifyCountry = $('#specifyCountry').val();
     request.passportNo = $('#passportNo').val();
-    request.spouseName = $('#spouseName').val();
-    request.spouseDesignation = $('#spouseDesignation').val();
-    request.highestEducation = $('#highestEducation').val();
+    // request.spouseName = $('#spouseName').val();
+    // request.spouseDesignation = $('#spouseDesignation').val();
+    // request.highestEducation = $('#highestEducation').val();
     request.lang = $('#appMainForm input[name="lang"]:checked')
       .map(function () {
         return $(this).val();
@@ -116,7 +143,10 @@
       .get();
 
     // basic degree
-    request.basicDegree = $('#basicDegree').val();
+    request.bdTitle = $('#bdTitle').find(':selected').val();
+    request.bdTitleOther = $('#bdTitleOther').val();
+    request.bdSubject = $('#bdSubject').find(':selected').val();
+    request.bdSubjectOther = $('#bdSubjectOther').val();
     request.bdCountry = $('#bdCountry').val();
     request.bdUniversity = $('#bdUniversity').val();
     request.bdYearFrom = $('#bdYearFrom').val();
@@ -137,19 +167,6 @@
     });
     request.pgd = JSON.stringify(pgd);
 
-    // awards
-    const awards = [];
-    $('#tblAwards tr').each(function () {
-      const row = [];
-      $(this)
-        .find('td')
-        .each(function () {
-          row.push($(this).text());
-        });
-      awards.push(row.slice(0, -1));
-    });
-    request.awards = JSON.stringify(awards);
-
     // research publications - books
     const books = [];
     $('#tblBooks tr').each(function () {
@@ -163,7 +180,7 @@
     });
     request.books = JSON.stringify(books);
 
-    // research publications - books
+    // research publications - journals
     const journals = [];
     $('#tblJournals tr').each(function () {
       const row = [];
@@ -189,12 +206,18 @@
     });
     request.abstracts = JSON.stringify(abstracts);
 
-    // commendations
-    request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
-    request.publications = $('#publications').val();
-
-    // vacations
-    request.vacation = $('#vacation').val();
+    // awards
+    const awards = [];
+    $('#tblAwards tr').each(function () {
+      const row = [];
+      $(this)
+        .find('td')
+        .each(function () {
+          row.push($(this).text());
+        });
+      awards.push(row.slice(0, -1));
+    });
+    request.awards = JSON.stringify(awards);
 
     // extra curricular activities
     const extraCurrActivity = [];
@@ -208,16 +231,6 @@
       extraCurrActivity.push(row.slice(0, -1));
     });
     request.extraCurrActivity = JSON.stringify(extraCurrActivity);
-
-    // references
-    request.rName1 = $('#rName1').val();
-    request.rTelephone1 = $('#rTelephone1').val();
-    request.rAddress1 = $('#rAddress1').val();
-    request.rEmail1 = $('#rEmail1').val();
-    request.rName2 = $('#rName2').val();
-    request.rTelephone2 = $('#rTelephone2').val();
-    request.rAddress2 = $('#rAddress2').val();
-    request.rEmail2 = $('#rEmail2').val();
 
     // present occupation
     request.poDesignation = $('presentOccDesignation').val();
@@ -237,23 +250,50 @@
       pEmployements.push(row.slice(0, -1));
     });
     request.pEmployements = JSON.stringify(pEmployements);
-    request.bondViolatorRadio = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
+  
+    // references
+    request.rName1 = $('#rName1').val();
+    request.rTelephone1 = $('#rTelephone1').val();
+    request.rAddress1 = $('#rAddress1').val();
+    request.rEmail1 = $('#rEmail1').val();
+    request.rName2 = $('#rName2').val();
+    request.rTelephone2 = $('#rTelephone2').val();
+    request.rAddress2 = $('#rAddress2').val();
+    request.rEmail2 = $('#rEmail2').val();
+  
+    // declaration
+    request.commendations = $('#appMainForm input[name="commendations"]:checked').val();
+    request.vacations = $('#vacation').val();
+    request.bondViolator = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
     request.bondValue = $('#bondValue').val();
     request.uniInstitute = $('#uniInstitute').val();
 
+    // meta
+    request.status = '';
+    request.connectedDatabase = '';
+    request.applicationID = '';
+    request.timestamp = '';
+
     console.log(request);
+    console.log(JSON.stringify(request));
     // eslint-disable-next-line no-undef
-    google.script.run.withSuccessHandler(saveRequestSuccess).withFailureHandler(onFailure).saveData(request);
+    // google.script.run
+    //   .withSuccessHandler(saveRequestSuccess)
+    //   .withFailureHandler(onFailure)
+    //   .saveRequest(JSON.stringify(request));
   }
 
   function saveRequestSuccess(retdata) {
+    // const obj = JSON.parse(retdata);
+    const obj = retdata;
+    console.log(obj);
+    console.log(typeof obj);
     $('#modalLoading').modal('hide');
     $('#submitButton').prop('disabled', false);
-    showSuccessModal('Save Success..!', 'Data Saved to database');
-    /* if (data.status === true) {
+    if (obj.status === true) {
       showSuccessModal('Save Success..!', 'Data Saved to database');
       // applicantList.length = 0;
-    } */
+    }
   }
 
   // error handling for table data
@@ -272,7 +312,10 @@
   const pgdList = [];
 
   function savePgdegree() {
-    const pgdegree = $('#pgdegree').val();
+    const pgdTitle = $('#bdTitle').find(':selected').val();
+    const pgdTitleOther = $('#bdTitleOther').val();
+    const pgdSubject = $('#bdSubject').find(':selected').val();
+    const pgdSubjectOther = $('#bdSubjectOther').val();
     const pgdUniversity = $('#pgdUniversity').val();
     const pgdCountry = $('#pgdCountry').val();
     const pgdFrom = $('#pgdFrom').val();
@@ -281,7 +324,16 @@
     const pgdGPA = $('#pgdGPA').val();
     const pgdMethod = $('#appMainForm input[name="pgdMethod"]:checked').val();
   
-    if (pgdegree === '') {
+    if (pgdTitle === '') {
+      addError('Please Enter Degree');
+    }
+    if (pgdTitleOther === '') {
+      addError('Please Enter Degree');
+    }
+    if (pgdSubject === '') {
+      addError('Please Enter Degree');
+    }
+    if (pgdSubjectOther === '') {
       addError('Please Enter Degree');
     }
     addError('');
@@ -303,7 +355,10 @@
     addError('');
   
     const obj = {
-      pgdegree: `${pgdegree}`,
+      pgdTitle: `${pgdTitle}`,
+      pgdTitleOther: `${pgdTitleOther}`,
+      pgdSubject: `${pgdSubject}`,
+      pgdSubjectOther: `${pgdSubjectOther}`,
       pgdUniversity: `${pgdUniversity}`,
       pgdCountry: `${pgdCountry}`,
       pgdFrom: `${pgdFrom}`,
@@ -316,7 +371,10 @@
     pgdList.push(obj);
     loadPgdData(pgdList);
 
-    $('#pgdegree').val('');
+    $('#pgdTitle').val('');
+    $('#pgdTitleOther').val('');
+    $('#pgdSubject').val('');
+    $('#pgdSubjectOther').val('');
     $('#pgdUniversity').val('');
     $('#pgdCountry').val('');
     $('#pgdFrom').val('');
@@ -335,7 +393,10 @@
         for (i = 0; i < objects.length; i += 1) {
           if (objects[i].name !== '') {
             htmlElement += '<tr>';
-            htmlElement += `<td>${objects[i].pgdegree}</td>`;
+            htmlElement += `<td>${objects[i].pgdTitle}</td>`;
+            htmlElement += `<td>${objects[i].pgdTitleOther}</td>`;
+            htmlElement += `<td>${objects[i].pgdSubject}</td>`;
+            htmlElement += `<td>${objects[i].pgdSubjectOther}</td>`;
             htmlElement += `<td>${objects[i].pgdUniversity}</td>`;
             htmlElement += `<td>${objects[i].pgdCountry}</td>`;
             htmlElement += `<td>${objects[i].pgdFrom}</td>`;
@@ -445,7 +506,7 @@
   function saveBook() {
     const nameOfTheBook = $('#nameOfTheBook').val();
     const bookAuthor = $('#bookAuthor').val();
-    const datePublished = $('#datePublished').val();
+    const bookDatePublished = $('#bookDatePublished').val();
     const isbnNo = $('#isbnNo').val();
   
     if (nameOfTheBook === '') {
@@ -456,7 +517,7 @@
       addError('Please Enter Author');
     }
     addError('');
-    if (datePublished === '') {
+    if (bookDatePublished === '') {
       addError('Please Enter Date Published');
     }
     addError('');
@@ -468,7 +529,7 @@
     const obj = {
       nameOfTheBook: `${nameOfTheBook}`,
       bookAuthor: `${bookAuthor}`,
-      datePublished: `${datePublished}`,
+      bookDatePublished: `${bookDatePublished}`,
       isbnNo: `${isbnNo}`,
     };
 
@@ -477,7 +538,7 @@
 
     $('#nameOfTheBook').val('');
     $('#bookAuthor').val('');
-    $('#datePublished').val('');
+    $('#bookDatePublished').val('');
     $('#isbnNo').val('');
   }
 
@@ -493,7 +554,7 @@
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].nameOfTheBook}</td>`;
             htmlElement += `<td>${objects[i].bookAuthor}</td>`;
-            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].bookDatePublished}</td>`;
             htmlElement += `<td>${objects[i].isbnNo}</td>`;
             htmlElement += `<td><button name="rmBook" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeBook($(this))"><i class="fa fa-trash"></i> Delete</button>`;
             htmlElement += '</tr>';
@@ -520,9 +581,9 @@
 
   function saveJournal() {
     const title = $('#titleOfTheJournal').val();
-    const bookAuthor = $('#bookAuthor').val();
+    const jounalAuthor = $('#jounalAuthor').val();
     const source = $('#sourceOfTheJournal').val();
-    const datePublished = $('#datePublished').val();
+    const journalDatePublished = $('#journalDatePublished').val();
     const indexed = $('#appMainForm input[name="indexed"]:checked').val();
     const conference = $('#appMainForm input[name="conference"]:checked').val();
 
@@ -530,7 +591,7 @@
       addError('Please Enter Title');
     }
     addError('');
-    if (bookAuthor === '') {
+    if (jounalAuthor === '') {
       addError('Please Enter Author');
     }
     addError('');
@@ -538,7 +599,7 @@
       addError('Please Enter Source');
     }
     addError('');
-    if (datePublished === '') {
+    if (journalDatePublished === '') {
       addError('Please Enter Date');
     }
     addError('');
@@ -553,9 +614,9 @@
 
     const obj = {
       title: `${title}`,
-      bookAuthor: `${bookAuthor}`,
+      jounalAuthor: `${jounalAuthor}`,
       source: `${source}`,
-      datePublished: `${datePublished}`,
+      journalDatePublished: `${journalDatePublished}`,
       indexed: `${indexed}`,
       conference: `${conference}`,
     };
@@ -564,9 +625,9 @@
     loadJournalData(journalList);
 
     $('#titleOfTheJournal').val('');
-    $('#bookAuthor').val('');
+    $('#jounalAuthor').val('');
     $('#sourceOfTheJournal').val('');
-    $('#datePublished').val('');
+    $('#journalDatePublished').val('');
   }
 
   function loadJournalData(data) {
@@ -580,9 +641,9 @@
           if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].title}</td>`;
-            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].jounalAuthor}</td>`;
             htmlElement += `<td>${objects[i].source}</td>`;
-            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].journalDatePublished}</td>`;
             htmlElement += `<td>${objects[i].indexed}</td>`;
             htmlElement += `<td>${objects[i].conference}</td>`;
             htmlElement += `<td><button name="rmJournal" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeJournal($(this))"><i class="fa fa-trash"></i> Delete</button>`;
@@ -610,9 +671,9 @@
 
   function saveAbstract() {
     const title = $('#titleOfTheAbstract').val();
-    const bookAuthor = $('#bookAuthor').val();
+    const abstractAuthor = $('#abstractAuthor').val();
     const source = $('#sourceOfTheAbstract').val();
-    const datePublished = $('#datePublished').val();
+    const abstractDatePublished = $('#abstractDatePublished').val();
     const indexed = $('#appMainForm input[name="indexed"]:checked').val();
     const conference = $('#appMainForm input[name="conference"]:checked').val();
 
@@ -620,7 +681,7 @@
       addError('Please Enter Title');
     }
     addError('');
-    if (bookAuthor === '') {
+    if (abstractAuthor === '') {
       addError('Please Enter Author');
     }
     addError('');
@@ -628,7 +689,7 @@
       addError('Please Enter Source');
     }
     addError('');
-    if (datePublished === '') {
+    if (abstractDatePublished === '') {
       addError('Please Enter Date');
     }
     addError('');
@@ -643,9 +704,9 @@
 
     const obj = {
       title: `${title}`,
-      bookAuthor: `${bookAuthor}`,
+      abstractAuthor: `${abstractAuthor}`,
       source: `${source}`,
-      datePublished: `${datePublished}`,
+      abstractDatePublished: `${abstractDatePublished}`,
       indexed: `${indexed}`,
       conference: `${conference}`,
     };
@@ -654,9 +715,9 @@
     loadAbstractData(abstractList);
 
     $('#titleOfTheAbstract').val('');
-    $('#bookAuthor').val('');
+    $('#abstractAuthor').val('');
     $('#sourceOfTheAbstract').val('');
-    $('#datePublished').val('');
+    $('#abstractDatePublished').val('');
   }
 
   function loadAbstractData(data) {
@@ -670,9 +731,9 @@
           if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].title}</td>`;
-            htmlElement += `<td>${objects[i].bookAuthor}</td>`;
+            htmlElement += `<td>${objects[i].abstractAuthor}</td>`;
             htmlElement += `<td>${objects[i].source}</td>`;
-            htmlElement += `<td>${objects[i].datePublished}</td>`;
+            htmlElement += `<td>${objects[i].abstractDatePublished}</td>`;
             htmlElement += `<td>${objects[i].indexed}</td>`;
             htmlElement += `<td>${objects[i].conference}</td>`;
             htmlElement += `<td><button name="rmAbstract" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeAbstract($(this))"><i class="fa fa-trash"></i> Delete</button>`;
@@ -855,45 +916,62 @@
     loadEmployment(previousEmpList);
   }
 
-  // load form data
+  // set form data
 
-  function vacancyList() {
-    google.script.run
-      .withSuccessHandler(function (r) {
-        console.log(r);
-  
-        r.vid = r.vid.map((item) => {
-          return item[0];
-        });
-        r.vpost = r.vpost.map((item) => {
-          return item[0];
-        });
-        r.vfac = r.vfac.map((item) => {
-          return item[0];
-        });
-        r.vdept = r.vdept.map((item) => {
-          return item[0];
-        });
+  function requirementList(ObjBdTitles, ObjPgdTitles, ObjSubjectAreas) {
+    bdTitles = ObjBdTitles.bdTitles.map((x) => x[0]);
+    pgdTitles = ObjPgdTitles.pgdTitles.map((x) => x[0]);
+    subjectAreas = ObjSubjectAreas.subjectAreas.map((x) => x[0]);
 
-        $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
-        $('#vacancyPost').append(`<option label="Choose one" value="">Choose one</option>`);
-        $('#vacancyFaculty').append(`<option label="Choose one" value="">Choose one</option>`);
-        $('#vacancyDepartment').append(`<option label="Choose one" value="">Choose one</option>`);
+    console.log(bdTitles);
+    console.log(pgdTitles);
+    console.log(subjectAreas);
 
-        r.vid.forEach((e) => {
-          $('#vacancyID').append(`<option value="${e}">${e}</option>`);
-        });
-        r.vpost.forEach((e) => {
-          $('#vacancyPost').append(`<option value="${e}">${e}</option>`);
-        });
-        r.vfac.forEach((e) => {
-          $('#vacancyFaculty').append(`<option value="${e}">${e}</option>`);
-        });
-        r.vdept.forEach((e) => {
-          $('#vacancyDepartment').append(`<option value="${e}">${e}</option>`);
-        });
-      })
-      .loadData();
+    $('#bdTitle').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#bdSubject').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#pgdTitle').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#pgdSubject').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    bdTitles.forEach((e) => {
+      $('#bdTitle').append(`<option value="${e}">${e}</option>`);
+    });
+    pgdTitles.forEach((e) => {
+      $('#pgdTitle').append(`<option value="${e}">${e}</option>`);
+    });
+    subjectAreas.forEach((e) => {
+      $('#bdSubject').append(`<option value="${e}">${e}</option>`);
+      $('#pgdSubject').append(`<option value="${e}">${e}</option>`);
+    });
+  }
+
+  function vacancyList(objVacancies, objPosts, objFaculties, objDepartments) {
+    vacancies = objVacancies.vacancies.map((x) => x[0]);
+    posts = objPosts.posts.map((x) => x[0]);
+    faculties = objFaculties.faculties.map((x) => x[0]);
+    departments = objDepartments.departments.map((x) => x[0]);
+
+    console.log(vacancies);
+    console.log(posts);
+    console.log(faculties);
+    console.log(departments);
+
+    $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#vacancyPost').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#vacancyFaculty').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#vacancyDepartment').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    vacancies.forEach((e) => {
+      $('#vacancyID').append(`<option value="${e}">${e}</option>`);
+    });
+    posts.forEach((e) => {
+      $('#vacancyPost').append(`<option value="${e}">${e}</option>`);
+    });
+    faculties.forEach((e) => {
+      $('#vacancyFaculty').append(`<option value="${e}">${e}</option>`);
+    });
+    departments.forEach((e) => {
+      $('#vacancyDepartment').append(`<option value="${e}">${e}</option>`);
+    });
   }
   
   function districtList() {
@@ -1204,9 +1282,11 @@
     ];
 
     $('#pgdCountry').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#bdCountry').append(`<option label="Choose one" value="">Choose one</option>`);
 
     for (let i = 0; i < cList.length; i += 1) {
       $('#pgdCountry').append(`<option value="${cList[i]}">${cList[i]}</option>`);
+      $('#bdCountry').append(`<option value="${cList[i]}">${cList[i]}</option>`);
     }
   }
 </script>

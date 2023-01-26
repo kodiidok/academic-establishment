@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template" />
+    <meta name="author" content="BootstrapDash" />
+    <title>Sort Listing</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" />
+    <link rel="stylesheet" href="../css//custom.css">
+    <link rel="stylesheet" href="../css//theme.css">
+    <?!= include('theme_css') ?>
+    <?!= include('custom_css') ?>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light m-3">
+        <a class="navbar-brand" href="#">University of Peradeniya</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <!--add nav any req-->
+          </div>
+        </div>
+      </nav>
+
+      <div class="card bd-0 mg-b-20 m-3">
+        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+          Sort Listing
+        </div>
+        <!-- card-header -->
+
+        <div class="card-body bd bd-t-0">
+          <div class="row row-sm mg-b-20">
+            <div class="col-lg-2">
+                <!--Faculty Drop douwn-->
+                <div class="dropdown" id="facultyDD">
+                    <button class="dropbtn">Faculty</button>
+                    <div class="dropdown-content">
+                      <a href="#">Link 1</a>
+                      <a href="#">Link 2</a>
+                      <a href="#">Link 3</a>
+                    </div>
+                  </div>
+              
+            </div>
+
+            <div class="col-lg-2">
+                <input type="text" class="textInput" value="Select Faculty" readonly />
+            </div>
+
+            <div class="col-lg-2">
+                <!--Department Drop douwn-->
+                <div class="dropdown" id="departmentDD">
+                    <button class="dropbtn">Department</button>
+                    <div class="dropdown-content">
+                      <a href="#">Link 1</a>
+                      <a href="#">Link 2</a>
+                      <a href="#">Link 3</a>
+                    </div>
+                  </div>
+                
+              </div>
+
+              <div class="col-lg-2">
+                <input type="text" class="textInput" value="Select Department" readonly />
+            </div>
+
+              <div class="col-lg-2">
+                <!--Post Drop douwn-->
+                <div class="dropdown" id="postDD">
+                    <button class="dropbtn">Post</button>
+                    <div class="dropdown-content">
+                      <a href="#">Link 1</a>
+                      <a href="#">Link 2</a>
+                      <a href="#">Link 3</a>
+                    </div>
+                  </div>
+                
+              </div>
+
+              <div class="col-lg-2">
+                <input type="text" class="textInput" value="Select Post" readonly />
+            </div>
+          </div>
+
+          <div class="row row-sm mg-b-20">
+
+            <div class="col-lg-6"></div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-2">
+                <button class="dropbtnSearch">Sort</button>
+            </div>
+
+        </div>
+
+        </div>
+        <!-- card-body -->
+      </div>
+
+      <div class="row row-sm mg-b-20 m-4">
+        <table class="table mg-t-20">
+          <thead>
+            <tr>
+              <th>Name with initials</th>
+              <th>Basic Degree</th>
+              <th>Basic Degree(Other)</th>
+              <th>Postgraduate Degree</th>
+              <th>Postgraduate Degree(Other)</th>
+              <th>Experience</th>
+              <th>Sort list Status</th>
+              <th>Approve</th>
+              <th>Remove</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody id="tblDetails"></tbody>
+        </table>
+      </div>
+     
+
+      <div class="card bd-0 mg-b-20 m-3">
+        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+         View Details
+        </div>
+
+      </div>
+        <!-- card-header -->
+
+
+  
+    <?!= include('theme_js') ?>
+</body>
+</html>
