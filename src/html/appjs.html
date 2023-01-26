@@ -302,13 +302,17 @@
   
     // declaration
     commendations = $('#appMainForm input[name="commendations"]:checked').val();
+    specifyCommendations = $('#specifyCommendations').val();
     vacations = $('#vacation').val();
+    specifyVacations = $('#specifyVacation').val();
     bondViolator = $('#appMainForm input[name="bondViolatorRadio"]:checked').val();
     bondValue = $('#bondValue').val();
     bondUniInstitute = $('#uniInstitute').val();
     request.declaration = {
       commendations,
+      specifyCommendations,
       vacations,
+      specifyVacations,
       bondViolator,
       bondValue,
       bondUniInstitute,
@@ -831,7 +835,7 @@
 
   function saveJournal() {
     const title = $('#titleOfTheJournal').val();
-    const jounalAuthor = $('#jounalAuthor').val();
+    const jounalAuthor = $('#journalAuthor').val();
     const source = $('#sourceOfTheJournal').val();
     const journalDatePublished = $('#journalDatePublished').val();
     const indexed = $('#appMainForm input[name="indexed"]:checked').val();

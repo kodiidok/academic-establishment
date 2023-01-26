@@ -148,8 +148,10 @@ class Database {
       row.push(JSON.stringify(obj.refrees.refree2));
 
       // declaration
+      row.push(obj.declaration.specifyCommendations);
       row.push(obj.declaration.commendations);
       row.push(obj.declaration.vacations);
+      row.push(obj.declaration.specifyVacations);
       row.push(obj.declaration.bondViolator);
       row.push(obj.declaration.bondValue);
       row.push(obj.declaration.bondUniInstitute);
