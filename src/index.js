@@ -27,7 +27,7 @@ function initialLoading() {
 }
 
 function saveRequest(obj) {
-  return Resources.saveRequest(obj);
+  return JSON.stringify(Resources.saveRequest(obj));
 }
 
 global.doGet = doGet;

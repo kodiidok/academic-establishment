@@ -412,8 +412,10 @@ function saveRequest() {}
                 a.push(JSON.stringify(t.previousEmployements)),
                 a.push(JSON.stringify(t.refrees.refree1)),
                 a.push(JSON.stringify(t.refrees.refree2)),
+                a.push(t.declaration.specifyCommendations),
                 a.push(t.declaration.commendations),
                 a.push(t.declaration.vacations),
+                a.push(t.declaration.specifyVacations),
                 a.push(t.declaration.bondViolator),
                 a.push(t.declaration.bondValue),
                 a.push(t.declaration.bondUniInstitute),
@@ -422,7 +424,7 @@ function saveRequest() {}
                   : a.push("pending"),
                 (t.status = !0),
                 this.connectedDatabase.appendRow(a),
-                e
+                t
               );
             } catch (e) {
               throw (
