@@ -156,7 +156,7 @@ class Resources {
   static getBdTitleData() {
     try {
       DatabaseOperations.cacheEnabled = false;
-      DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
+      DatabaseOperations.initilizeDatabase(Utils.getDataDBID());
       DatabaseOperations.openDatabaseConnection(Utils.getBdTitlesListSheetName());
       // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
       const foundObj = DatabaseOperations.readDatabaseCache();
@@ -175,7 +175,7 @@ class Resources {
   static getPgdTitleData() {
     try {
       DatabaseOperations.cacheEnabled = false;
-      DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
+      DatabaseOperations.initilizeDatabase(Utils.getDataDBID());
       DatabaseOperations.openDatabaseConnection(Utils.getPgdTitlesListSheetName());
       // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
       const foundObj = DatabaseOperations.readDatabaseCache();
@@ -194,7 +194,7 @@ class Resources {
   static getSubjectAreaData() {
     try {
       DatabaseOperations.cacheEnabled = false;
-      DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
+      DatabaseOperations.initilizeDatabase(Utils.getDataDBID());
       DatabaseOperations.openDatabaseConnection(Utils.getSubjectAreaListSheetName());
       // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
       const foundObj = DatabaseOperations.readDatabaseCache();

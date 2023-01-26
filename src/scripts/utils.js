@@ -23,7 +23,7 @@ const FAC_LIST_SHEET = 'faculty';
 const DEPT_LIST_SHEET = 'department';
 
 const BASIC_DEGREE_LIST_SHEET = 'basicDegreeTitles';
-const POSTGRAD_DEGREE_LIST_SHEET = 'postgradTitles';
+const POSTGRAD_DEGREE_LIST_SHEET = 'postgradDegreeTitles';
 const SUBJECT_AREA_LIST_SHEET = 'subjectAreas';
 
 const REQUIREMENTS_MAINSHEET = 'mainsheet';

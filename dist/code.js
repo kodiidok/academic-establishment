@@ -158,7 +158,7 @@ function saveRequest() {}
           static getBdTitleData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getMainDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
                   i.default.getBdTitlesListSheetName()
                 );
@@ -178,7 +178,7 @@ function saveRequest() {}
           static getPgdTitleData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getMainDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
                   i.default.getPgdTitlesListSheetName()
                 );
@@ -198,7 +198,7 @@ function saveRequest() {}
           static getSubjectAreaData() {
             try {
               (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getMainDBID()),
+                s.default.initilizeDatabase(i.default.getDataDBID()),
                 s.default.openDatabaseConnection(
                   i.default.getSubjectAreaListSheetName()
                 );
@@ -881,10 +881,10 @@ function saveRequest() {}
             return c;
           }
           static getMainDBID() {
-            return "1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4";
+            return "1R3ZBd0qe-Q9thnFtTXDUzMF18kCLd41IUrQbAX42JQ4";
           }
           static getReqDBID() {
-            return "1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8";
+            return "1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o";
           }
           static getReqMainSheetName() {
             return "mainsheet";
@@ -899,13 +899,13 @@ function saveRequest() {}
             return "1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o";
           }
           static getBdTitlesListSheetName() {
-            return "bdTitle";
+            return "basicDegreeTitles";
           }
           static getPgdTitlesListSheetName() {
-            return "pgdTitle";
+            return "postgradDegreeTitles";
           }
           static getSubjectAreaListSheetName() {
-            return "subjectArea";
+            return "subjectAreas";
           }
           static getApplicationSheetName() {
             return "mainsheet";
