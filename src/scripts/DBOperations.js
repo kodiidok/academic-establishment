@@ -167,7 +167,7 @@ class Database {
 
       // save data to google sheet
       this.connectedDatabase.appendRow(row);
-      return request;
+      return obj;
     } catch (error) {
       console.error('Error occurred while saving data in Resources', error);
       throw new Error(`Error occurred while daving data`);
