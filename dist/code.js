@@ -1014,7 +1014,7 @@ function saveRequest() {}
             .setTitle(t.default.getAppName())
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
             .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-        : HtmlService.createTemplateFromFile("index")
+        : HtmlService.createTemplateFromFile("index_shortlist.html")
             .evaluate()
             .setTitle(t.default.getAppName())
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
