@@ -166,40 +166,40 @@
 
                           <div class="row row-sm mg-b-20">
 
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                               <p class="mg-b-10">Faculty</p>
                               <select
                                 class="form-control select2-no-search select2-hidden-accessible"
                                 tabindex="-1"
                                 aria-hidden="true"
-                                id="searchFaculty"
-                                name="searchFaculty"
+                                id="shortlistedFaculty"
+                                name="shortlistedFaculty"
                               >
                               </select>
                             </div>
                             <!-- search faculty -->
 
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                               <p class="mg-b-10">Department</p>
                               <select
                                 class="form-control select2-no-search select2-hidden-accessible"
                                 tabindex="-1"
                                 aria-hidden="true"
-                                id="searchDepartment"
-                                name="searchDepartment"
+                                id="shortlistedDepartment"
+                                name="shortlistedDepartment"
                               >
                               </select>
                             </div>
                             <!-- search department -->
 
-                            <div class="col-lg-2">
+                            <div class="col-lg-3">
                               <p class="mg-b-10">Post</p>
                               <select
                                 class="form-control select2-no-search select2-hidden-accessible"
                                 tabindex="-1"
                                 aria-hidden="true"
-                                id="searchPost"
-                                name="searchPost"
+                                id="shortlistedPost"
+                                name="shortlistedPost"
                               >
                               </select>
                             </div>
@@ -208,7 +208,7 @@
                             <div class="col-lg-3">
                               <input
                                 type="button"
-                                value="search"
+                                value="Apply Filter"
                                 class="btn btn-success btn-rounded"
                                 onclick="searchApplicants()"
                                 style="margin-top: 30px;"
@@ -232,7 +232,7 @@
                                 <th>Name, Adress and Date of Birth</th>
                                 <th>Basic Degree</th>
                                 <th>Postgraduate Degree</th>
-                                <th>Year of Experience</th>
+                                <th>Years of Experience</th>
                                 <th>Approve</th>
                                 <th>View Details</th>
                                 <th>Remove</th>
@@ -246,6 +246,98 @@
 
                     </div>
                     <!--shortlisted-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Rejected Applicants
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+
+                          <div class="row row-sm mg-b-20">
+
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Faculty</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="rejectedFaculty"
+                                name="rejectedFaculty"
+                              >
+                              </select>
+                            </div>
+                            <!-- search faculty -->
+
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Department</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="rejectedDepartment"
+                                name="rejectedDepartment"
+                              >
+                              </select>
+                            </div>
+                            <!-- search department -->
+
+                            <div class="col-lg-3">
+                              <p class="mg-b-10">Post</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="rejectedPost"
+                                name="rejectedPost"
+                              >
+                              </select>
+                            </div>
+                            <!-- search post -->
+
+                            <div class="col-lg-3">
+                              <input
+                                type="button"
+                                value="Apply Filter"
+                                class="btn btn-success btn-rounded"
+                                onclick="searchApplicants()"
+                                style="margin-top: 30px;"
+                              />
+                            </div>
+                            <!-- search applicant -->
+
+                          </div>
+
+                        </div>
+
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-4" >
+                        </div>
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Name, Adress and Date of Birth</th>
+                                <th>Basic Degree</th>
+                                <th>Postgraduate Degree</th>
+                                <th>Years of Experience</th>
+                                <th>Approve</th>
+                                <th>View Details</th>
+                                <th>Remove</th>
+                              </tr>
+                            </thead>
+                            <tbody id="tblRejected"></tbody>
+                          </table>
+                        </div>
+
+                      </div>
+
+                    </div>
+                    <!--rejected-->
 
                   </form>
                 </div>
