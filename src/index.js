@@ -4,7 +4,7 @@ import Utils from './scripts/utils';
 function doGet(e) {
   if (!e.parameter.page) {
     // When no specific page requested, return "home page" Ex : ?page=hod
-    return HtmlService.createTemplateFromFile('index')
+    return HtmlService.createTemplateFromFile('index_shortlist.html')
       .evaluate()
       .setTitle(Utils.getAppName())
       .addMetaTag('viewport', 'width=device-width, initial-scale=1')
