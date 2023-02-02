@@ -155,6 +155,71 @@
                 <div id="home" role="tabpanel" aria-labelledby="home-tab" class="tab-pane fade px-1 py-0 show active">
                   <form id="appShortListForm" class="needs-validation" enctype="multipart/form-data" novalidate>
                     
+                    <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+
+                      <div class="row row-sm mg-b-20">
+
+                        <div class="col-lg-3">
+                          <p class="mg-b-10">Faculty</p>
+                          <select
+                            class="form-control select2-no-search select2-hidden-accessible"
+                            tabindex="-1"
+                            aria-hidden="true"
+                            id="shortlistedFaculty"
+                            name="shortlistedFaculty"
+                          >
+                          </select>
+                        </div>
+                        <!-- search faculty -->
+
+                        <div class="col-lg-3">
+                          <p class="mg-b-10">Department</p>
+                          <select
+                            class="form-control select2-no-search select2-hidden-accessible"
+                            tabindex="-1"
+                            aria-hidden="true"
+                            id="shortlistedDepartment"
+                            name="shortlistedDepartment"
+                          >
+                          </select>
+                        </div>
+                        <!-- search department -->
+
+                        <div class="col-lg-3">
+                          <p class="mg-b-10">Post</p>
+                          <select
+                            class="form-control select2-no-search select2-hidden-accessible"
+                            tabindex="-1"
+                            aria-hidden="true"
+                            id="shortlistedPost"
+                            name="shortlistedPost"
+                          >
+                          </select>
+                        </div>
+                        <!-- search post -->
+
+                        <div class="col-lg-3">
+                          <input
+                            type="button"
+                            value="Apply Filter"
+                            class="btn btn-success btn-rounded"
+                            onclick="searchApplicants()"
+                            style="margin-top: 30px;"
+                          />
+                        </div>
+                        <!-- search applicant -->
+
+                      </div>
+
+                    </div>
+                    <div class="col-lg-4">
+                    </div>
+                    <div class="col-lg-4" >
+                    </div>
+                    <!-- filter by search -->
+
+                    <br>
+
                     <div class="card bd-0 mg-b-20">
                       <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
                         Shortlisted Applicants
@@ -162,68 +227,6 @@
                       <!-- card-header -->
                       <div class="card-body bd bd-t-0">
                         <!-- card-body -->
-                        <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
-
-                          <div class="row row-sm mg-b-20">
-
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Faculty</p>
-                              <select
-                                class="form-control select2-no-search select2-hidden-accessible"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                id="shortlistedFaculty"
-                                name="shortlistedFaculty"
-                              >
-                              </select>
-                            </div>
-                            <!-- search faculty -->
-
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Department</p>
-                              <select
-                                class="form-control select2-no-search select2-hidden-accessible"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                id="shortlistedDepartment"
-                                name="shortlistedDepartment"
-                              >
-                              </select>
-                            </div>
-                            <!-- search department -->
-
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Post</p>
-                              <select
-                                class="form-control select2-no-search select2-hidden-accessible"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                id="shortlistedPost"
-                                name="shortlistedPost"
-                              >
-                              </select>
-                            </div>
-                            <!-- search post -->
-
-                            <div class="col-lg-3">
-                              <input
-                                type="button"
-                                value="Apply Filter"
-                                class="btn btn-success btn-rounded"
-                                onclick="searchApplicants()"
-                                style="margin-top: 30px;"
-                              />
-                            </div>
-                            <!-- search applicant -->
-
-                          </div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-                        </div>
-                        <div class="col-lg-4" >
-                        </div>
                         
                         <div class="row row-sm mg-b-20">
                           <table class="table mg-t-20">
@@ -254,68 +257,6 @@
                       <!-- card-header -->
                       <div class="card-body bd bd-t-0">
                         <!-- card-body -->
-                        <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
-
-                          <div class="row row-sm mg-b-20">
-
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Faculty</p>
-                              <select
-                                class="form-control select2-no-search select2-hidden-accessible"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                id="rejectedFaculty"
-                                name="rejectedFaculty"
-                              >
-                              </select>
-                            </div>
-                            <!-- search faculty -->
-
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Department</p>
-                              <select
-                                class="form-control select2-no-search select2-hidden-accessible"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                id="rejectedDepartment"
-                                name="rejectedDepartment"
-                              >
-                              </select>
-                            </div>
-                            <!-- search department -->
-
-                            <div class="col-lg-3">
-                              <p class="mg-b-10">Post</p>
-                              <select
-                                class="form-control select2-no-search select2-hidden-accessible"
-                                tabindex="-1"
-                                aria-hidden="true"
-                                id="rejectedPost"
-                                name="rejectedPost"
-                              >
-                              </select>
-                            </div>
-                            <!-- search post -->
-
-                            <div class="col-lg-3">
-                              <input
-                                type="button"
-                                value="Apply Filter"
-                                class="btn btn-success btn-rounded"
-                                onclick="searchApplicants()"
-                                style="margin-top: 30px;"
-                              />
-                            </div>
-                            <!-- search applicant -->
-
-                          </div>
-
-                        </div>
-
-                        <div class="col-lg-4">
-                        </div>
-                        <div class="col-lg-4" >
-                        </div>
                         
                         <div class="row row-sm mg-b-20">
                           <table class="table mg-t-20">
@@ -476,6 +417,8 @@
     <!--script src="./theme_js.js"></script>
       <script src="./custom_js.js"></script-->
     <?!= include('theme_js') ?>
+    <?!= include('modal_js') ?>
+    <?!= include('app_js') ?>
     <?!= include('shortlist_js') ?>
   </body>
 </html>

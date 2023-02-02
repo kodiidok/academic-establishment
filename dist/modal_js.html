@@ -1,0 +1,43 @@
+<script>
+  // modal msgs
+
+  function showLoadingModal(message) {
+    $('#loadingModalMessage').text(message);
+    $('#modalLoading').modal('show');
+  }
+
+  function showErrorModal(heading, message) {
+    $('#errorModalHeading').text(heading);
+    $('#errorModalMessage').text(message);
+    $('#modalError').modal('show');
+  }
+
+  function showSuccessModal(heading, message) {
+    $('#successModalHeading').text(heading);
+    $('#successModalMessage').text(message);
+    $('#modalSuccess').modal('show');
+    // $('#modalSuccess').modal('hide');
+  }
+
+  function onFailure(err) {
+    $('#modalLoading').modal('hide');
+    showErrorModal('Error Occured..!', err.message);
+  }
+
+  function showAppAlert(type, heading, message) {
+    if (type.toUpperCase() === 'SUCCESS') {
+      $('#appAlert').addClass('alert-success');
+    } else if (type.toUpperCase() === 'ERROR' || type.toUpperCase() === 'DANGER') {
+      $('#appAlert').addClass('alert-danger');
+    } else if (type.toUpperCase() === 'WARNING') {
+      $('#appAlert').addClass('alert-warning');
+    } else {
+      $('#appAlert').addClass('alert-info');
+    }
+
+    $('#appAlertHeading').text(heading);
+    $('#appAlertMessage').text(message);
+
+    $('#appAlert').show().delay(10000).fadeOut();
+  }
+</script>

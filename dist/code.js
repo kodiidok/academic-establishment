@@ -26,6 +26,7 @@ function saveRequest() {}
                 (e.bdTitles = this.getBdTitleData()),
                 (e.pgdTitles = this.getPgdTitleData()),
                 (e.subjectAreas = this.getSubjectAreaData()),
+                (e.applications = this.getApplicationSheetData()),
                 e
               );
             } catch (e) {
@@ -35,6 +36,24 @@ function saveRequest() {}
                   e
                 ),
                 new Error("Error occurred while initialLoading"))
+              );
+            }
+          }
+          static getApplicationSheetData() {
+            try {
+              (s.default.cacheEnabled = !1),
+                s.default.initilizeDatabase(i.default.getTestMainDBID()),
+                s.default.openDatabaseConnection(
+                  i.default.getApplicationSheetName()
+                );
+              return s.default.readDatabaseCache();
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getApplicationSheetData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getApplicationSheetData"))
               );
             }
           }
@@ -883,6 +902,9 @@ function saveRequest() {}
           static getMainDBID() {
             return "1R3ZBd0qe-Q9thnFtTXDUzMF18kCLd41IUrQbAX42JQ4";
           }
+          static getTestMainDBID() {
+            return "1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4";
+          }
           static getReqDBID() {
             return "1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o";
           }
@@ -1014,7 +1036,7 @@ function saveRequest() {}
             .setTitle(t.default.getAppName())
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
             .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-        : HtmlService.createTemplateFromFile("index_shortlist.html")
+        : HtmlService.createTemplateFromFile("index_shortlist")
             .evaluate()
             .setTitle(t.default.getAppName())
             .addMetaTag("viewport", "width=device-width, initial-scale=1")

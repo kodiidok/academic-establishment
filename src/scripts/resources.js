@@ -20,6 +20,8 @@ class Resources {
       rtnObj.pgdTitles = this.getPgdTitleData();
       rtnObj.subjectAreas = this.getSubjectAreaData();
 
+      rtnObj.applications = this.getApplicationSheetData();
+
       // rtnObj.reqMain = this.getReqMainData();
       // rtnObj.requirements = this.getRequirements();
 
@@ -27,6 +29,21 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while initialLoading in Resources', error);
       throw new Error(`Error occurred while initialLoading`);
+    }
+  }
+
+  static getApplicationSheetData() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getTestMainDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getApplicationSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      return foundObj;
+    } catch (error) {
+      console.error('Error occurred while getApplicationSheetData in Resources', error);
+      throw new Error(`Error occurred while getApplicationSheetData`);
     }
   }
 

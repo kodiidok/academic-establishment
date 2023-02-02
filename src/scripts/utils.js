@@ -9,7 +9,7 @@ const APP_URL =
 const ALIASMAIL = 'portal@gs.pdn.ac.lk';
 const UUID_CODE = 'OA';
 
-// const DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const TEST_DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
 const DBID = '1R3ZBd0qe-Q9thnFtTXDUzMF18kCLd41IUrQbAX42JQ4';
 const DATA_DBID = '1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o';
 // const REQ_DBID = '1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8';
@@ -124,6 +124,10 @@ class Utils {
 
   static getMainDBID() {
     return DBID;
+  }
+
+  static getTestMainDBID() {
+    return TEST_DBID;
   }
 
   static getReqDBID() {
