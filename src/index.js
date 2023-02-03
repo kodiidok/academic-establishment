@@ -4,7 +4,7 @@ import Utils from './scripts/utils';
 function doGet(e) {
   if (!e.parameter.page) {
     // When no specific page requested, return "home page" Ex : ?page=hod
-    return HtmlService.createTemplateFromFile('sortlisting')
+    return HtmlService.createTemplateFromFile('index_view')
       .evaluate()
       .setTitle(Utils.getAppName())
       .addMetaTag('viewport', 'width=device-width, initial-scale=1')
@@ -27,7 +27,7 @@ function initialLoading() {
 }
 
 function saveRequest(obj) {
-  return Resources.saveRequest(obj);
+  return JSON.stringify(Resources.saveRequest(obj));
 }
 
 global.doGet = doGet;

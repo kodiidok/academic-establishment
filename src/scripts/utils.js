@@ -9,9 +9,11 @@ const APP_URL =
 const ALIASMAIL = 'portal@gs.pdn.ac.lk';
 const UUID_CODE = 'OA';
 
-const DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const TEST_DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const DBID = '1R3ZBd0qe-Q9thnFtTXDUzMF18kCLd41IUrQbAX42JQ4';
 const DATA_DBID = '1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o';
-const REQ_DBID = '1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8';
+// const REQ_DBID = '1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8';
+const REQ_DBID = '1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o';
 
 const APP_ROLE_SHEET = 'roles';
 const VACANCY_APPLICATION_SHEET = 'mainsheet';
@@ -20,9 +22,9 @@ const POST_LIST_SHEET = 'post';
 const FAC_LIST_SHEET = 'faculty';
 const DEPT_LIST_SHEET = 'department';
 
-const BASIC_DEGREE_LIST_SHEET = 'bdTitle';
-const POSTGRAD_DEGREE_LIST_SHEET = 'pgdTitle';
-const SUBJECT_AREA_LIST_SHEET = 'subjectArea';
+const BASIC_DEGREE_LIST_SHEET = 'basicDegreeTitles';
+const POSTGRAD_DEGREE_LIST_SHEET = 'postgradDegreeTitles';
+const SUBJECT_AREA_LIST_SHEET = 'subjectAreas';
 
 const REQUIREMENTS_MAINSHEET = 'mainsheet';
 const REQUIREMENTS_LIST_SHEET = 'requirements';
@@ -124,11 +126,15 @@ class Utils {
     return DBID;
   }
 
+  static getTestMainDBID() {
+    return TEST_DBID;
+  }
+
   static getReqDBID() {
     return REQ_DBID;
   }
 
-  static getReqMainSheet() {
+  static getReqMainSheetName() {
     return REQUIREMENTS_MAINSHEET;
   }
 

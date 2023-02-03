@@ -1,0 +1,15 @@
+<script>
+  const request = {};
+  let redirectURL = '';
+
+  function setMenu(appurl) {
+    $('#app-menu-01').attr('href', appurl);
+    $('#app-menu-02').attr('href', `${appurl}?page=hod`);
+  }
+
+  function setAppInfo(appName, appDescription, appRedirectURL) {
+    $('#appName').text(appName);
+    $('#appDescription').text(appDescription);
+    redirectURL = appRedirectURL;
+  }
+</script>

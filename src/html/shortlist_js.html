@@ -1,0 +1,56 @@
+<script>
+  const shortlistedApplicants = [];
+  const rejectedApplicants = [];
+  
+  // web app intial execution
+
+  $(document).ready(function () {
+    // Date
+    const d = new Date();
+    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    $('#sysDate').text(strDate);
+
+    onLoadAppExecutions();
+  });
+
+  function onLoadAppExecutions() {
+    showLoadingModal('Please Wait for Loading...');
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading();
+  }
+
+  function initialAppLoading(retdata) {
+    data = JSON.parse(retdata);
+    console.log(data);
+    if (data) {
+      setMenu(data.scriptUrl);
+      setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+      loadFilterData(data.posts, data.faculties, data.departments);
+      $('#modalLoading').modal('hide');
+    }
+  }
+
+  function loadFilterData(objPosts, objFaculties, objDepartments) {
+    posts = objPosts.posts.map((x) => x[0]);
+    faculties = objFaculties.faculties.map((x) => x[0]);
+    departments = objDepartments.departments.map((x) => x[0]);
+
+    // console.log(vacancies);
+    // console.log(posts);
+    // console.log(faculties);
+    // console.log(departments);
+
+    $('#shortlistedPost').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#shortlistedFaculty').append(`<option label="Choose one" value="">Choose one</option>`);
+    $('#shortlistedDepartment').append(`<option label="Choose one" value="">Choose one</option>`);
+
+    posts.forEach((e) => {
+      $('#shortlistedPost').append(`<option value="${e}">${e}</option>`);
+    });
+    faculties.forEach((e) => {
+      $('#shortlistedFaculty').append(`<option value="${e}">${e}</option>`);
+    });
+    departments.forEach((e) => {
+      $('#shortlistedDepartment').append(`<option value="${e}">${e}</option>`);
+    });
+  }
+</script>
