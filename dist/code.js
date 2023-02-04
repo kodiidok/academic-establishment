@@ -2,23 +2,24 @@ function doGet() {}
 function include() {}
 function initialLoading() {}
 function saveRequest() {}
+function initialShortlistAppLoading() {}
 (() => {
   "use strict";
   var __webpack_modules__ = [
       ,
       (e, t, a) => {
         a.r(t), a.d(t, { default: () => n });
-        var s = a(2),
-          i = a(3);
+        var i = a(2),
+          s = a(3);
         const n = class {
           static initialLoading() {
             const e = {};
             try {
               return (
-                (e.scriptUrl = i.default.getScriptUrl()),
-                (e.appName = i.default.getAppName()),
-                (e.appDescription = i.default.getAppDescription()),
-                (e.appRedirectURL = i.default.getAppRedirectURL()),
+                (e.scriptUrl = s.default.getScriptUrl()),
+                (e.appName = s.default.getAppName()),
+                (e.appDescription = s.default.getAppDescription()),
+                (e.appRedirectURL = s.default.getAppRedirectURL()),
                 (e.posts = this.getPostData()),
                 (e.vacancies = this.getVacancyData()),
                 (e.faculties = this.getFacultyData()),
@@ -39,14 +40,39 @@ function saveRequest() {}
               );
             }
           }
-          static getApplicationSheetData() {
+          static initialShortlistAppLoading() {
+            const e = {};
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getTestMainDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getApplicationSheetName()
+              return (
+                (e.scriptUrl = s.default.getScriptUrl()),
+                (e.appName = s.default.getAppName()),
+                (e.appDescription = s.default.getAppDescription()),
+                (e.appRedirectURL = s.default.getAppRedirectURL()),
+                (e.posts = this.getPostData()),
+                (e.faculties = this.getFacultyData()),
+                (e.departments = this.getDepartmentData()),
+                (e.applications = this.getApplicationsData()),
+                (e.test = "TESTED CODE WORKS!"),
+                e
+              );
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while initialShortlistAppLoading in Resources",
+                  e
+                ),
+                new Error("Error occurred while initialShortlistAppLoading"))
+              );
+            }
+          }
+          static getApplicationsData() {
+            try {
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getTestMainDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getApplicationSheetName()
                 );
-              return s.default.readDatabaseCache();
+              return i.default.readDatabaseCache();
             } catch (e) {
               throw (
                 (console.error(
@@ -60,18 +86,18 @@ function saveRequest() {}
           static resolveAppUser() {
             try {
               const e = {};
-              if (i.default.getCurrentUser()) {
-                const t = i.default.getCurrentUser();
+              if (s.default.getCurrentUser()) {
+                const t = s.default.getCurrentUser();
                 if (
-                  ((s.default.cacheEnabled = !1),
-                  s.default.initilizeDatabase(i.default.getMainDBID()),
-                  s.default.openDatabaseConnection(
-                    i.default.getAppRoleSheetName()
+                  ((i.default.cacheEnabled = !1),
+                  i.default.initilizeDatabase(s.default.getMainDBID()),
+                  i.default.openDatabaseConnection(
+                    s.default.getAppRoleSheetName()
                   ),
                   foundObj && "undefined" != typeof foundObj)
                 )
                   return (e.data = foundObj), e;
-                const a = i.default
+                const a = s.default
                   .getCurrentUser()
                   .split("@")[1]
                   .split(".")[0];
@@ -138,12 +164,12 @@ function saveRequest() {}
           }
           static getReqMainData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getReqDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getReqMainSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getReqDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getReqMainSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.reqMain = e), t;
             } catch (e) {
@@ -158,10 +184,10 @@ function saveRequest() {}
           }
           static getRequirements() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getReqDBID()),
-                s.default.openDatabaseConnection(i.default.getReqSheetName());
-              const e = s.default.readDatabaseCache(),
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getReqDBID()),
+                i.default.openDatabaseConnection(s.default.getReqSheetName());
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.requirements = e), t;
             } catch (e) {
@@ -176,12 +202,12 @@ function saveRequest() {}
           }
           static getBdTitleData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getBdTitlesListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getBdTitlesListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.bdTitles = e), t;
             } catch (e) {
@@ -196,12 +222,12 @@ function saveRequest() {}
           }
           static getPgdTitleData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getPgdTitlesListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getPgdTitlesListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.pgdTitles = e), t;
             } catch (e) {
@@ -216,12 +242,12 @@ function saveRequest() {}
           }
           static getSubjectAreaData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getSubjectAreaListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getSubjectAreaListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.subjectAreas = e), t;
             } catch (e) {
@@ -236,12 +262,12 @@ function saveRequest() {}
           }
           static getVacancyData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getVacanciesListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getVacanciesListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.vacancies = e), t;
             } catch (e) {
@@ -256,12 +282,12 @@ function saveRequest() {}
           }
           static getPostData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getPostListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getPostListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.posts = e), t;
             } catch (e) {
@@ -276,12 +302,12 @@ function saveRequest() {}
           }
           static getFacultyData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getFacListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getFacListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.faculties = e), t;
             } catch (e) {
@@ -296,12 +322,12 @@ function saveRequest() {}
           }
           static getDepartmentData() {
             try {
-              (s.default.cacheEnabled = !1),
-                s.default.initilizeDatabase(i.default.getDataDBID()),
-                s.default.openDatabaseConnection(
-                  i.default.getDeptListSheetName()
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getDataDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getDeptListSheetName()
                 );
-              const e = s.default.readDatabaseCache(),
+              const e = i.default.readDatabaseCache(),
                 t = {};
               return (t.departments = e), t;
             } catch (e) {
@@ -319,12 +345,12 @@ function saveRequest() {}
             try {
               return (
                 e &&
-                  ((s.default.cacheEnabled = !1),
-                  s.default.initilizeDatabase(i.default.getMainDBID()),
-                  s.default.openDatabaseConnection(
-                    i.default.getApplicationSheetName()
+                  ((i.default.cacheEnabled = !1),
+                  i.default.initilizeDatabase(s.default.getMainDBID()),
+                  i.default.openDatabaseConnection(
+                    s.default.getApplicationSheetName()
                   ),
-                  (t = s.default.saveItem(e))),
+                  (t = i.default.saveItem(e))),
                 t
               );
             } catch (e) {
@@ -462,11 +488,11 @@ function saveRequest() {}
                 Object.entries(t).forEach(([, e]) => {
                   a.push(e);
                 });
-              const s = [];
+              const i = [];
               if (
                 (e &&
                   Object.entries(e).forEach(([, e]) => {
-                    s.push(e);
+                    i.push(e);
                   }),
                 !(a.length > 0))
               )
@@ -475,7 +501,7 @@ function saveRequest() {}
                   new Error("Error ocuured while updating data as an array"))
                 );
               {
-                const e = this.findObjectRow(s),
+                const e = this.findObjectRow(i),
                   t = [];
                 t.push(a),
                   this.connectedDatabase
@@ -579,11 +605,11 @@ function saveRequest() {}
                 Object.entries(e).forEach(([, e]) => {
                   a.push(`${e}_DELETED`);
                 });
-              const s = [];
+              const i = [];
               if (
                 (e &&
                   Object.entries(e).forEach(([, e]) => {
-                    s.push(e);
+                    i.push(e);
                   }),
                 !(a.length > 0))
               )
@@ -592,12 +618,12 @@ function saveRequest() {}
                   new Error("Error ocuured while deleting data as an array"))
                 );
               {
-                const e = this.findObjectRow(s),
-                  i = [];
-                i.push(a),
+                const e = this.findObjectRow(i),
+                  s = [];
+                s.push(a),
                   this.connectedDatabase
                     .getRange(e + 1, 1, 1, a.length)
-                    .setValues(i),
+                    .setValues(s),
                   this.cacheEnabled &&
                     CacheService.getScriptCache().remove(this.CACHE_KEY),
                   (t = 1);
@@ -619,8 +645,8 @@ function saveRequest() {}
             return (
               e &&
                 t.filter(
-                  (t, s) => (
-                    JSON.stringify(t) === JSON.stringify(e) && (a = s), null
+                  (t, i) => (
+                    JSON.stringify(t) === JSON.stringify(e) && (a = i), null
                   )
                 ),
               a
@@ -721,13 +747,13 @@ function saveRequest() {}
                 }/gviz/tq?tqx=out:json&headers=1&sheet=${
                   this.sheetName
                 }&range=${t.range}&tq=${encodeURIComponent(e)}`,
-                s = UrlFetchApp.fetch(a, {
+                i = UrlFetchApp.fetch(a, {
                   headers: {
                     Authorization: `Bearer ${ScriptApp.getOAuthToken()}`,
                   },
                 }).getContentText();
               return JSON.parse(
-                s
+                i
                   .replace("/*O_o*/", "")
                   .replace("google.visualization.Query.setResponse(", "")
                   .slice(0, -2)
@@ -750,17 +776,17 @@ function saveRequest() {}
                 _utils__WEBPACK_IMPORTED_MODULE_0__.default.getSheetStructure(
                   this.sheetName
                 ),
-              s = [];
+              i = [];
             return (
               t.forEach(function (e) {
                 const t = {};
-                let i = 0;
+                let s = 0;
                 e.c.forEach(function (e) {
-                  e && e.v && (t[a[i]] = e.v), (i += 1);
+                  e && e.v && (t[a[s]] = e.v), (s += 1);
                 }),
-                  s.push(t);
+                  i.push(t);
               }),
-              s
+              i
             );
           }
           static batchUpdate(e) {
@@ -769,13 +795,13 @@ function saveRequest() {}
                   this.sheetName
                 ),
               a = [],
-              s = t.range.split(":");
-            let i = "";
+              i = t.range.split(":");
+            let s = "";
             const { sheetName: n } = this;
             e.forEach(function (e) {
-              i = `${n}!${s[0]}${e.id}:${s[1]}${e.id}`;
+              s = `${n}!${i[0]}${e.id}:${i[1]}${e.id}`;
               const o = {};
-              (o.range = i), (o.majorDimension = "ROWS");
+              (o.range = s), (o.majorDimension = "ROWS");
               const c = [];
               t.arrayNames.forEach(function (t, a) {
                 0 === a ? c.push("=ROW()") : c.push(e[t]);
@@ -791,7 +817,7 @@ function saveRequest() {}
             t.waitLock(75e4);
             try {
               const a = this.connectedDatabase.getSheetId(),
-                s = Object.entries(e).map(([e, t]) => ({
+                i = Object.entries(e).map(([e, t]) => ({
                   findReplace: {
                     find: e.toString(),
                     replacement: t.toString(),
@@ -799,7 +825,7 @@ function saveRequest() {}
                     sheetId: a,
                   },
                 }));
-              Sheets.Spreadsheets.batchUpdate({ requests: s }, this.DBID),
+              Sheets.Spreadsheets.batchUpdate({ requests: i }, this.DBID),
                 console.info("unenroll suceeses");
             } catch (e) {
               console.error(
@@ -823,29 +849,29 @@ function saveRequest() {}
         const __WEBPACK_DEFAULT_EXPORT__ = Database;
       },
       (e, t, a) => {
-        a.r(t), a.d(t, { default: () => h });
-        const s = "Asia/Colombo",
-          i = "MM/dd/yyyy HH:mm:ss",
+        a.r(t), a.d(t, { default: () => p });
+        const i = "Asia/Colombo",
+          s = "MM/dd/yyyy HH:mm:ss",
           n = "ONLINE APPLICATION",
           o =
             "https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec",
           c = "portal@gs.pdn.ac.lk";
         let l = null,
           u = [];
-        const h = class {
+        const p = class {
           static ChunkyCache(e, t) {
             return {
-              put(a, s, i) {
-                const n = JSON.stringify(s),
+              put(a, i, s) {
+                const n = JSON.stringify(i),
                   o = Math.floor(t / 2);
                 let c = 0;
                 for (; c < n.length; )
                   (l = `${a}_${c}`),
                     u.push(l),
-                    e.put(l, n.substr(c, o), i + 5),
+                    e.put(l, n.substr(c, o), s + 5),
                     (c += o);
-                const h = { chunkSize: t, chunks: u, length: n.length };
-                e.put(a, JSON.stringify(h), i);
+                const p = { chunkSize: t, chunks: u, length: n.length };
+                e.put(a, JSON.stringify(p), s);
               },
               get(t) {
                 const a = e.get(t);
@@ -866,20 +892,20 @@ function saveRequest() {}
             };
           }
           static getDateFormat() {
-            return i;
+            return s;
           }
           static getCurrentDate() {
-            return Utilities.formatDate(new Date(), s, i);
+            return Utilities.formatDate(new Date(), i, s);
           }
           static generateUUID() {
             return `OA_${Utilities.formatDate(
               new Date(),
-              s,
+              i,
               "MMddyyyyHHmmss"
             )}`;
           }
           static parseDate(e) {
-            return Utilities.formatDate(new Date(e), s, i);
+            return Utilities.formatDate(new Date(e), i, s);
           }
           static getCurrentUser() {
             return Session.getActiveUser().getEmail();
@@ -953,26 +979,26 @@ function saveRequest() {}
           static getProcessingEmails() {
             return "portal@gs.pdn.ac.lk";
           }
-          static sendMail(e, t, a, s, i, n, l, u, h) {
+          static sendMail(e, t, a, i, s, n, l, u, p) {
             try {
-              let p =
+              let h =
                 HtmlService.createHtmlOutputFromFile(
                   "email_template"
                 ).getContent();
-              (p = p.replace("%heading", e)),
-                (p = p.replace("%description", t)),
-                (p = p.replace("%param1", s)),
-                (p = p.replace("%param2", i)),
-                (p = p.replace("%param3", n)),
-                (p = p.replace("%param4", l)),
-                (p = p.replace("%param5", `${h} - ${u}`)),
-                (p = p.replace("%appURL", o));
+              (h = h.replace("%heading", e)),
+                (h = h.replace("%description", t)),
+                (h = h.replace("%param1", i)),
+                (h = h.replace("%param2", s)),
+                (h = h.replace("%param3", n)),
+                (h = h.replace("%param4", l)),
+                (h = h.replace("%param5", `${p} - ${u}`)),
+                (h = h.replace("%appURL", o));
               const d = "Online Application -  University of Peradeniya";
               GmailApp.sendEmail(a, d, "", {
                 from: c,
                 replyTo: c,
                 name: "University of Peradeniya",
-                htmlBody: p,
+                htmlBody: h,
               });
             } catch (e) {
               throw (
@@ -983,9 +1009,9 @@ function saveRequest() {}
           }
           static errHandler(e, t) {
             let a = `${e.message}\n in file: ${e.fileName} on line: ${e.lineNumber}`;
-            const s = `${n} ERROR OCCURED | FOS APPS |  ${t}`;
-            (a = `${s}\n${a}\n onError: ${JSON.stringify(this.onError)}`),
-              GmailApp.sendEmail("youremail@sci.pdn.ac.lk", s, a);
+            const i = `${n} ERROR OCCURED | FOS APPS |  ${t}`;
+            (a = `${i}\n${a}\n onError: ${JSON.stringify(this.onError)}`),
+              GmailApp.sendEmail("youremail@sci.pdn.ac.lk", i, a);
           }
           static genApplicationID() {
             return SpreadsheetApp.openById(this.getMainDBID())
@@ -1050,6 +1076,9 @@ function saveRequest() {}
       }),
       (__webpack_require__.g.saveRequest = function (t) {
         return JSON.stringify(e.default.saveRequest(t));
+      }),
+      (__webpack_require__.g.initialShortlistAppLoading = function () {
+        return JSON.stringify(e.default.initialShortlistAppLoading());
       });
   })();
 })();

@@ -32,7 +32,31 @@ class Resources {
     }
   }
 
-  static getApplicationSheetData() {
+  static initialShortlistAppLoading() {
+    const rtnObj = {};
+    try {
+      // rtnObj.appUser = this.resolveAppUser();
+      rtnObj.scriptUrl = Utils.getScriptUrl();
+      rtnObj.appName = Utils.getAppName();
+      rtnObj.appDescription = Utils.getAppDescription();
+      rtnObj.appRedirectURL = Utils.getAppRedirectURL();
+
+      rtnObj.posts = this.getPostData();
+      rtnObj.faculties = this.getFacultyData();
+      rtnObj.departments = this.getDepartmentData();
+
+      rtnObj.applications = this.getApplicationsData();
+
+      rtnObj.test = 'TESTED CODE WORKS!';
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialShortlistAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialShortlistAppLoading`);
+    }
+  }
+
+  static getApplicationsData() {
     try {
       DatabaseOperations.cacheEnabled = false;
       DatabaseOperations.initilizeDatabase(Utils.getTestMainDBID());
@@ -40,6 +64,7 @@ class Resources {
       // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
       const foundObj = DatabaseOperations.readDatabaseCache();
 
+      // return JSON.stringify(foundObj);
       return foundObj;
     } catch (error) {
       console.error('Error occurred while getApplicationSheetData in Resources', error);

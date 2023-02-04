@@ -1,7 +1,8 @@
 <script>
   const shortlistedApplicants = [];
+  const pendingApplicants = [];
   const rejectedApplicants = [];
-  
+
   // web app intial execution
 
   $(document).ready(function () {
@@ -15,26 +16,272 @@
 
   function onLoadAppExecutions() {
     showLoadingModal('Please Wait for Loading...');
-    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading();
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialShortlistAppLoading();
   }
 
-  function initialAppLoading(retdata) {
+  function initialLoading(retdata) {
     data = JSON.parse(retdata);
     console.log(data);
     if (data) {
       setMenu(data.scriptUrl);
       setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
       loadFilterData(data.posts, data.faculties, data.departments);
+      loadShortlistData(data.applications);
       $('#modalLoading').modal('hide');
     }
   }
+
+  function loadShortlistData(objApplications) {
+    applications = objApplications.slice(1);
+
+    applications.forEach((e) => {
+      if (e[47].toLowerCase() === 'short listed') {
+        shortlistedApplicants.push(e);
+      } else {
+        pendingApplicants.push(e);
+      }
+    });
+
+    console.log(shortlistedApplicants);
+    loadShortlistTable(shortlistedApplicants);
+
+    console.log(pendingApplicants);
+    loadPendingTable(pendingApplicants);
+  }
+
+  function loadShortlistTable(data) {
+    if (data) {
+      const objects = data;
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          let htmlElement = '';
+          // console.log(JSON.parse(JSON.parse(objects[i][26])));
+          // console.log(JSON.parse(JSON.parse(objects[i][27])));
+          // console.log(JSON.parse(JSON.parse(objects[i][37])));
+          htmlElement += '<tr>';
+
+          // name
+          htmlElement += `<td>${objects[i][8]}</td>`;
+
+          // basic degree
+          const col2 = [];
+          JSON.parse(JSON.parse(objects[i][26])).forEach((item) => {
+            let temp = '';
+            item.forEach((element) => {
+              temp += element;
+              temp += ', ';
+            });
+            col2.push(temp.slice(0, -2));
+            temp = '';
+          });
+          htmlElement += `<td><ul style='list-style-type: square; padding-left: 0;'>`;
+          col2.forEach((item) => {
+            htmlElement += `<li>${item}</li>`;
+          });
+          htmlElement += `<ul></td>`;
+          // htmlElement += `<td>${JSON.parse(JSON.parse(objects[i][26]))}</td>`;
+  
+          // postgrad degree
+          const col3 = [];
+          JSON.parse(JSON.parse(objects[i][27])).forEach((item) => {
+            let temp = '';
+            item.forEach((element) => {
+              temp += element;
+              temp += ', ';
+            });
+            col3.push(temp.slice(0, -2));
+            temp = '';
+          });
+          htmlElement += `<td><ul style='list-style-type: square; padding-left: 0;'>`;
+          col3.forEach((item) => {
+            htmlElement += `<li>${item}</li>`;
+          });
+          htmlElement += `<ul></td>`;
+          // htmlElement += `<td>${JSON.parse(JSON.parse(objects[i][27]))}</td>`;
+
+          // years of experience
+          let col4 = '';
+          let yearsOfExperience = '';
+          yearsOfExperience += calculateDurationInMonths(objects[i][35]);
+          // eslint-disable-next-line no-loop-func
+          JSON.parse(JSON.parse(objects[i][37])).forEach((x) => {
+            yearsOfExperience += calculateDurationInMonths(x[2], x[3]);
+          });
+          col4 = yearsOfExperience;
+          htmlElement += `<td>${col4}</td>`;
+          // htmlElement += `<td>${JSON.parse(JSON.parse(objects[i][37]))}</td>`;
+  
+          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
+          htmlElement += `<td><button name="approve" class="btn btn-success btn-rounded btn-sm" data-id="${i}" onClick="approveApplicant($(this))"><i class="fa fa-check"></i> Approve</button>`;
+          htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeApplicant($(this))"><i class="fa fa-trash"></i> Remove</button>`;
+          htmlElement += '</tr>';
+
+          $('#tblShortlisted').append(htmlElement);
+          htmlElement = '';
+        }
+      }
+    }
+  }
+
+  function loadPendingTable(data) {
+    if (data) {
+      const objects = data;
+
+      let i = 0;
+      if (objects.length > 0) {
+        for (i = 0; i < objects.length; i += 1) {
+          let htmlElement = '';
+          // console.log(JSON.parse(JSON.parse(objects[i][26])));
+          // console.log(JSON.parse(JSON.parse(objects[i][27])));
+          // console.log(JSON.parse(JSON.parse(objects[i][37])));
+          htmlElement += '<tr>';
+  
+          // name
+          htmlElement += `<td>${objects[i][8]}</td>`;
+  
+          // basic degree
+          const col2 = [];
+          JSON.parse(JSON.parse(objects[i][26])).forEach((item) => {
+            let temp = '';
+            item.forEach((element) => {
+              temp += element;
+              temp += ', ';
+            });
+            col2.push(temp.slice(0, -2));
+            temp = '';
+          });
+          htmlElement += `<td><ul style='list-style-type: square; padding-left: 0;'>`;
+          col2.forEach((item) => {
+            htmlElement += `<li>${item}</li>`;
+          });
+          htmlElement += `<ul></td>`;
+          // htmlElement += `<td>${JSON.parse(JSON.parse(objects[i][26]))}</td>`;
+  
+          // postgrad degree
+          const col3 = [];
+          JSON.parse(JSON.parse(objects[i][27])).forEach((item) => {
+            let temp = '';
+            item.forEach((element) => {
+              temp += element;
+              temp += ', ';
+            });
+            col3.push(temp.slice(0, -2));
+            temp = '';
+          });
+          htmlElement += `<td><ul style='list-style-type: square; padding-left: 0;'>`;
+          col3.forEach((item) => {
+            htmlElement += `<li>${item}</li>`;
+          });
+          htmlElement += `<ul></td>`;
+          // htmlElement += `<td>${JSON.parse(JSON.parse(objects[i][27]))}</td>`;
+  
+          // years of experience
+          let col4 = '';
+          let yearsOfExperience = '';
+          yearsOfExperience += calculateDurationInMonths(objects[i][35]);
+          // eslint-disable-next-line no-loop-func
+          JSON.parse(JSON.parse(objects[i][37])).forEach((x) => {
+            yearsOfExperience += calculateDurationInMonths(x[2], x[3]);
+          });
+          col4 = yearsOfExperience;
+          htmlElement += `<td>${col4}</td>`;
+          // htmlElement += `<td>${JSON.parse(JSON.parse(objects[i][37]))}</td>`;
+
+          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
+          htmlElement += `<td><button name="shortlist" class="btn btn-success btn-rounded btn-sm" data-id="${i}" onClick="shortlistApplicant($(this))"><i class="fa fa-check"></i> Shortlist</button>`;
+          htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="rejectApplicant($(this))"><i class="fa fa-trash"></i> Reject</button>`;
+          htmlElement += '</tr>';
+
+          $('#tblPending').append(htmlElement);
+          htmlElement = '';
+        }
+      }
+    }
+  }
+
+  // function loadShortlistTable(data) {
+  //   if (data) {
+  //     const objects = data;
+
+  //     let i = 0;
+  //     if (objects.length > 0) {
+  //       for (i = 0; i < objects.length; i += 1) {
+  //         let htmlElement = '';
+  //         let temp = '';
+  //         if (objects[i] !== '') {
+  //           // name, address, dob
+  //           const col1 = [objects[i][7], objects[i][8], objects[i][11], objects[i][10]];
+  //           htmlElement += `<td>
+  //             <ul style='list-style-type: none;'>
+  //               <li>${col1[0]}${col1[1]},</li>
+  //               <li>${col1[2]},</li>
+  //               <li>${col1[3]}</li>
+  //             <ul>
+  //           </td>`;
+  
+  //           // basic degree
+  //           const col2 = [];
+  //           JSON.parse(JSON.parse(objects[i][26])).forEach((item) => {
+  //             item.forEach((element) => {
+  //               temp += element;
+  //               temp += ', ';
+  //             });
+  //             col2.push(temp.slice(0, -2));
+  //             temp = '';
+  //           });
+  //           htmlElement += `<td><ul style='list-style-type: none;'>`;
+  //           col2.forEach((item) => {
+  //             htmlElement += `<li>${item}</li>`;
+  //           });
+  //           htmlElement += `<ul></td>`;
+
+  //           // postgrad degree
+  //           const col3 = [];
+  //           JSON.parse(JSON.parse(objects[i][27])).forEach((item) => {
+  //             item.forEach((element) => {
+  //               temp += element;
+  //               temp += ', ';
+  //             });
+  //             col3.push(temp.slice(0, -2));
+  //             temp = '';
+  //           });
+  //           htmlElement += `<td><ul style='list-style-type: none;'>`;
+  //           col3.forEach((item) => {
+  //             htmlElement += `<li>${item}</li>`;
+  //           });
+  //           htmlElement += `<ul></td>`;
+
+  //           // years of experience
+  //           let col4 = '';
+  //           let yearsOfExperience = '';
+  //           yearsOfExperience += calculateDurationInMonths(objects[i][35]);
+  //           // eslint-disable-next-line no-loop-func
+  //           JSON.parse(objects[i][37]).forEach((x) => {
+  //             yearsOfExperience += calculateDurationInMonths(x[2], x[3]);
+  //           });
+  //           col4 = yearsOfExperience;
+  //           htmlElement += `<td>${col4}</td>`;
+
+  //           htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="view-${i}" onClick="viewApplicant($(this))"><i class="fa fa-trash"></i> View</button>`;
+  //           htmlElement += `<td><button name="approve" class="btn btn-success btn-rounded btn-sm" data-id="approve-${i}" onClick="approveApplicant($(this))"><i class="fa fa-trash"></i> Approve</button>`;
+  //           htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="remove-${i}" onClick="removeApplicant($(this))"><i class="fa fa-trash"></i> Remove</button>`;
+  //           htmlElement += '</tr>';
+  //         }
+  //       }
+  //     } else {
+  //       htmlElement = '';
+  //     }
+  //     $('#tblShortlisted').append(htmlElement);
+  //   }
+  // }
 
   function loadFilterData(objPosts, objFaculties, objDepartments) {
     posts = objPosts.posts.map((x) => x[0]);
     faculties = objFaculties.faculties.map((x) => x[0]);
     departments = objDepartments.departments.map((x) => x[0]);
 
-    // console.log(vacancies);
     // console.log(posts);
     // console.log(faculties);
     // console.log(departments);
@@ -53,4 +300,20 @@
       $('#shortlistedDepartment').append(`<option value="${e}">${e}</option>`);
     });
   }
+
+  // function updateShortlistData() {
+  //   const row = [];
+  //   google.script.run
+  //     .withFailureHandler(function () {
+  //       console.log('update row failed!');
+  //     })
+  //     .withSuccessHandler(function () {
+  //       console.log(row);
+  //     })
+  //     .update(row);
+  // }
+
+  // function updateShortListStatus() {
+
+  // }
 </script>

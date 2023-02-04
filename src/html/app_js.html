@@ -12,4 +12,17 @@
     $('#appDescription').text(appDescription);
     redirectURL = appRedirectURL;
   }
+
+  function calculateDurationInMonths(startDate, endDate) {
+    let end = '';
+    const start = new Date(startDate);
+    if (endDate === undefined || endDate === null) {
+      end = new Date();
+    } else {
+      end = new Date(endDate);
+    }
+    const diffInTime = end.getTime() - start.getTime();
+    const diffInMonths = Math.round(diffInTime / (1000 * 3600 * 24 * 30));
+    return Math.ceil(diffInMonths / 12);
+  }
 </script>
