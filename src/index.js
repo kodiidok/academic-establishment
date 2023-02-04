@@ -30,7 +30,16 @@ function saveRequest(obj) {
   return JSON.stringify(Resources.saveRequest(obj));
 }
 
+function update(obj) {
+  return JSON.stringify(Resources.updateRequest(obj));
+}
+
+function initialShortlistAppLoading() {
+  return JSON.stringify(Resources.initialShortlistAppLoading());
+}
+
 global.doGet = doGet;
 global.include = include;
 global.initialLoading = initialLoading;
 global.saveRequest = saveRequest;
+global.initialShortlistAppLoading = initialShortlistAppLoading;
