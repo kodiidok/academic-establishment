@@ -36,7 +36,7 @@ function displayData(data) {
     $('#rpersonalTitle').val(data[7]);
     $('#rpersonalNameInit').val(data[8]);
     $('#rpersonalFullName').val(data[9]);
-    $('#rpersonalDOB').val(data[10]);
+    $('#rpersonalDOB').val(data[10].slice(0, 10));
     $('#rpersonalAddress').val(data[11]);
     $('#rcivilstatus').val(data[12]);
     $('#rpersonalMobile').val(data[13]);
@@ -60,6 +60,33 @@ function displayData(data) {
     laodAbstractsTable(JSON.parse(JSON.parse(data[30])));
     laodAwardsTable(JSON.parse(JSON.parse(data[31])));
     laodExtraCurrActTable(JSON.parse(JSON.parse(data[32])));
+
+    $('#rpresentOccDesignation').val(data[33]);
+    $('#rpresentOccDept').val(data[34]);
+    $('#rpresentOccFrom').val(data[35].slice(0, 10));
+    $('#rpresentOccSalaryDrawn').val(data[36]);
+
+    laodPreviousEmpTable(JSON.parse(JSON.parse(data[37])));
+
+    const jsonData1 = JSON.parse(data[38]);
+    $('#rName1r').val(jsonData1.rName1);
+    $('#rTelephone1r').val(jsonData1.rTelephone1);
+    $('#rAddress1r').val(jsonData1.rAddress1);
+    $('#rEmail1r').val(jsonData1.rEmail1);
+
+    const jsonData2 = JSON.parse(data[39]);
+    $('#rName2r').val(jsonData2.rName2);
+    $('#rTelephone2r').val(jsonData2.rTelephone2);
+    $('#rAddress2r').val(jsonData2.rAddress2);
+    $('#rEmail2r').val(jsonData2.rEmail2);
+
+    $('#commendedOrPunished').val(data[40]);
+    $('#rspecifyCommendations').val(data[41]);
+    $('#rVacation').val(data[42]);
+    $('#rspecifyVacation').val(data[43]);
+    $('#rbond').val(data[44]);
+    $('#rbondValue').val(data[45]);
+    $('#runiInstitute').val(data[46]);
   }
   // readOnlyData();
 }
@@ -227,6 +254,28 @@ function laodExtraCurrActTable(tbldata) {
         htmlElement += '</tr>';
       }
       $('#rtblExtraCurrAct').html(htmlElement);
+    }
+  }
+}
+
+function laodPreviousEmpTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblPreviousEmp').html(htmlElement);
     }
   }
 }
