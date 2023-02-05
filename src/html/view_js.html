@@ -20,7 +20,7 @@ function initialAppLoading(retdata) {
   if (data) {
     setMenu(data.scriptUrl);
     setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
-    displayData(data.applications[2]);
+    displayData(data.applications[3]);
     $('#modalLoading').modal('hide');
   }
 }
@@ -50,8 +50,8 @@ function displayData(data) {
     $('#rnic').val(data[21]);
     $('#byDescentOrRegistration').val(data[22]);
     $('#rspecifyCountry').val(data[23]);
-    $('#rpassportNo').val(data[23]);
-    $('#rLanguages').val(JSON.parse(data[25]));
+    $('#rpassportNo').val(data[24]);
+    $('#rLanguages').val(JSON.parse(data[25]).join(',   '));
 
     laodBasicDegreeTable(JSON.parse(JSON.parse(data[26])));
     laodPgTable(JSON.parse(JSON.parse(data[27])));
