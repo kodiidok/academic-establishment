@@ -2,6 +2,17 @@ import DatabaseOperations from './DBOperations';
 import Utils from './utils';
 
 class Resources {
+  static getApplications() {
+    const rtnObj = {};
+    try {
+      rtnObj.applications = this.getApplicationsData();
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while getApplications in Resources', error);
+      throw new Error(`Error occurred while getApplications`);
+    }
+  }
+
   static initialLoading() {
     const rtnObj = {};
     try {
@@ -20,7 +31,7 @@ class Resources {
       rtnObj.pgdTitles = this.getPgdTitleData();
       rtnObj.subjectAreas = this.getSubjectAreaData();
 
-      rtnObj.applications = this.getApplicationSheetData();
+      rtnObj.applications = this.getApplicationsData();
 
       // rtnObj.reqMain = this.getReqMainData();
       // rtnObj.requirements = this.getRequirements();
@@ -464,6 +475,23 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while saveRequest in Resources', error);
       throw new Error(`Error occurred while saveRequest`);
+    }
+  }
+
+  static updateApplicationStatus(obj) {
+    let retObj = '';
+    try {
+      if (obj) {
+        DatabaseOperations.cacheEnabled = false;
+        DatabaseOperations.initilizeDatabase(Utils.getTestMainDBID());
+        DatabaseOperations.openDatabaseConnection(Utils.getApplicationSheetName());
+        // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+        retObj = DatabaseOperations.updateItem(obj);
+      }
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while updateApplicationStatus in Resources', error);
+      throw new Error(`Error occurred while updateApplicationStatus`);
     }
   }
 }

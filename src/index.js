@@ -30,12 +30,16 @@ function saveRequest(obj) {
   return JSON.stringify(Resources.saveRequest(obj));
 }
 
-function update(obj) {
-  return JSON.stringify(Resources.updateRequest(obj));
+function updateApplicationStatus(obj) {
+  return JSON.stringify(Resources.updateApplicationStatus(obj));
 }
 
 function initialShortlistAppLoading() {
   return JSON.stringify(Resources.initialShortlistAppLoading());
+}
+
+function getApplications() {
+  return JSON.stringify(Resources.getApplications());
 }
 
 global.doGet = doGet;
@@ -43,3 +47,5 @@ global.include = include;
 global.initialLoading = initialLoading;
 global.saveRequest = saveRequest;
 global.initialShortlistAppLoading = initialShortlistAppLoading;
+global.updateApplicationStatus = updateApplicationStatus;
+global.getApplications = getApplications;

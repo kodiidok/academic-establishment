@@ -238,5 +238,18 @@ class Utils {
     const APPLICATION_ID = DB.getSheetByName(this.getApplicationSheetName()).getLastRow();
     return APPLICATION_ID;
   }
+
+  static formatDate(dateString) {
+    const date = new Date(dateString);
+    const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
+      .getDate()
+      .toString()
+      .padStart(2, '0')}/${date.getFullYear()} ${date.getHours()}:${date
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+
+    return formattedDate; // "01/29/2023 1:25:38"
+  }
 }
 export default Utils;

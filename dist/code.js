@@ -3,6 +3,8 @@ function include() {}
 function initialLoading() {}
 function saveRequest() {}
 function initialShortlistAppLoading() {}
+function updateApplicationStatus() {}
+function getApplications() {}
 (() => {
   "use strict";
   var __webpack_modules__ = [
@@ -12,6 +14,20 @@ function initialShortlistAppLoading() {}
         var i = a(2),
           s = a(3);
         const n = class {
+          static getApplications() {
+            const e = {};
+            try {
+              return (e.applications = this.getApplicationsData()), e;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getApplications in Resources",
+                  e
+                ),
+                new Error("Error occurred while getApplications"))
+              );
+            }
+          }
           static initialLoading() {
             const e = {};
             try {
@@ -27,7 +43,7 @@ function initialShortlistAppLoading() {}
                 (e.bdTitles = this.getBdTitleData()),
                 (e.pgdTitles = this.getPgdTitleData()),
                 (e.subjectAreas = this.getSubjectAreaData()),
-                (e.applications = this.getApplicationSheetData()),
+                (e.applications = this.getApplicationsData()),
                 e
               );
             } catch (e) {
@@ -363,6 +379,29 @@ function initialShortlistAppLoading() {}
               );
             }
           }
+          static updateApplicationStatus(e) {
+            let t = "";
+            try {
+              return (
+                e &&
+                  ((i.default.cacheEnabled = !1),
+                  i.default.initilizeDatabase(s.default.getTestMainDBID()),
+                  i.default.openDatabaseConnection(
+                    s.default.getApplicationSheetName()
+                  ),
+                  (t = i.default.updateItem(e))),
+                t
+              );
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while updateApplicationStatus in Resources",
+                  e
+                ),
+                new Error("Error occurred while updateApplicationStatus"))
+              );
+            }
+          }
         };
       },
       (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
@@ -481,36 +520,28 @@ function initialShortlistAppLoading() {}
               );
             }
           }
-          static updateItem(e, t) {
+          static updateItem(e) {
+            const t = { status: !1 };
             try {
-              const a = [];
-              t &&
-                Object.entries(t).forEach(([, e]) => {
-                  a.push(e);
-                });
-              const i = [];
-              if (
-                (e &&
-                  Object.entries(e).forEach(([, e]) => {
-                    i.push(e);
-                  }),
-                !(a.length > 0))
-              )
+              if (!e)
                 throw (
                   (console.error("No data inside array for updating"),
                   new Error("Error ocuured while updating data as an array"))
                 );
               {
-                const e = this.findObjectRow(i),
-                  t = [];
-                t.push(a),
-                  this.connectedDatabase
-                    .getRange(e + 1, 1, 1, a.length)
-                    .setValues(t),
-                  this.cacheEnabled &&
-                    CacheService.getScriptCache().remove(this.CACHE_KEY);
+                const a = this.connectedDatabase.getLastRow();
+                for (let t = 2; t <= a; t += 1)
+                  this.connectedDatabase.getRange(t, 2).getValue() === e[1] &&
+                    ((e[0] =
+                      _utils__WEBPACK_IMPORTED_MODULE_0__.default.formatDate(
+                        e[0]
+                      )),
+                    this.connectedDatabase
+                      .getRange(t, 1, 1, this.connectedDatabase.getLastColumn())
+                      .setValues([e]));
+                (t.request = e), (t.status = !0);
               }
-              return "";
+              return t;
             } catch (e) {
               throw (
                 (console.error(
@@ -981,24 +1012,24 @@ function initialShortlistAppLoading() {}
           }
           static sendMail(e, t, a, i, s, n, l, u, p) {
             try {
-              let h =
+              let d =
                 HtmlService.createHtmlOutputFromFile(
                   "email_template"
                 ).getContent();
-              (h = h.replace("%heading", e)),
-                (h = h.replace("%description", t)),
-                (h = h.replace("%param1", i)),
-                (h = h.replace("%param2", s)),
-                (h = h.replace("%param3", n)),
-                (h = h.replace("%param4", l)),
-                (h = h.replace("%param5", `${p} - ${u}`)),
-                (h = h.replace("%appURL", o));
-              const d = "Online Application -  University of Peradeniya";
-              GmailApp.sendEmail(a, d, "", {
+              (d = d.replace("%heading", e)),
+                (d = d.replace("%description", t)),
+                (d = d.replace("%param1", i)),
+                (d = d.replace("%param2", s)),
+                (d = d.replace("%param3", n)),
+                (d = d.replace("%param4", l)),
+                (d = d.replace("%param5", `${p} - ${u}`)),
+                (d = d.replace("%appURL", o));
+              const h = "Online Application -  University of Peradeniya";
+              GmailApp.sendEmail(a, h, "", {
                 from: c,
                 replyTo: c,
                 name: "University of Peradeniya",
-                htmlBody: h,
+                htmlBody: d,
               });
             } catch (e) {
               throw (
@@ -1017,6 +1048,16 @@ function initialShortlistAppLoading() {}
             return SpreadsheetApp.openById(this.getMainDBID())
               .getSheetByName(this.getApplicationSheetName())
               .getLastRow();
+          }
+          static formatDate(e) {
+            const t = new Date(e);
+            return `${(t.getMonth() + 1).toString().padStart(2, "0")}/${t
+              .getDate()
+              .toString()
+              .padStart(2, "0")}/${t.getFullYear()} ${t.getHours()}:${t
+              .getMinutes()
+              .toString()
+              .padStart(2, "0")}:${t.getSeconds().toString().padStart(2, "0")}`;
           }
         };
       },
@@ -1079,6 +1120,12 @@ function initialShortlistAppLoading() {}
       }),
       (__webpack_require__.g.initialShortlistAppLoading = function () {
         return JSON.stringify(e.default.initialShortlistAppLoading());
+      }),
+      (__webpack_require__.g.updateApplicationStatus = function (t) {
+        return JSON.stringify(e.default.updateApplicationStatus(t));
+      }),
+      (__webpack_require__.g.getApplications = function () {
+        return JSON.stringify(e.default.getApplications());
       });
   })();
 })();
