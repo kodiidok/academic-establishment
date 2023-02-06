@@ -1,0 +1,282 @@
+<script>
+// web app intial execution
+$(document).ready(function () {
+  // Date
+  const d = new Date();
+  const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  $('#sysDate').text(strDate);
+
+  onLoadAppExecutions();
+});
+
+function onLoadAppExecutions() {
+  showLoadingModal('Please Wait for Loading...');
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading();
+}
+
+function initialAppLoading(retdata) {
+  data = JSON.parse(retdata);
+  console.log(data);
+  if (data) {
+    setMenu(data.scriptUrl);
+    setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+    displayData(data.applications[3]);
+    $('#modalLoading').modal('hide');
+  }
+}
+
+function displayData(data) {
+  if (data.length > 0) {
+    $('#rvacancyID').val(data[2]);
+    $('#rvacancyFaculty').val(data[3]);
+    $('#rvacancyDepartment').val(data[4]);
+    $('#rvacancyPost').val(data[5]);
+
+    $('#rpdGender').val(data[6]);
+    $('#rpersonalTitle').val(data[7]);
+    $('#rpersonalNameInit').val(data[8]);
+    $('#rpersonalFullName').val(data[9]);
+    $('#rpersonalDOB').val(data[10].slice(0, 10));
+    $('#rpersonalAddress').val(data[11]);
+    $('#rcivilstatus').val(data[12]);
+    $('#rpersonalMobile').val(data[13]);
+    $('#rpersonalTp').val(data[14]);
+    $('#rpersonalEmail').val(data[15]);
+    $('#rdistrict').val(data[16]);
+    $('#relectorate').val(data[17]);
+    $('#rprovince').val(data[18]);
+    $('#rcity').val(data[19]);
+    $('#rCitizenship').val(data[20]);
+    $('#rnic').val(data[21]);
+    $('#byDescentOrRegistration').val(data[22]);
+    $('#rspecifyCountry').val(data[23]);
+    $('#rpassportNo').val(data[24]);
+    $('#rLanguages').val(JSON.parse(data[25]).join(',   '));
+
+    laodBasicDegreeTable(JSON.parse(JSON.parse(data[26])));
+    laodPgTable(JSON.parse(JSON.parse(data[27])));
+    laodBookTable(JSON.parse(JSON.parse(data[28])));
+    laodJournalsTable(JSON.parse(JSON.parse(data[29])));
+    laodAbstractsTable(JSON.parse(JSON.parse(data[30])));
+    laodAwardsTable(JSON.parse(JSON.parse(data[31])));
+    laodExtraCurrActTable(JSON.parse(JSON.parse(data[32])));
+
+    $('#rpresentOccDesignation').val(data[33]);
+    $('#rpresentOccDept').val(data[34]);
+    $('#rpresentOccFrom').val(data[35].slice(0, 10));
+    $('#rpresentOccSalaryDrawn').val(data[36]);
+
+    laodPreviousEmpTable(JSON.parse(JSON.parse(data[37])));
+
+    const jsonData1 = JSON.parse(data[38]);
+    $('#rName1r').val(jsonData1.rName1);
+    $('#rTelephone1r').val(jsonData1.rTelephone1);
+    $('#rAddress1r').val(jsonData1.rAddress1);
+    $('#rEmail1r').val(jsonData1.rEmail1);
+
+    const jsonData2 = JSON.parse(data[39]);
+    $('#rName2r').val(jsonData2.rName2);
+    $('#rTelephone2r').val(jsonData2.rTelephone2);
+    $('#rAddress2r').val(jsonData2.rAddress2);
+    $('#rEmail2r').val(jsonData2.rEmail2);
+
+    $('#commendedOrPunished').val(data[40]);
+    $('#rspecifyCommendations').val(data[41]);
+    $('#rVacation').val(data[42]);
+    $('#rspecifyVacation').val(data[43]);
+    $('#rbond').val(data[44]);
+    $('#rbondValue').val(data[45]);
+    $('#runiInstitute').val(data[46]);
+  }
+  // readOnlyData();
+}
+// function readOnlyData() {
+//   $('#rvacancyID').prop('readonly', true);
+// }
+
+function laodBasicDegreeTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+        htmlElement += `<td>${objects[i][6]}</td>`;
+        htmlElement += `<td>${objects[i][7]}</td>`;
+        htmlElement += `<td>${objects[i][8]}</td>`;
+        htmlElement += `<td>${objects[i][9]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblBasicDegree').html(htmlElement);
+    }
+  }
+}
+
+function laodPgTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+        htmlElement += `<td>${objects[i][6]}</td>`;
+        htmlElement += `<td>${objects[i][7]}</td>`;
+        htmlElement += `<td>${objects[i][8]}</td>`;
+        htmlElement += `<td>${objects[i][9]}</td>`;
+        htmlElement += `<td>${objects[i][10]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblPgDegree').html(htmlElement);
+    }
+  }
+}
+
+function laodBookTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblBooks').html(htmlElement);
+    }
+  }
+}
+
+function laodJournalsTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblJournals').html(htmlElement);
+    }
+  }
+}
+
+function laodAbstractsTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblAbstracts').html(htmlElement);
+    }
+  }
+}
+
+function laodAwardsTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblAwards').html(htmlElement);
+    }
+  }
+}
+
+function laodExtraCurrActTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblExtraCurrAct').html(htmlElement);
+    }
+  }
+}
+
+function laodPreviousEmpTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblPreviousEmp').html(htmlElement);
+    }
+  }
+}
+</script>
