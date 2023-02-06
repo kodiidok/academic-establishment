@@ -107,15 +107,72 @@
     const filteredApplications = [];
     let applications = '';
     if (faculty || department || post) {
-      objApplications.forEach((application) => {
-        if (application[3] === faculty || application[4] === department || application[5] === post) {
-          filteredApplications.push(application);
-        }
-      });
-      // console.log(filteredApplications.map((x) => x[9]));
+      // x	  x	  o	  filteredApplications
+      if (!faculty && !department && post) {
+        objApplications.forEach((application) => {
+          if (application[5] === post) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
+      // x	  o	  x	  filteredApplications
+      else if (!faculty && department && !post) {
+        objApplications.forEach((application) => {
+          if (application[4] === department) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
+      // x	  o	  o	  filteredApplications
+      else if (!faculty && department && post) {
+        objApplications.forEach((application) => {
+          if (application[4] === department && application[5] === post) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
+      // o	  x	  x	  filteredApplications
+      else if (faculty && !department && !post) {
+        objApplications.forEach((application) => {
+          if (application[3] === faculty) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
+      // o	  x	  o	  filteredApplications
+      else if (faculty && !department && post) {
+        objApplications.forEach((application) => {
+          if (application[3] === faculty && application[5] === post) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
+      // o	  o	  x	  filteredApplications
+      else if (faculty && department && !post) {
+        objApplications.forEach((application) => {
+          if (application[3] === faculty && application[4] === department) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
+      // o	  o	  o	  filteredApplications
+      else if (faculty && department && post) {
+        objApplications.forEach((application) => {
+          if (application[3] === faculty && application[4] === department && application[5] === post) {
+            filteredApplications.push(application);
+          }
+        });
+      }
+
       applications = filteredApplications;
     } else {
-      // console.log(objApplications.map((x) => x[9]));
+      // x	  x	  x	  objApplications
       applications = objApplications;
     }
     log(arrangeApplicationData(applications));
@@ -144,7 +201,7 @@
           htmlElement += `<td>${generateListElement(objects[i][26])}</td>`; // basic degree
           htmlElement += `<td>${generateListElement(objects[i][27])}</td>`; // postgrad degree
           htmlElement += `<td>${generateYearsOfExperience(objects[i][35], objects[i][37])}</td>`; // years of experience
-          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
+          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewShortlistedApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
           htmlElement += `<td><button name="approve" class="btn btn-success btn-rounded btn-sm" data-id="${i}" onClick="approveShortlistedApplicant($(this))"><i class="fa fa-check"></i> Approve</button>`;
           htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeShortlistedApplicant($(this))"><i class="fa fa-trash"></i> Make Pending</button>`;
           htmlElement += '</tr>';
@@ -167,7 +224,7 @@
           htmlElement += `<td>${generateListElement(objects[i][26])}</td>`; // basic degree
           htmlElement += `<td>${generateListElement(objects[i][27])}</td>`; // postgrad degree
           htmlElement += `<td>${generateYearsOfExperience(objects[i][35], objects[i][37])}</td>`; // years of experience
-          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
+          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApprovedApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
           htmlElement += `<td><button name="shortlist" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="shortlistApprovedApplicant($(this))"><i class="fa fa-check"></i> Shortlist</button>`;
           htmlElement += '</tr>';
         }
@@ -189,7 +246,7 @@
           htmlElement += `<td>${generateListElement(objects[i][26])}</td>`; // basic degree
           htmlElement += `<td>${generateListElement(objects[i][27])}</td>`; // postgrad degree
           htmlElement += `<td>${generateYearsOfExperience(objects[i][35], objects[i][37])}</td>`; // years of experience
-          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
+          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewPendingApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
           htmlElement += `<td><button name="shortlist" class="btn btn-success btn-rounded btn-sm" data-id="${i}" onClick="shortlistPendingApplicant($(this))"><i class="fa fa-check"></i> Shortlist</button>`;
           htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removePendingApplicant($(this))"><i class="fa fa-trash"></i> Reject</button>`;
           htmlElement += '</tr>';
@@ -212,7 +269,7 @@
           htmlElement += `<td>${generateListElement(objects[i][26])}</td>`; // basic degree
           htmlElement += `<td>${generateListElement(objects[i][27])}</td>`; // postgrad degree
           htmlElement += `<td>${generateYearsOfExperience(objects[i][35], objects[i][37])}</td>`; // years of experience
-          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
+          htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewRejectedApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
           htmlElement += `<td><button name="pending" class="btn btn-success btn-rounded btn-sm" data-id="${i}" onClick="shortlistRejectedApplicant($(this))"><i class="fa fa-check"></i> Make Pending</button>`;
           htmlElement += '</tr>';
         }
@@ -222,11 +279,58 @@
   }
 
   // buttons
+  async function setAndGetTempData(id) {
+    await new Promise((resolve, reject) => {
+      google.script.run.withFailureHandler(reject).withSuccessHandler(resolve).setTempData(id);
+    });
 
-  function viewApplicant(element) {
+    // eslint-disable-next-line no-return-await
+    return await new Promise((resolve, reject) => {
+      google.script.run.withFailureHandler(reject).withSuccessHandler(resolve).getTempData();
+    });
+  }
+
+  async function viewApplicant(id) {
+    showLoadingModal('Please Wait for Loading...');
+    const retdata = await setAndGetTempData(id);
+    console.log(`retdata: ${retdata}`);
+    const page = 'index_view';
+    google.script.run
+      .withSuccessHandler(function (urldata) {
+        const url = `${urldata}?page=${page}`;
+        // console.log(url);
+        window.open(url, '_blank');
+        $('#modalLoading').modal('hide');
+      })
+      .getScriptUrl();
+  }
+
+  function viewShortlistedApplicant(element) {
     event.preventDefault();
     const reqID = $(element).attr('data-id');
-    log(retObj);
+    const id = retObj.shortlistedApplicants[reqID][1];
+    viewApplicant(id);
+  }
+
+  function viewApprovedApplicant(element) {
+    event.preventDefault();
+    const reqID = $(element).attr('data-id');
+    const id = retObj.approvedApplicants[reqID][1];
+    viewApplicant(id);
+  }
+
+  function viewPendingApplicant(element) {
+    event.preventDefault();
+    const reqID = $(element).attr('data-id');
+    const id = retObj.pendingApplicants[reqID][1];
+    viewApplicant(id);
+  }
+
+  function viewRejectedApplicant(element) {
+    event.preventDefault();
+    const reqID = $(element).attr('data-id');
+    const id = retObj.rejectedApplicants[reqID][1];
+    viewApplicant(id);
   }
 
   function approveShortlistedApplicant(element) {

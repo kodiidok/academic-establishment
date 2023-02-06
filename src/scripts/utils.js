@@ -4,8 +4,9 @@ const DATE_FORMAT = 'MM/dd/yyyy HH:mm:ss';
 const UUID_FORMAT = 'MMddyyyyHHmmss';
 const APP_NAME = 'ONLINE APPLICATION';
 const APP_DESCRIPTION = 'Academic Establishment. University of Peradeniya.';
-const APP_URL =
-  'https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec';
+const APP_URL = 'https://script.google.com/macros/s/AKfycbx6wYqHr0XQjztRttC0pAdjriaJJIa3M-u6ABVrano/dev';
+
+// https://script.google.com/macros/s/AKfycbyiw-ou4QFI0Ub5VTqs7HGSDM93-aZgdYYRcEocU4mpXNIjH5uQvhcOFPOzQ9cQAAMu/exec
 const ALIASMAIL = 'portal@gs.pdn.ac.lk';
 const UUID_CODE = 'OA';
 

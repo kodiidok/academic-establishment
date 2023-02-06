@@ -5,6 +5,9 @@ function saveRequest() {}
 function initialShortlistAppLoading() {}
 function updateApplicationStatus() {}
 function getApplications() {}
+function getScriptUrl() {}
+function getTempData() {}
+function setTempData() {}
 (() => {
   "use strict";
   var __webpack_modules__ = [
@@ -885,7 +888,7 @@ function getApplications() {}
           s = "MM/dd/yyyy HH:mm:ss",
           n = "ONLINE APPLICATION",
           o =
-            "https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec",
+            "https://script.google.com/macros/s/AKfycbx6wYqHr0XQjztRttC0pAdjriaJJIa3M-u6ABVrano/dev",
           c = "portal@gs.pdn.ac.lk";
         let l = null,
           u = [];
@@ -1096,18 +1099,22 @@ function getApplications() {}
     __webpack_require__.r(__webpack_exports__);
     var e = __webpack_require__(1),
       t = __webpack_require__(3);
+    let a = "";
     (__webpack_require__.g.doGet = function (e) {
+      let a = "";
       return e.parameter.page
-        ? HtmlService.createTemplateFromFile(e.parameter.page)
+        ? ((a = HtmlService.createTemplateFromFile(e.parameter.page)),
+          a
             .evaluate()
             .setTitle(t.default.getAppName())
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
-            .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-        : HtmlService.createTemplateFromFile("index_shortlist")
+            .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL))
+        : ((a = HtmlService.createTemplateFromFile("index_shortlist")),
+          a
             .evaluate()
             .setTitle(t.default.getAppName())
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
-            .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+            .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL));
     }),
       (__webpack_require__.g.include = function (e) {
         return HtmlService.createHtmlOutputFromFile(e).getContent();
@@ -1126,6 +1133,19 @@ function getApplications() {}
       }),
       (__webpack_require__.g.getApplications = function () {
         return JSON.stringify(e.default.getApplications());
+      }),
+      (__webpack_require__.g.getScriptUrl = function () {
+        return t.default.getScriptUrl();
+      }),
+      (__webpack_require__.g.getTempData = function () {
+        return (
+          (a = PropertiesService.getScriptProperties().getProperty("tempData")),
+          a
+        );
+      }),
+      (__webpack_require__.g.setTempData = function (e) {
+        (a = JSON.stringify(e)),
+          PropertiesService.getScriptProperties().setProperty("tempData", a);
       });
   })();
 })();
