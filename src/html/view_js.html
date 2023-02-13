@@ -28,25 +28,11 @@ function initialAppLoading(retdata) {
   if (appData) {
     setMenu(appData.scriptUrl);
     setAppInfo(appData.appName, appData.appDescription, appData.appRedirectURL);
-
     appData.applications.forEach((application) => {
       if (application[1] === temp) {
         displayData(application);
       }
     });
-
-    // google.script.run
-    //   .withFailureHandler(onFailure)
-    //   .withSuccessHandler(function (tempdata) {
-    //     const applicationID = JSON.parse(tempdata);
-    //     console.log(applicationID);
-    //     appData.applications.forEach((application) => {
-    //       if (applicationID === application[1]) {
-    //         displayData(application);
-    //       }
-    //     });
-    //   })
-    //   .getTempData();
     $('#modalLoading').modal('hide');
   }
 }

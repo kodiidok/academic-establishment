@@ -17,20 +17,6 @@ function setTempData() {}
         var i = a(2),
           s = a(3);
         const n = class {
-          static getApplications() {
-            const e = {};
-            try {
-              return (e.applications = this.getApplicationsData()), e;
-            } catch (e) {
-              throw (
-                (console.error(
-                  "Error occurred while getApplications in Resources",
-                  e
-                ),
-                new Error("Error occurred while getApplications"))
-              );
-            }
-          }
           static initialLoading() {
             const e = {};
             try {
@@ -81,24 +67,6 @@ function setTempData() {}
                   e
                 ),
                 new Error("Error occurred while initialShortlistAppLoading"))
-              );
-            }
-          }
-          static getApplicationsData() {
-            try {
-              (i.default.cacheEnabled = !1),
-                i.default.initilizeDatabase(s.default.getTestMainDBID()),
-                i.default.openDatabaseConnection(
-                  s.default.getApplicationSheetName()
-                );
-              return i.default.readDatabaseCache();
-            } catch (e) {
-              throw (
-                (console.error(
-                  "Error occurred while getApplicationSheetData in Resources",
-                  e
-                ),
-                new Error("Error occurred while getApplicationSheetData"))
               );
             }
           }
@@ -178,6 +146,38 @@ function setTempData() {}
                   e
                 ),
                 new Error("Error occurred while resolveAppUser"))
+              );
+            }
+          }
+          static getApplicationsData() {
+            try {
+              (i.default.cacheEnabled = !1),
+                i.default.initilizeDatabase(s.default.getTestMainDBID()),
+                i.default.openDatabaseConnection(
+                  s.default.getApplicationSheetName()
+                );
+              return i.default.readDatabaseCache();
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getApplicationSheetData in Resources",
+                  e
+                ),
+                new Error("Error occurred while getApplicationSheetData"))
+              );
+            }
+          }
+          static getApplications() {
+            const e = {};
+            try {
+              return (e.applications = this.getApplicationsData()), e;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getApplications in Resources",
+                  e
+                ),
+                new Error("Error occurred while getApplications"))
               );
             }
           }
@@ -383,7 +383,8 @@ function setTempData() {}
             }
           }
           static updateApplicationStatus(e) {
-            let t = "";
+            const t = e;
+            let a = "";
             try {
               return (
                 e &&
@@ -392,8 +393,10 @@ function setTempData() {}
                   i.default.openDatabaseConnection(
                     s.default.getApplicationSheetName()
                   ),
-                  (t = i.default.updateItem(e))),
-                t
+                  (t[0] = s.default.formatDate(t[0])),
+                  (t[35] = s.default.formatDate(t[35])),
+                  (a = i.default.updateItem(t))),
+                a
               );
             } catch (e) {
               throw (
@@ -535,14 +538,10 @@ function setTempData() {}
                 const a = this.connectedDatabase.getLastRow();
                 for (let t = 2; t <= a; t += 1)
                   this.connectedDatabase.getRange(t, 2).getValue() === e[1] &&
-                    ((e[0] =
-                      _utils__WEBPACK_IMPORTED_MODULE_0__.default.formatDate(
-                        e[0]
-                      )),
                     this.connectedDatabase
                       .getRange(t, 1, 1, this.connectedDatabase.getLastColumn())
-                      .setValues([e]));
-                (t.request = e), (t.status = !0);
+                      .setValues([e]);
+                t.status = !0;
               }
               return t;
             } catch (e) {

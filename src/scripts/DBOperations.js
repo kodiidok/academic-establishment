@@ -183,12 +183,10 @@ class Database {
         for (let i = 2; i <= lastrow; i += 1) {
           if (this.connectedDatabase.getRange(i, 2).getValue() === request[1] /* APPLICATION ID */) {
             // this.connectedDatabase.getRange(i, 48).setValue(request[47]);
-            // request.splice(0, 1);
-            request[0] = Utils.formatDate(request[0]); /* `2023-01-29T01:25:38.000Z` into `01/29/2023 1:25:38` */
             this.connectedDatabase.getRange(i, 1, 1, this.connectedDatabase.getLastColumn()).setValues([request]);
           }
         }
-        retObj.request = request;
+        // retObj.request = request;
         retObj.status = true;
       } else {
         console.error(`No data inside array for updating`);

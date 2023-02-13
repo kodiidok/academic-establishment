@@ -1,5 +1,6 @@
 import Resources from './scripts/resources';
 import Utils from './scripts/utils';
+import Report from './scripts/report';
 
 function doGet(e) {
   let htmlOutput = '';
@@ -60,6 +61,10 @@ function getTempData() {
 function setTempData(obj) {
   tempData = JSON.stringify(obj);
   PropertiesService.getScriptProperties().setProperty('tempData', tempData);
+}
+
+function generateReport() {
+  Report.updateDocument();
 }
 
 global.doGet = doGet;

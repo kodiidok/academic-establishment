@@ -203,7 +203,7 @@
           htmlElement += `<td>${generateYearsOfExperience(objects[i][35], objects[i][37])}</td>`; // years of experience
           htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewShortlistedApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
           htmlElement += `<td><button name="approve" class="btn btn-success btn-rounded btn-sm" data-id="${i}" onClick="approveShortlistedApplicant($(this))"><i class="fa fa-check"></i> Approve</button>`;
-          htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeShortlistedApplicant($(this))"><i class="fa fa-trash"></i> Make Pending</button>`;
+          htmlElement += `<td><button name="remove" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="removeShortlistedApplicant($(this))"><i class="fa fa-trash"></i> Remove</button>`;
           htmlElement += '</tr>';
         }
         $('#tblBodyShortlisted').html(htmlElement);
@@ -225,7 +225,7 @@
           htmlElement += `<td>${generateListElement(objects[i][27])}</td>`; // postgrad degree
           htmlElement += `<td>${generateYearsOfExperience(objects[i][35], objects[i][37])}</td>`; // years of experience
           htmlElement += `<td><button name="view" class="btn btn-light btn-rounded btn-sm" data-id="${i}" onClick="viewApprovedApplicant($(this))"><i class="fa fa-user"></i> View</button>`;
-          htmlElement += `<td><button name="shortlist" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="shortlistApprovedApplicant($(this))"><i class="fa fa-check"></i> Shortlist</button>`;
+          htmlElement += `<td><button name="shortlist" class="btn btn-danger btn-rounded btn-sm" data-id="${i}" onClick="shortlistApprovedApplicant($(this))"><i class="fa fa-trash"></i> Remove</button>`;
           htmlElement += '</tr>';
         }
         $('#tblBodyApproved').html(htmlElement);
@@ -292,6 +292,7 @@
 
   async function viewApplicant(id) {
     showLoadingModal('Please Wait for Loading...');
+    // await setAndGetTempData(id);
     const retdata = await setAndGetTempData(id);
     console.log(`retdata: ${retdata}`);
     const page = 'index_view';
