@@ -96,16 +96,6 @@ function processData(retdata) {
   return obj;
 }
 
-function processArray(retdata) {
-  const obj = [];
-  retdata.forEach((e) => {
-    if (e) {
-      obj.push(e);
-    }
-  });
-  return obj;
-}
-
 function loadDoc() {
   const doc = DocumentApp.openById('1tABbydTrHuEJ1oD0Uu_1SA4b8zzQMmvZ-LoK-LJaNrU');
   const body = doc.getBody();
@@ -130,13 +120,13 @@ function createMasterTable(body) {
   body.insertTable(2, [[''], [''], [''], [''], [''], [''], ['']]);
   body.insertTable(3, [[''], ['']]);
   body.insertTable(4, [[''], ['']]);
-  body.insertTable(5, [[''], ['']]);
+  body.insertTable(5, [[''], [''], [''], ['']]);
   body.insertTable(6, [[''], ['']]);
-  body.insertTable(7, [['']]);
-  body.insertTable(8, [['']]);
-  body.insertTable(9, [['']]);
-  body.insertTable(10, [['']]);
-  body.insertTable(11, [['']]);
+  body.insertTable(7, [[''], ['']]);
+  body.insertTable(8, [[''], ['']]);
+  body.insertTable(9, [[''], ['']]);
+  body.insertTable(10, [[''], ['']]);
+  body.insertTable(11, [[''], ['']]);
 }
 
 function generateHeader(table) {
@@ -242,6 +232,9 @@ function generateBasicDegree(table, data) {
 
   const cell2 = table.getCell(1, 0);
   const content = cell2.insertTable(0);
+  const headerRow = content.appendTableRow();
+  headerRow.appendTableCell('Name of the degree');
+  headerRow.appendTableCell('Duration');
   retdata.forEach((element) => {
     const degree = processDegree(element);
     const row = content.appendTableRow();
@@ -255,11 +248,14 @@ function generatePostgraduateDegree(table, data) {
   const retdata = JSON.parse(JSON.parse(data));
 
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'POSTGRADUATE QUALIFICATIONS');
+  cell1.insertParagraph(0, 'POSTGRADUATE DEGREES');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
   const content = cell2.insertTable(0);
+  const headerRow = content.appendTableRow();
+  headerRow.appendTableCell('Name of the degree');
+  headerRow.appendTableCell('Duration');
   retdata.forEach((element) => {
     const degree = processDegree(element);
     const row = content.appendTableRow();
@@ -269,31 +265,82 @@ function generatePostgraduateDegree(table, data) {
   cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
 }
 
-function generateResearch(table, data) {}
+function generateResearch(table, data) {
+  const BOOKS = JSON.parse(JSON.parse(data.BOOKS));
+  const JOURNALS = JSON.parse(JSON.parse(data.JOURNALS));
+  const ABSTRACTS = JSON.parse(JSON.parse(data.ABSTRACTS));
+
+  const cell1 = table.getCell(0, 0);
+  cell1.insertParagraph(0, 'RESEARCH PUBLICATIONS');
+  cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
+
+  const cell2 = table.getCell(1, 0);
+  cell2.insertParagraph(0, 'BOOKS');
+  const content1 = cell2.insertTable(1);
+  const headerRow1 = content1.appendTableRow();
+  headerRow1.appendTableCell('Name');
+  headerRow1.appendTableCell('Author');
+  headerRow1.appendTableCell('Date');
+  headerRow1.appendTableCell('ISBN');
+  BOOKS.forEach((element) => {
+    const row = content1.appendTableRow();
+    row.appendTableCell(`${element[0]}`);
+    row.appendTableCell(`${element[1]}`);
+    row.appendTableCell(`${element[2]}`);
+    row.appendTableCell(`${element[3]}`);
+  });
+  cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
+
+  const cell3 = table.getCell(2, 0);
+  cell3.insertParagraph(0, 'JOURNALS');
+  const content2 = cell3.insertTable(1);
+  const headerRow2 = content2.appendTableRow();
+  headerRow2.appendTableCell('Name');
+  headerRow2.appendTableCell('Author');
+  headerRow2.appendTableCell('Source');
+  headerRow2.appendTableCell('Date');
+  headerRow2.appendTableCell('Indexed / Non Indexed');
+  headerRow2.appendTableCell('Conference / By Research');
+  JOURNALS.forEach((element) => {
+    const row = content2.appendTableRow();
+    row.appendTableCell(`${element[0]}`);
+    row.appendTableCell(`${element[1]}`);
+    row.appendTableCell(`${element[2]}`);
+    row.appendTableCell(`${element[3]}`);
+    row.appendTableCell(`${element[4]}`);
+    row.appendTableCell(`${element[5]}`);
+  });
+  cell3.removeChild(cell3.getChild(cell3.getNumChildren() - 1));
+
+  const cell4 = table.getCell(3, 0);
+  cell4.insertParagraph(0, 'ABSTRACTS');
+  const content3 = cell4.insertTable(1);
+  const headerRow3 = content3.appendTableRow();
+  headerRow3.appendTableCell('Name');
+  headerRow3.appendTableCell('Author');
+  headerRow3.appendTableCell('Source');
+  headerRow3.appendTableCell('Date');
+  headerRow3.appendTableCell('Indexed / Non Indexed');
+  headerRow3.appendTableCell('Conference / By Research');
+  ABSTRACTS.forEach((element) => {
+    const row = content3.appendTableRow();
+    row.appendTableCell(`${element[0]}`);
+    row.appendTableCell(`${element[1]}`);
+    row.appendTableCell(`${element[2]}`);
+    row.appendTableCell(`${element[3]}`);
+    row.appendTableCell(`${element[4]}`);
+    row.appendTableCell(`${element[5]}`);
+  });
+  cell4.removeChild(cell4.getChild(cell4.getNumChildren() - 1));
+}
 
 function processAwards(data) {
-  const retObj = { name: '', details: '' };
+  const retObj = { name: '', institute: '', year: '', details: '' };
 
-  const name = data[0];
-  const institute = data[1];
-  const year = data[2];
-  const details = data[3];
-
-  if (name) {
-    retObj.name += `${name},`;
-  }
-
-  if (institute) {
-    retObj.name += `${institute},`;
-  }
-
-  if (year) {
-    retObj.name += `${year},`;
-  }
-
-  if (details) {
-    retObj.details += `${details},`;
-  }
+  retObj.name = data[0];
+  retObj.institute = data[1];
+  retObj.year = data[2];
+  retObj.details = data[3];
 
   return retObj;
 }
@@ -307,24 +354,154 @@ function generateAwards(table, data) {
 
   const cell2 = table.getCell(1, 0);
   const content = cell2.insertTable(0);
+  const headerRow = content.appendTableRow();
+  headerRow.appendTableCell('Name of the Award');
+  headerRow.appendTableCell('University/Institute');
+  headerRow.appendTableCell('Year');
+  headerRow.appendTableCell('Details');
   retdata.forEach((element) => {
     const award = processAwards(element);
     const row = content.appendTableRow();
     row.appendTableCell(`${award.name}`);
+    row.appendTableCell(`${award.institute}`);
+    row.appendTableCell(`${award.year}`);
     row.appendTableCell(`${award.details}`);
   });
   cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
 }
 
-function generateExtraCurricular(table, data) {}
+function processExtraCurricular(data) {
+  const retObj = { name: '', duration: '', level: '', details: '' };
 
-function generatePresentEmployment(table, data) {}
+  retObj.name = data[0];
+  retObj.duration = data[1];
+  retObj.level = data[2];
+  retObj.details = data[3];
 
-function generatePreviousEmployement(table, data) {}
+  return retObj;
+}
 
-function generateRefrees(table, data) {}
+function generateExtraCurricular(table, data) {
+  const retdata = JSON.parse(JSON.parse(data));
 
-function generateDeclaration(table, data) {}
+  const cell1 = table.getCell(0, 0);
+  cell1.insertParagraph(0, 'EXTRA CURRICULAR ACTIVITIES');
+  cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
+
+  const cell2 = table.getCell(1, 0);
+  const content = cell2.insertTable(0);
+  const headerRow = content.appendTableRow();
+  headerRow.appendTableCell('Name of the Activity');
+  headerRow.appendTableCell('Duration');
+  headerRow.appendTableCell('Level');
+  headerRow.appendTableCell('Details');
+  retdata.forEach((element) => {
+    const activity = processExtraCurricular(element);
+    const row = content.appendTableRow();
+    row.appendTableCell(`${activity.name}`);
+    row.appendTableCell(`${activity.duration}`);
+    row.appendTableCell(`${activity.level}`);
+    row.appendTableCell(`${activity.details}`);
+  });
+  cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
+}
+
+function generatePresentEmployment(table, data) {
+  const cell1 = table.getCell(0, 0);
+  cell1.insertParagraph(0, 'PRESENT EMPLOYMENT');
+  cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
+
+  const cell2 = table.getCell(1, 0);
+  cell2.insertParagraph(0, `${data.DESIGNATION}`);
+  cell2.insertParagraph(1, `${data.DEPARTMENT}`);
+  cell2.insertParagraph(2, `Started working from: ${data.STARTED_WORKING}`);
+  cell2.insertParagraph(3, `Salary: ${data.SALARY}`);
+  cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
+}
+
+function processPreviousEmployement(data) {
+  const retObj = {};
+  retObj.designation = `${data[0]},\n${data[1]}`;
+  retObj.duration = `${data[2]}\n${data[3]}`;
+  retObj.reason = data[4];
+  return retObj;
+}
+
+function generatePreviousEmployement(table, data) {
+  const retdata = JSON.parse(JSON.parse(data));
+
+  const cell1 = table.getCell(0, 0);
+  cell1.insertParagraph(0, 'PREVIOUS EMPLOYMENTS');
+  cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
+
+  const cell2 = table.getCell(1, 0);
+  const content = cell2.insertTable(0);
+  const headerRow = content.appendTableRow();
+  headerRow.appendTableCell('Designation');
+  headerRow.appendTableCell('Duration');
+  headerRow.appendTableCell('Reasons for leaving');
+  retdata.forEach((element) => {
+    const prevEmp = processPreviousEmployement(element);
+    const row = content.appendTableRow();
+    row.appendTableCell(prevEmp.designation);
+    row.appendTableCell(prevEmp.duration);
+    row.appendTableCell(prevEmp.reason);
+  });
+  cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
+}
+
+function generateRefrees(table, data) {
+  const refree1 = JSON.parse(data.REFEREE_1);
+  const refree2 = JSON.parse(data.REFREE_2);
+
+  const cell1 = table.getCell(0, 0);
+  cell1.insertParagraph(0, 'REFEREES');
+  cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
+
+  const cell2 = table.getCell(1, 0);
+  const content = cell2.insertTable(0);
+  const headerRow = content.appendTableRow();
+  headerRow.appendTableCell('Name');
+  headerRow.appendTableCell('Address');
+  headerRow.appendTableCell('Email');
+  headerRow.appendTableCell('Telephone');
+
+  const row1 = content.appendTableRow();
+  row1.appendTableCell(refree1.rName1);
+  row1.appendTableCell(refree1.rAddress1);
+  row1.appendTableCell(refree1.rEmail1);
+  row1.appendTableCell(refree1.rTelephone1);
+
+  const row2 = content.appendTableRow();
+  row2.appendTableCell(refree2.rName2);
+  row2.appendTableCell(refree2.rAddress2);
+  row2.appendTableCell(refree2.rEmail2);
+  row2.appendTableCell(refree2.rTelephone2);
+
+  cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
+}
+
+function processDeclaration(data) {
+  const retObj = {};
+  retObj.COMMENDATIONS_PUNISHMENTS = `Have you ever been Commended or Punished during your career in the University / Educational Institution: ${data.COMMENDATIONS_PUNISHMENTS.STATUS}\n\nIf yes, please specify:\n${data.COMMENDATIONS_PUNISHMENTS.DETAILS}`;
+  retObj.VACATION_POST_NOTICES = `Have you ever been served with a Vacation of Post notice by any other University/ Government Institution? ${data.VACATION_POST_NOTICES.STATUS}\n\nIf so please provide details.\n${data.VACATION_POST_NOTICES.DETAILS}`;
+  retObj.BOND_VIOLATIONS = `Have you ever been treated as a bond violator : ${data.BOND_VIOLATIONS.STATUS}\nIf yes, Please provide details :\n\nUniversity: ${data.BOND_VIOLATIONS.UNIVERSITY}\nBond value: ${data.BOND_VIOLATIONS.BOND_VALUE}`;
+  return retObj;
+}
+
+function generateDeclaration(table, data) {
+  const cell1 = table.getCell(0, 0);
+  cell1.insertParagraph(0, 'DECLARATION');
+  cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
+
+  const cell2 = table.getCell(1, 0);
+  cell2.insertParagraph(0, processDeclaration(data).COMMENDATIONS_PUNISHMENTS);
+  cell2.insertParagraph(1, '');
+  cell2.insertParagraph(2, processDeclaration(data).VACATION_POST_NOTICES);
+  cell2.insertParagraph(3, '');
+  cell2.insertParagraph(4, processDeclaration(data).BOND_VIOLATIONS);
+  cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
+}
 
 function updateDocument() {
   const rawdata = JSON.parse(loadSheetData())[1];
@@ -338,6 +515,7 @@ function updateDocument() {
   generateHeader(tblMaster[0]);
   generateApplicationInfo(tblMaster[1], data.INFO);
   generatePersonalDetails(tblMaster[2], data.PERSONAL_DETAILS);
+  body.insertPageBreak(3);
   generateBasicDegree(tblMaster[3], data.BASIC_DEGREE);
   generatePostgraduateDegree(tblMaster[4], data.POSTGRADUATE_DEGREE);
   generateResearch(tblMaster[5], data.RESEARCH);
@@ -346,5 +524,6 @@ function updateDocument() {
   generatePresentEmployment(tblMaster[8], data.PRESENT_OCCUPATION);
   generatePreviousEmployement(tblMaster[9], data.PREVIOUS_EMPLOYMENTS);
   generateRefrees(tblMaster[10], data.REFREES);
+  body.insertPageBreak(12);
   generateDeclaration(tblMaster[11], data.DECLARATION);
 }
