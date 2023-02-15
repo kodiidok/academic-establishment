@@ -17,10 +17,10 @@ function onLoadAppExecutions() {
     .withFailureHandler(onFailure)
     .withSuccessHandler(function (retdata) {
       temp = JSON.parse(retdata);
-      console.log(temp);
+      // console.log(temp);
     })
     .getTempData();
-  google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading();
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading('VIEW');
 }
 
 function initialAppLoading(retdata) {

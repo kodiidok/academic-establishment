@@ -19,7 +19,7 @@ function doGet(e) {
   htmlOutput = HtmlService.createTemplateFromFile(e.parameter.page);
   return htmlOutput
     .evaluate()
-    .setTitle(Utils.getAppName())
+    .setTitle(Utils.getAppName(e.parameter.page))
     .addMetaTag('viewport', 'width=device-width, initial-scale=1')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
 }
@@ -28,28 +28,32 @@ function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
 
-function initialLoading() {
-  return JSON.stringify(Resources.initialLoading());
+function initialLoading(app) {
+  return JSON.stringify(Resources.initialLoading(app));
 }
 
 function saveRequest(obj) {
   return JSON.stringify(Resources.saveRequest(obj));
 }
 
+function router(key) {
+  return Resources.getUrl(key);
+}
+
 function updateApplicationStatus(obj) {
   return JSON.stringify(Resources.updateApplicationStatus(obj));
 }
 
-function initialShortlistAppLoading() {
-  return JSON.stringify(Resources.initialShortlistAppLoading());
-}
-
-function getApplications() {
-  return JSON.stringify(Resources.getApplications());
-}
-
 function getScriptUrl() {
   return Utils.getScriptUrl();
+}
+
+function generateReport() {
+  Report.updateDocument();
+}
+
+function downloadApplication() {
+  DownloadApplication.download();
 }
 
 let tempData = '';
@@ -64,23 +68,16 @@ function setTempData(obj) {
   PropertiesService.getScriptProperties().setProperty('tempData', tempData);
 }
 
-function generateReport() {
-  Report.updateDocument();
-}
-
-function downloadApplication() {
-  DownloadApplication.download();
-}
-
 global.doGet = doGet;
 global.include = include;
 global.initialLoading = initialLoading;
 global.saveRequest = saveRequest;
-global.initialShortlistAppLoading = initialShortlistAppLoading;
-global.updateApplicationStatus = updateApplicationStatus;
-global.getApplications = getApplications;
-global.getScriptUrl = getScriptUrl;
+
 global.getTempData = getTempData;
 global.setTempData = setTempData;
+global.router = router;
+
+global.updateApplicationStatus = updateApplicationStatus;
+global.getScriptUrl = getScriptUrl;
 global.generateReport = generateReport;
 global.downloadApplication = downloadApplication;

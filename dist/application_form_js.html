@@ -27,7 +27,7 @@
 
   function onLoadAppExecutions() {
     showLoadingModal('Please Wait for Loading...');
-    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading();
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading('MAIN');
   }
 
   function initialAppLoading(retdata) {
@@ -283,6 +283,19 @@
       .saveRequest(JSON.stringify(request));
   }
 
+  function saveRequestSuccess(retdata) {
+    const obj = JSON.parse(retdata);
+    // const obj = retdata;
+    console.log(obj);
+    // console.log(typeof obj);
+    $('#modalLoading').modal('hide');
+    $('#submitButton').prop('disabled', false);
+    if (obj.status === true) {
+      showSuccessModal('Save Success..!', 'Please submit a valid hard copy of your application for further evaluation.');
+      // applicantList.length = 0;
+    }
+  }
+
   // shortlisting algorithm
 
   function checkQualifications(vacancy, basic, postgrad, declaration, currentEmployement, previousEmployement) {
@@ -351,20 +364,7 @@
 
     return result;
   }
-
-  function saveRequestSuccess(retdata) {
-    const obj = JSON.parse(retdata);
-    // const obj = retdata;
-    console.log(obj);
-    // console.log(typeof obj);
-    $('#modalLoading').modal('hide');
-    $('#submitButton').prop('disabled', false);
-    if (obj.status === true) {
-      showSuccessModal('Save Success..!', 'Please submit a valid hard copy of your application for further evaluation.');
-      // applicantList.length = 0;
-    }
-  }
-
+  
   // error handling for table data
   
   function addError(error) {

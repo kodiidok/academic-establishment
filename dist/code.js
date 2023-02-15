@@ -2,12 +2,13 @@ function doGet() {}
 function include() {}
 function initialLoading() {}
 function saveRequest() {}
-function initialShortlistAppLoading() {}
-function updateApplicationStatus() {}
-function getApplications() {}
-function getScriptUrl() {}
 function getTempData() {}
 function setTempData() {}
+function router() {}
+function updateApplicationStatus() {}
+function getScriptUrl() {}
+function generateReport() {}
+function downloadApplication() {}
 (() => {
   "use strict";
   var __webpack_modules__ = [
@@ -17,7 +18,33 @@ function setTempData() {}
         var i = a(2),
           s = a(3);
         const n = class {
-          static initialLoading() {
+          static initialLoading(e) {
+            let t = {};
+            try {
+              return (
+                e
+                  ? e === s.default.getApp().MAIN
+                    ? (t = this.initialMainAppLoading())
+                    : e === s.default.getApp().SHORTLIST
+                    ? (t = this.initialShortlistAppLoading())
+                    : e === s.default.getApp().REPORTS
+                    ? (t = this.initialReportsAppLoading())
+                    : e === s.default.getApp().VIEW &&
+                      (t = this.initialViewAppLoading())
+                  : (t = this.initialApplicationDataLoading()),
+                t
+              );
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while initialLoading in Resources",
+                  e
+                ),
+                new Error("Error occurred while initialLoading"))
+              );
+            }
+          }
+          static initialMainAppLoading() {
             const e = {};
             try {
               return (
@@ -38,10 +65,10 @@ function setTempData() {}
             } catch (e) {
               throw (
                 (console.error(
-                  "Error occurred while initialLoading in Resources",
+                  "Error occurred while initialMainAppLoading in Resources",
                   e
                 ),
-                new Error("Error occurred while initialLoading"))
+                new Error("Error occurred while initialMainAppLoading"))
               );
             }
           }
@@ -50,7 +77,7 @@ function setTempData() {}
             try {
               return (
                 (e.scriptUrl = s.default.getScriptUrl()),
-                (e.appName = s.default.getAppName()),
+                (e.appName = s.default.getShortlistAppName()),
                 (e.appDescription = s.default.getAppDescription()),
                 (e.appRedirectURL = s.default.getAppRedirectURL()),
                 (e.posts = this.getPostData()),
@@ -67,6 +94,62 @@ function setTempData() {}
                   e
                 ),
                 new Error("Error occurred while initialShortlistAppLoading"))
+              );
+            }
+          }
+          static initialApplicationDataLoading() {
+            const e = {};
+            try {
+              return (e.applications = this.getApplicationsData()), e;
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while initialApplicationDataLoading in Resources",
+                  e
+                ),
+                new Error("Error occurred while initialApplicationDataLoading"))
+              );
+            }
+          }
+          static initialReportsAppLoading() {
+            const e = {};
+            try {
+              return (
+                (e.scriptUrl = s.default.getScriptUrl()),
+                (e.appName = s.default.getReportsAppName()),
+                (e.appDescription = s.default.getAppDescription()),
+                (e.appRedirectURL = s.default.getAppRedirectURL()),
+                (e.applications = this.getApplicationsData()),
+                e
+              );
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while initialReportsAppLoading in Resources",
+                  e
+                ),
+                new Error("Error occurred while initialReportsAppLoading"))
+              );
+            }
+          }
+          static initialViewAppLoading() {
+            const e = {};
+            try {
+              return (
+                (e.scriptUrl = s.default.getScriptUrl()),
+                (e.appName = s.default.getViewAppName()),
+                (e.appDescription = s.default.getAppDescription()),
+                (e.appRedirectURL = s.default.getAppRedirectURL()),
+                (e.applications = this.getApplicationsData()),
+                e
+              );
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while initialReportsAppLoading in Resources",
+                  e
+                ),
+                new Error("Error occurred while initialReportsAppLoading"))
               );
             }
           }
@@ -405,6 +488,24 @@ function setTempData() {}
                   e
                 ),
                 new Error("Error occurred while updateApplicationStatus"))
+              );
+            }
+          }
+          static getUrl(e) {
+            const t = s.default.getScriptUrl();
+            let a = "",
+              i = "";
+            try {
+              return (
+                e
+                  ? ((i = `index_${e.toLowerCase()}`), (a = `${t}?page=${i}`))
+                  : (a = `${t}`),
+                a
+              );
+            } catch (e) {
+              throw (
+                (console.error("Error occurred while getUrl in Resources", e),
+                new Error("Error occurred while getUrl"))
               );
             }
           }
@@ -882,16 +983,21 @@ function setTempData() {}
         const __WEBPACK_DEFAULT_EXPORT__ = Database;
       },
       (e, t, a) => {
-        a.r(t), a.d(t, { default: () => p });
+        a.r(t), a.d(t, { default: () => d });
         const i = "Asia/Colombo",
           s = "MM/dd/yyyy HH:mm:ss",
-          n = "ONLINE APPLICATION",
-          o =
+          n =
             "https://script.google.com/macros/s/AKfycbx6wYqHr0XQjztRttC0pAdjriaJJIa3M-u6ABVrano/dev",
-          c = "portal@gs.pdn.ac.lk";
+          o = "portal@gs.pdn.ac.lk",
+          c = {
+            MAIN: "MAIN",
+            SHORTLIST: "SHORTLIST",
+            VIEW: "VIEW",
+            REPORTS: "REPORTS",
+          };
         let l = null,
           u = [];
-        const p = class {
+        class p {
           static ChunkyCache(e, t) {
             return {
               put(a, i, s) {
@@ -930,6 +1036,9 @@ function setTempData() {}
           static getCurrentDate() {
             return Utilities.formatDate(new Date(), i, s);
           }
+          static getApp() {
+            return c;
+          }
           static generateUUID() {
             return `OA_${Utilities.formatDate(
               new Date(),
@@ -943,20 +1052,52 @@ function setTempData() {}
           static getCurrentUser() {
             return Session.getActiveUser().getEmail();
           }
-          static getAppName() {
-            return n;
+          static getAppName(e) {
+            let t = "",
+              a = "";
+            e && (a = e.slice(6, e.length).toUpperCase());
+            try {
+              return (
+                a
+                  ? a === p.getApp().SHORTLIST
+                    ? (t = this.getShortlistAppName())
+                    : a === p.getApp().REPORTS && (t = this.getReportsAppName())
+                  : (t = this.getMainAppName()),
+                t
+              );
+            } catch (e) {
+              throw (
+                (console.error(
+                  "Error occurred while getAppName in Resources",
+                  e
+                ),
+                new Error("Error occurred while getAppName"))
+              );
+            }
+          }
+          static getMainAppName() {
+            return "ONLINE APPLICATION";
+          }
+          static getShortlistAppName() {
+            return "APPLICATIONS SUMMARY";
+          }
+          static getViewAppName() {
+            return "VIEW APPLICANT";
+          }
+          static getReportsAppName() {
+            return "REPORTS";
           }
           static getAppDescription() {
             return "Academic Establishment. University of Peradeniya.";
           }
           static getAppRedirectURL() {
-            return o;
+            return n;
           }
           static getScriptUrl() {
             return ScriptApp.getService().getUrl();
           }
           static getALIASMAIL() {
-            return c;
+            return o;
           }
           static getMainDBID() {
             return "1R3ZBd0qe-Q9thnFtTXDUzMF18kCLd41IUrQbAX42JQ4";
@@ -1012,7 +1153,7 @@ function setTempData() {}
           static getProcessingEmails() {
             return "portal@gs.pdn.ac.lk";
           }
-          static sendMail(e, t, a, i, s, n, l, u, p) {
+          static sendMail(e, t, a, i, s, c, l, u, p) {
             try {
               let d =
                 HtmlService.createHtmlOutputFromFile(
@@ -1022,14 +1163,14 @@ function setTempData() {}
                 (d = d.replace("%description", t)),
                 (d = d.replace("%param1", i)),
                 (d = d.replace("%param2", s)),
-                (d = d.replace("%param3", n)),
+                (d = d.replace("%param3", c)),
                 (d = d.replace("%param4", l)),
                 (d = d.replace("%param5", `${p} - ${u}`)),
-                (d = d.replace("%appURL", o));
+                (d = d.replace("%appURL", n));
               const h = "Online Application -  University of Peradeniya";
               GmailApp.sendEmail(a, h, "", {
-                from: c,
-                replyTo: c,
+                from: o,
+                replyTo: o,
                 name: "University of Peradeniya",
                 htmlBody: d,
               });
@@ -1042,7 +1183,7 @@ function setTempData() {}
           }
           static errHandler(e, t) {
             let a = `${e.message}\n in file: ${e.fileName} on line: ${e.lineNumber}`;
-            const i = `${n} ERROR OCCURED | FOS APPS |  ${t}`;
+            const i = `${APP_NAME} ERROR OCCURED | FOS APPS |  ${t}`;
             (a = `${i}\n${a}\n onError: ${JSON.stringify(this.onError)}`),
               GmailApp.sendEmail("youremail@sci.pdn.ac.lk", i, a);
           }
@@ -1061,6 +1202,303 @@ function setTempData() {}
               .toString()
               .padStart(2, "0")}:${t.getSeconds().toString().padStart(2, "0")}`;
           }
+        }
+        const d = p;
+      },
+      (e, t, a) => {
+        a.r(t), a.d(t, { default: () => i });
+        const i = class {
+          static loadDoc() {
+            const e = DocumentApp.openById(
+                "1LLj7_1g-_l0AHUVMMx3GwErRnXwRXckifgi5o-mDCjc"
+              ),
+              t = e.getBody();
+            return initializePage(t), e.getBody();
+          }
+          static initializePage(e) {
+            e.clear()
+              .setPageHeight(595.276)
+              .setPageWidth(841.89)
+              .setMarginTop(30)
+              .setMarginLeft(50)
+              .setMarginRight(50)
+              .setMarginBottom(50);
+          }
+          static initializeStyles() {
+            const e = {
+                [DocumentApp.Attribute.FONT_FAMILY]: "Roboto Serif",
+                [DocumentApp.Attribute.FONT_SIZE]: 9,
+                [DocumentApp.Attribute.LINE_SPACING]: 0.06,
+              },
+              t = {
+                [DocumentApp.Attribute.HORIZONTAL_ALIGNMENT]:
+                  DocumentApp.HorizontalAlignment.CENTER,
+              },
+              a = {
+                [DocumentApp.Attribute.BORDER_WIDTH]: 0,
+                [DocumentApp.Attribute.HORIZONTAL_ALIGNMENT]:
+                  DocumentApp.HorizontalAlignment.JUSTIFY,
+              };
+            return {
+              bodyStyle: e,
+              centerStyle: t,
+              tableStyle: { [DocumentApp.Attribute.BORDER_WIDTH]: 0 },
+              justifyStyle: a,
+              titleStyle: {
+                [DocumentApp.Attribute.HORIZONTAL_ALIGNMENT]:
+                  DocumentApp.HorizontalAlignment.CENTER,
+                [DocumentApp.Attribute.BOLD]: !0,
+                [DocumentApp.Attribute.UNDERLINE]: !0,
+              },
+              subtitleStyle: { [DocumentApp.Attribute.BOLD]: !0 },
+            };
+          }
+          static formatTitle(e, t) {
+            e.setAttributes(t.tableStyle);
+            for (let a = 0; a < e.getCell(0, 0).getNumChildren(); a += 1)
+              e.getCell(0, 0).getChild(a).setAttributes(t.titleStyle);
+          }
+          static formatDate(e, t) {
+            e.setAttributes(t.tableStyle);
+          }
+          static formatSymbols(e, t) {
+            e.setAttributes(t.tableStyle);
+          }
+          static formatDescription(e, t) {
+            e.setAttributes(t.tableStyle),
+              e.getCell(0, 0).getChild(0).setAttributes(t.justifyStyle);
+          }
+          static formatSignatures(e, t) {
+            e.setAttributes(t.tableStyle),
+              e
+                .getCell(0, 0)
+                .setAttributes({
+                  [DocumentApp.Attribute.WIDTH]: 250,
+                  [DocumentApp.Attribute.PADDING_TOP]: 50,
+                }),
+              e
+                .getCell(0, 1)
+                .setAttributes({
+                  [DocumentApp.Attribute.WIDTH]: 170,
+                  [DocumentApp.Attribute.PADDING_TOP]: 50,
+                }),
+              e
+                .getCell(0, 2)
+                .setAttributes({ [DocumentApp.Attribute.PADDING_TOP]: 50 }),
+              e
+                .getCell(0, 3)
+                .setAttributes({
+                  [DocumentApp.Attribute.WIDTH]: 100,
+                  [DocumentApp.Attribute.PADDING_TOP]: 50,
+                }),
+              e
+                .getCell(0, 3)
+                .getChild(0)
+                .setAttributes({
+                  [DocumentApp.Attribute.HORIZONTAL_ALIGNMENT]:
+                    DocumentApp.HorizontalAlignment.RIGHT,
+                  [DocumentApp.Attribute.PADDING_TOP]: 50,
+                });
+          }
+          static formatReports(e, t) {
+            e.setAttributes(t.tableStyle);
+            const a = e.getCell(0, 0).getNumChildren();
+            for (let i = 0; i < a; i += 1)
+              if (i % 3 == 0)
+                e.getCell(0, 0).getChild(i).setAttributes(t.titleStyle),
+                  e
+                    .getCell(0, 0)
+                    .getChild(i)
+                    .setAttributes({
+                      [DocumentApp.Attribute.SPACING_AFTER]: 2,
+                    });
+              else if ((i - 1) % 3 == 0) {
+                const a = e.getCell(0, 0).getChild(i);
+                a.getRow(0).setAttributes(t.subtitleStyle),
+                  a
+                    .getCell(0, 0)
+                    .setAttributes({ [DocumentApp.Attribute.WIDTH]: 120 }),
+                  a
+                    .getCell(0, 2)
+                    .setAttributes({ [DocumentApp.Attribute.WIDTH]: 80 }),
+                  a
+                    .getCell(0, 3)
+                    .setAttributes({ [DocumentApp.Attribute.WIDTH]: 80 }),
+                  a
+                    .getCell(0, 5)
+                    .setAttributes({ [DocumentApp.Attribute.WIDTH]: 30 }),
+                  a
+                    .getCell(0, 6)
+                    .setAttributes({ [DocumentApp.Attribute.WIDTH]: 30 });
+              }
+          }
+          static formatPage(e, t) {
+            const a = initializeStyles();
+            e.setAttributes(a.bodyStyle),
+              formatTitle(t.tableTitle, a),
+              formatDate(t.tableDates, a),
+              formatSymbols(t.tableSymbols, a),
+              formatSignatures(t.tableSignatures, a),
+              formatDescription(t.tableDescription, a),
+              formatReports(t.tableReports, a);
+          }
+          static generateTitle(e, t, a, i) {
+            let s = "post of ";
+            t.forEach((e) => {
+              (s += e.toUpperCase()), (s += "/");
+            }),
+              (s = s.substring(0, s.length - 1)),
+              (s += ", "),
+              (s += a),
+              (s += ","),
+              (s += i),
+              e
+                .getCell(0, 0)
+                .insertParagraph(0, "University of Peradeniya".toUpperCase()),
+              e.getCell(0, 0).insertParagraph(1, s.toUpperCase()),
+              e.getCell(0, 0).removeChild(e.getCell(0, 0).getChild(2));
+          }
+          static generateDates(e, t, a) {
+            const i = `Advertised on : ${t}`,
+              s = `Application closed on : ${a}`;
+            e.getCell(0, 0).insertParagraph(0, i),
+              e.getCell(0, 0).removeChild(e.getCell(0, 0).getChild(1)),
+              e.getCell(0, 1).insertParagraph(0, s),
+              e.getCell(0, 1).removeChild(e.getCell(0, 1).getChild(1));
+          }
+          static generateSymbols(e) {
+            e.getCell(0, 0).insertParagraph(0, "TR: Transcript"),
+              e.getCell(0, 0).removeChild(e.getCell(0, 0).getChild(1)),
+              e
+                .getCell(0, 1)
+                .insertParagraph(0, "PC: Sent through proper channel"),
+              e.getCell(0, 1).removeChild(e.getCell(0, 1).getChild(1)),
+              e.getCell(0, 2).insertParagraph(0, "RR: Referee's Report"),
+              e.getCell(0, 2).removeChild(e.getCell(0, 2).getChild(1)),
+              e.getCell(0, 3).insertParagraph(0, "R: Remarks"),
+              e.getCell(0, 3).removeChild(e.getCell(0, 3).getChild(1));
+          }
+          static generateDescription(e, t) {
+            e.getCell(0, 0).insertParagraph(0, t),
+              e.getCell(0, 0).removeChild(e.getCell(0, 0).getChild(1));
+          }
+          static generateSignatures(e) {
+            e
+              .getCell(0, 0)
+              .insertParagraph(
+                0,
+                "Head of the Department .................................."
+              ),
+              e.getCell(0, 0).removeChild(e.getCell(0, 0).getChild(1)),
+              e
+                .getCell(0, 1)
+                .insertParagraph(
+                  0,
+                  "Dean ....................................."
+                ),
+              e.getCell(0, 1).removeChild(e.getCell(0, 1).getChild(1)),
+              e
+                .getCell(0, 2)
+                .insertParagraph(
+                  0,
+                  "Snr. Asst. Registrar ..........................................."
+                ),
+              e.getCell(0, 2).removeChild(e.getCell(0, 2).getChild(1)),
+              e.getCell(0, 3).insertParagraph(0, "......./03/2023"),
+              e.getCell(0, 3).removeChild(e.getCell(0, 3).getChild(1));
+          }
+          static generateReports(e, t) {
+            const a = [
+              ["Lecturer (Probationary)", "1", "1", "1", "1", "1", "1", "1"],
+              ["Lecturer (Unconfirmed)", "2", "2", "2", "2", "2", "2", "2"],
+              ["Lecturer (Probationary)", "1", "1", "1", "1", "1", "1", "1"],
+              ["Lecturer (Unconfirmed)", "2", "2", "2", "2", "2", "2", "2"],
+              ["Senior Lecturer I", "3", "3", "3", "3", "3", "3", "3"],
+              ["Lecturer (Unconfirmed)", "2", "2", "2", "2", "2", "2", "2"],
+              ["Senior Lecturer II", "4", "4", "4", "4", "4", "4", "4"],
+            ];
+            let i = 0;
+            [
+              "Lecturer (Probationary)",
+              "Lecturer (Unconfirmed)",
+              "Senior Lecturer I",
+              "Senior Lecturer II",
+            ].forEach((t) => {
+              const s = e.getCell(0, 0),
+                n = [
+                  [
+                    "Name Address & DOB",
+                    "Qualifications",
+                    "Medals/Prizes/Scholarship & Publications",
+                    "Extra Curricular Activities",
+                    "Experience",
+                    "PC",
+                    "TR",
+                    "Remarks",
+                  ],
+                ];
+              if (
+                (a.forEach((e) => {
+                  e[0] === t && n.push(e);
+                }),
+                n.length > 1)
+              ) {
+                s.insertParagraph(i, t.toUpperCase());
+                s.insertTable(i + 1, n), s.insertParagraph(i + 2, ""), (i += 3);
+              }
+            });
+            const s = e.getCell(0, 0).getNumChildren() - 1;
+            e.getCell(0, 0).removeChild(e.getCell(0, 0).getChild(s));
+          }
+          static createMasterTable(e) {
+            e.insertTable(0, [[""]]),
+              e.insertTable(1, [["", ""]]),
+              e.insertTable(2, [["", "", "", ""]]),
+              e.insertTable(3, [[""]]),
+              e.insertTable(4, [[""]]),
+              e.insertTable(5, [["", "", "", ""]]);
+          }
+          static updateDocument() {
+            const e = [
+                "Lecturer (Probationary)",
+                "Lecturer (Unconfirmed)",
+                "Senior Lecturer I",
+                "Senior Lecturer II",
+              ],
+              t = "Department of Computer Science",
+              a = "Faculty of Science",
+              i =
+                "The department is especially looking for candidates having a four years B.Sc. degree in Agricultural Technology and Management/ Agriculture/Agricultural Science from a recognized University.Candidates who are applying for Lecturer (unconfirmed) and SeniorLecturer Grade II/I should have postgraduate qualification and teaching experience as stipulated in relevant circulars in the field ofIndustrial Biotechnology.",
+              s = loadDoc();
+            createMasterTable(s);
+            const n = s.getTables()[0];
+            generateTitle(n, e, t, a);
+            const o = s.getTables()[1];
+            generateDates(o, "05.12.2021", "04.01.2022");
+            const c = s.getTables()[2];
+            generateSymbols(c);
+            const l = s.getTables()[3];
+            generateDescription(l, i);
+            const u = s.getTables()[5];
+            generateSignatures(u);
+            const p = s.getTables()[4];
+            generateReports(p);
+            formatPage(s, {
+              tableTitle: n,
+              tableDates: o,
+              tableSymbols: c,
+              tableDescription: l,
+              tableSignatures: u,
+              tableReports: p,
+            });
+          }
+          static prepareData() {}
+        };
+      },
+      (e, t, a) => {
+        a.r(t), a.d(t, { default: () => i });
+        const i = class {
+          static download() {}
         };
       },
     ],
@@ -1097,15 +1535,17 @@ function setTempData() {}
   (() => {
     __webpack_require__.r(__webpack_exports__);
     var e = __webpack_require__(1),
-      t = __webpack_require__(3);
-    let a = "";
+      t = __webpack_require__(3),
+      a = __webpack_require__(4),
+      i = __webpack_require__(5);
+    let s = "";
     (__webpack_require__.g.doGet = function (e) {
       let a = "";
       return e.parameter.page
         ? ((a = HtmlService.createTemplateFromFile(e.parameter.page)),
           a
             .evaluate()
-            .setTitle(t.default.getAppName())
+            .setTitle(t.default.getAppName(e.parameter.page))
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
             .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL))
         : ((a = HtmlService.createTemplateFromFile("index_shortlist")),
@@ -1118,33 +1558,36 @@ function setTempData() {}
       (__webpack_require__.g.include = function (e) {
         return HtmlService.createHtmlOutputFromFile(e).getContent();
       }),
-      (__webpack_require__.g.initialLoading = function () {
-        return JSON.stringify(e.default.initialLoading());
+      (__webpack_require__.g.initialLoading = function (t) {
+        return JSON.stringify(e.default.initialLoading(t));
       }),
       (__webpack_require__.g.saveRequest = function (t) {
         return JSON.stringify(e.default.saveRequest(t));
       }),
-      (__webpack_require__.g.initialShortlistAppLoading = function () {
-        return JSON.stringify(e.default.initialShortlistAppLoading());
+      (__webpack_require__.g.getTempData = function () {
+        return (
+          (s = PropertiesService.getScriptProperties().getProperty("tempData")),
+          s
+        );
+      }),
+      (__webpack_require__.g.setTempData = function (e) {
+        (s = JSON.stringify(e)),
+          PropertiesService.getScriptProperties().setProperty("tempData", s);
+      }),
+      (__webpack_require__.g.router = function (t) {
+        return e.default.getUrl(t);
       }),
       (__webpack_require__.g.updateApplicationStatus = function (t) {
         return JSON.stringify(e.default.updateApplicationStatus(t));
       }),
-      (__webpack_require__.g.getApplications = function () {
-        return JSON.stringify(e.default.getApplications());
-      }),
       (__webpack_require__.g.getScriptUrl = function () {
         return t.default.getScriptUrl();
       }),
-      (__webpack_require__.g.getTempData = function () {
-        return (
-          (a = PropertiesService.getScriptProperties().getProperty("tempData")),
-          a
-        );
+      (__webpack_require__.g.generateReport = function () {
+        a.default.updateDocument();
       }),
-      (__webpack_require__.g.setTempData = function (e) {
-        (a = JSON.stringify(e)),
-          PropertiesService.getScriptProperties().setProperty("tempData", a);
+      (__webpack_require__.g.downloadApplication = function () {
+        i.default.download();
       });
   })();
 })();

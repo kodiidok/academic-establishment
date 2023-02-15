@@ -2,7 +2,12 @@ const ERROR_EMAIL = 'youremail@sci.pdn.ac.lk';
 const TIME_ZONE = 'Asia/Colombo';
 const DATE_FORMAT = 'MM/dd/yyyy HH:mm:ss';
 const UUID_FORMAT = 'MMddyyyyHHmmss';
-const APP_NAME = 'ONLINE APPLICATION';
+
+const MAIN_APP_NAME = 'ONLINE APPLICATION';
+const SHORTLIST_APP_NAME = 'APPLICATIONS SUMMARY';
+const VIEW_APP_NAME = 'VIEW APPLICANT';
+const REPORTS_APP_NAME = 'REPORTS';
+
 const APP_DESCRIPTION = 'Academic Establishment. University of Peradeniya.';
 const APP_URL = 'https://script.google.com/macros/s/AKfycbx6wYqHr0XQjztRttC0pAdjriaJJIa3M-u6ABVrano/dev';
 
@@ -34,6 +39,8 @@ const DBID_FAC_DEPT = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
 const SHEET_FAC_DEPT = 'RolesAccount';
 
 const PROCESSING_EMAILS = 'portal@gs.pdn.ac.lk';
+
+const APPS = { MAIN: 'MAIN', SHORTLIST: 'SHORTLIST', VIEW: 'VIEW', REPORTS: 'REPORTS' };
 
 let cKey = null;
 let chunks = [];
@@ -88,6 +95,10 @@ class Utils {
     return date;
   }
 
+  static getApp() {
+    return APPS;
+  }
+
   static generateUUID() {
     const date = Utilities.formatDate(new Date(), TIME_ZONE, UUID_FORMAT);
     return `${UUID_CODE}_${date}`;
@@ -102,8 +113,41 @@ class Utils {
     return Session.getActiveUser().getEmail();
   }
 
-  static getAppName() {
-    return APP_NAME;
+  static getAppName(retdata) {
+    let APP_NAME = '';
+    let page = '';
+    if (retdata) {
+      page = retdata.slice(6, retdata.length).toUpperCase();
+    }
+    try {
+      if (!page) {
+        APP_NAME = this.getMainAppName();
+      } else if (page === Utils.getApp().SHORTLIST) {
+        APP_NAME = this.getShortlistAppName();
+      } else if (page === Utils.getApp().REPORTS) {
+        APP_NAME = this.getReportsAppName();
+      }
+      return APP_NAME;
+    } catch (error) {
+      console.error('Error occurred while getAppName in Resources', error);
+      throw new Error(`Error occurred while getAppName`);
+    }
+  }
+
+  static getMainAppName() {
+    return MAIN_APP_NAME;
+  }
+
+  static getShortlistAppName() {
+    return SHORTLIST_APP_NAME;
+  }
+
+  static getViewAppName() {
+    return VIEW_APP_NAME;
+  }
+
+  static getReportsAppName() {
+    return REPORTS_APP_NAME;
   }
 
   static getAppDescription() {

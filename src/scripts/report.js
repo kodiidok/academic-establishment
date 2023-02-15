@@ -293,6 +293,62 @@ class Report {
     const tables = { tableTitle, tableDates, tableSymbols, tableDescription, tableSignatures, tableReports };
     formatPage(body, tables);
   }
+
+  // 0 : TIMESTAMP
+  // 1 : APPLICATION ID
+  // 2 : VACANCY ID
+  // 3 : VACANCY FACULTY
+  // 4 : VACANCY DEPARTMENT
+  // 5 : VACANCY POST
+  // 6 : GENDER
+  // 7 : TITLE
+  // 8 : NAME WITH INITITALS
+  // 9 : FULLNAME
+  // 10 : DATE OF BIRTH
+  // 11 : PERMENANT RESIDENCE
+  // 12 : CIVIL STATUS
+  // 13 : MOBILE
+  // 14 : RESIDENCE
+  // 15 : EMAIL
+  // 16 : DISTRICT
+  // 17 : ELECTORATE
+  // 18 : PROVINCE
+  // 19 : CITY
+  // 20 : CITIZENSHIP
+  // 21 : NIC
+  // 22 : BY DESCENT OR REGISTRATION
+  // 23 : SPECIFY COUNTRY
+  // 24 : PASSPORT NO
+  // 25 : PROFFECIENCY
+  // 26 : BASIC DEGREE
+  // 27 : POSTGRADUATE DEGREE
+  // 28 : BOOKS
+  // 29 : JOURNALS
+  // 30 : ABSTRACTS
+  // 31 : AWARDS / SCHOLARSHIPS / MEDALS
+  // 32 : EXTRA CURRICULAR ACTIVITIES
+  // 33 : PRESENT OCCUPATION DESIGNATION
+  // 34 : DEPARTMENT / INSTITUTE
+  // 35 : STARTED WORKING FROM
+  // 36 : SALARY DRAWN
+  // 37 : PREVIOUS EMPLOYMENTS
+  // 38 : REFEREE 1
+  // 39 : REFREE 2
+  // 40 : COOMENDATIONS / PUNISHMENTS
+  // 41 : IF YES SPECIFY
+  // 42 : VACATION POST NOTICES
+  // 43 : IF YES SPECIFY
+  // 44 : BOND VIOLATION
+  // 45 : BOND VALUE
+  // 46 : UNIVERSITY / INSTITUTE
+  // 47 : SHORTLISTED STATUS
+
+  // const headers =
+  //     '["TIMESTAMP","APPLICATION ID","VACANCY ID","VACANCY FACULTY","VACANCY DEPARTMENT","VACANCY POST","GENDER","TITLE","NAME WITH INITITALS","FULLNAME","DATE OF BIRTH","PERMENANT RESIDENCE","CIVIL STATUS","MOBILE","RESIDENCE","EMAIL","DISTRICT","ELECTORATE","PROVINCE","CITY","CITIZENSHIP","NIC","BY DESCENT OR REGISTRATION","SPECIFY COUNTRY","PASSPORT NO","PROFFECIENCY","BASIC DEGREE","POSTGRADUATE DEGREE","BOOKS","JOURNALS","ABSTRACTS","AWARDS / SCHOLARSHIPS / MEDALS","EXTRA CURRICULAR ACTIVITIES","PRESENT OCCUPATION DESIGNATION","DEPARTMENT / INSTITUTE","STARTED WORKING FROM","SALARY DRAWN","PREVIOUS EMPLOYMENTS","REFEREE 1","REFREE 2","COOMENDATIONS / PUNISHMENTS","IF YES SPECIFY","VACATION POST NOTICES","IF YES SPECIFY","BOND VIOLATION","BOND VALUE","UNIVERSITY / INSTITUTE","SHORTLISTED STATUS"]';
+  //   const exampleRow =
+  //     '["2023-01-27T03:45:38.000Z",1,1,"Faculty of Agriculture","Department of Physics","Lecturer (Probationary)","Female","Ms.","N.M. Perera","Narmada Malini Perera","1994-02-11T00:00:00.000Z","22/E, Lane Park Avenue","Single",701234567,811234567,"example@gmail.com","Colombo","Colombo 7","Western","Kandy","Other","940892207V","byRegistration","","","["sinhala","tamil","english"]",""[[\\"B.Sc.\\",\\"\\",\\"zoology\\",\\"\\",\\"University of Peradeniya\\",\\"Argentina\\",\\"2023-01-11\\",\\"2023-01-02\\",\\"First Class\\",\\"3.78\\"]]"",""[[\\"P.hD.\\",\\"\\",\\"\\",\\"\\",\\"\\",\\"Azerbaijan\\",\\"2023-01-09\\",\\"2023-01-05\\",\\"\\",\\"\\",\\"by Research\\"],[\\"\\",\\"\\",\\"\\",\\"\\",\\"colombo\\",\\"Armenia\\",\\"2023-01-02\\",\\"2023-01-09\\",\\"Second Lower\\",\\"\\",\\"by Research\\"]]"",""[[\\"book1\\",\\"author1\\",\\"2023-01-01\\",\\"213576\\"]]"",""[[\\"journal2\\",\\"undefined\\",\\"source2\\",\\"2023-01-24\\",\\"indexed\\",\\"conference\\"]]"",""[[\\"abstract3\\",\\"author3\\",\\"source3\\",\\"2023-01-07\\",\\"non-indexed\\",\\"other\\"]]"",""[[\\"award1\\",\\"institute1\\",\\"2005\\",\\"Best Performance\\"],[\\"scholarship1\\",\\"University of Kurtin\\",\\"2014\\",\\"Semiconductor research\\"]]"",""[[\\"extra1\\",\\"2006\\",\\"National\\",\\"description1\\"]]"","present designation","present dept","2023-01-15T00:00:00.000Z",20000,""[[\\"previous designation\\",\\"SLIIT\\",\\"2021-06-29\\",\\"2023-01-31\\",\\"reason1\\"]]"","{"rName1":"Name 1","rTelephone1":"0811234567","rAddress1":"address 1","rEmail1":"emxail1@gmail.com"}","{"rName2":"Name 2","rTelephone2":"0813065040","rAddress2":"address 2","rEmail2":"exmail2@gmail.com"}","No","","No","","No","","","approved"]';
+
+  static prepareData() {}
 }
 
 export default Report;

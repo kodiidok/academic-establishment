@@ -2,7 +2,28 @@ import DatabaseOperations from './DBOperations';
 import Utils from './utils';
 
 class Resources {
-  static initialLoading() {
+  static initialLoading(app) {
+    let rtnObj = {};
+    try {
+      if (!app) {
+        rtnObj = this.initialApplicationDataLoading();
+      } else if (app === Utils.getApp().MAIN) {
+        rtnObj = this.initialMainAppLoading();
+      } else if (app === Utils.getApp().SHORTLIST) {
+        rtnObj = this.initialShortlistAppLoading();
+      } else if (app === Utils.getApp().REPORTS) {
+        rtnObj = this.initialReportsAppLoading();
+      } else if (app === Utils.getApp().VIEW) {
+        rtnObj = this.initialViewAppLoading();
+      }
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialLoading in Resources', error);
+      throw new Error(`Error occurred while initialLoading`);
+    }
+  }
+
+  static initialMainAppLoading() {
     const rtnObj = {};
     try {
       // rtnObj.appUser = this.resolveAppUser();
@@ -27,8 +48,8 @@ class Resources {
 
       return rtnObj;
     } catch (error) {
-      console.error('Error occurred while initialLoading in Resources', error);
-      throw new Error(`Error occurred while initialLoading`);
+      console.error('Error occurred while initialMainAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialMainAppLoading`);
     }
   }
 
@@ -37,7 +58,7 @@ class Resources {
     try {
       // rtnObj.appUser = this.resolveAppUser();
       rtnObj.scriptUrl = Utils.getScriptUrl();
-      rtnObj.appName = Utils.getAppName();
+      rtnObj.appName = Utils.getShortlistAppName();
       rtnObj.appDescription = Utils.getAppDescription();
       rtnObj.appRedirectURL = Utils.getAppRedirectURL();
 
@@ -53,6 +74,52 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while initialShortlistAppLoading in Resources', error);
       throw new Error(`Error occurred while initialShortlistAppLoading`);
+    }
+  }
+
+  static initialApplicationDataLoading() {
+    const rtnObj = {};
+    try {
+      rtnObj.applications = this.getApplicationsData();
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialApplicationDataLoading in Resources', error);
+      throw new Error(`Error occurred while initialApplicationDataLoading`);
+    }
+  }
+
+  static initialReportsAppLoading() {
+    const rtnObj = {};
+    try {
+      // rtnObj.appUser = this.resolveAppUser();
+      rtnObj.scriptUrl = Utils.getScriptUrl();
+      rtnObj.appName = Utils.getReportsAppName();
+      rtnObj.appDescription = Utils.getAppDescription();
+      rtnObj.appRedirectURL = Utils.getAppRedirectURL();
+      rtnObj.applications = this.getApplicationsData();
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialReportsAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialReportsAppLoading`);
+    }
+  }
+
+  static initialViewAppLoading() {
+    const rtnObj = {};
+    try {
+      // rtnObj.appUser = this.resolveAppUser();
+      rtnObj.scriptUrl = Utils.getScriptUrl();
+      rtnObj.appName = Utils.getViewAppName();
+      rtnObj.appDescription = Utils.getAppDescription();
+      rtnObj.appRedirectURL = Utils.getAppRedirectURL();
+      rtnObj.applications = this.getApplicationsData();
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialReportsAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialReportsAppLoading`);
     }
   }
 
@@ -370,6 +437,24 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while updateApplicationStatus in Resources', error);
       throw new Error(`Error occurred while updateApplicationStatus`);
+    }
+  }
+
+  static getUrl(key) {
+    const urldata = Utils.getScriptUrl();
+    let url = '';
+    let page = '';
+    try {
+      if (key) {
+        page = `index_${key.toLowerCase()}`;
+        url = `${urldata}?page=${page}`;
+      } else {
+        url = `${urldata}`;
+      }
+      return url;
+    } catch (error) {
+      console.error('Error occurred while getUrl in Resources', error);
+      throw new Error(`Error occurred while getUrl`);
     }
   }
 }

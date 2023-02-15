@@ -153,86 +153,176 @@
               <div id="myTabContent" class="tab-content">
                 <!--Home Tab-->
                 <div id="home" role="tabpanel" aria-labelledby="home-tab" class="tab-pane fade px-1 py-0 show active">
-                  <form id="appReportsForm" class="needs-validation" enctype="multipart/form-data" novalidate>
-                    
-                    <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
-
-                        <div class="row row-sm mg-b-20">
-  
-                          <div class="col-lg-5">
-                            <p class="mg-b-10">Faculty</p>
-                            <select
-                              class="form-control select2-no-search select2-hidden-accessible"
-                              tabindex="-1"
-                              aria-hidden="true"
-                              id="shortlistedFaculty"
-                              name="shortlistedFaculty"
-                            >
-                            </select>
-                          </div>
-                          <!-- search faculty -->
-  
-                          <div class="col-lg-5">
-                            <p class="mg-b-10">Department</p>
-                            <select
-                              class="form-control select2-no-search select2-hidden-accessible"
-                              tabindex="-1"
-                              aria-hidden="true"
-                              id="shortlistedDepartment"
-                              name="shortlistedDepartment"
-                            >
-                            </select>
-                          </div>
-                          <!-- search department -->
-  
-                          <div class="col-lg-2">
-                            <input
-                              type="button"
-                              value="Generate Report"
-                              class="btn btn-info btn-rounded"
-                              id="btnFilter"
-                              style="margin-top: 30px;"
-                            />
-                          </div>
-                          <!-- search report -->
-
-                        </div>
-  
-                    </div>
-                    <div class="col-lg-4">
-                    </div>
-                    <div class="col-lg-4" >
-                    </div>
-                    <!-- filter by search -->
-
-                    <br>
+                  <form id="appAddVacanyForm" class="needs-validation" enctype="multipart/form-data" novalidate>
 
                     <div class="card bd-0 mg-b-20">
                         <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                          Generated Reports
+                          Vacancy
+                        </div>
+                        <!-- card-header -->
+    
+                        <div class="card-body bd bd-t-0">
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-4">
+                              <p class="mg-b-10"> Vacancy ID </p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="vacancyID"
+                                name="vacancyID"
+                              >
+                                <!--?!= vacancy ?-->
+                              </select>
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Faculty / Center/ Institute</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="vacancyFaculty"
+                                name="vacancyFaculty"
+                              >
+                              <!--?!= fac ?-->
+                            </select>
+                            </div>
+                            <div class="col-lg-4">
+                              <p class="mg-b-10">Department (Only for Faculties)</p>
+                              <select
+                                class="form-control select2-no-search select2-hidden-accessible"
+                                data-select2-id="13"
+                                tabindex="-1"
+                                aria-hidden="true"
+                                id="vacancyDepartment"
+                                name="vacancyDepartment"
+                              >
+                              <!--?!= dept ?-->
+                            </select>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- card-body -->
+                      </div>
+                      <!--vacancy-->
+
+                      <div class="card bd-0 mg-b-20">
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                         Post
+                        </div>
+                        <!-- card-header -->
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
+                            <div class="row row-sm mg-b-20">
+                              <div class="col-lg-3">
+                                <p class="mg-b-10">Award</p>
+                                <input
+                                  id="award"
+                                  name="award"
+                                  class="form-control"
+                                  placeholder="Award"
+                                  type="text"
+                                />
+                              </div>
+                              <div class="col-lg-3">
+                                <p class="mg-b-10">Institute(If any)/Country</p>
+                                <input
+                                  id="instituteCountry"
+                                  name="instituteCountry"
+                                  class="form-control"
+                                  placeholder="Institute/Country"
+                                  type="text"
+                                />
+                              </div>
+                              <div class="col-lg-3">
+                                <p class="mg-b-10">Year</p>
+                                <input
+                                  id="awardYear"
+                                  name="awardYear"
+                                  class="form-control"
+                                  placeholder="Year"
+                                  type="text"
+                                />
+                              </div>
+                              <div class="col-lg-3">
+                                <p class="mg-b-10">Details</p>
+                                <input
+                                  id="awardDetails"
+                                  name="awardDetails"
+                                  class="form-control"
+                                  placeholder="Details"
+                                  type="text"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div class="row row-sm mg-b-20">
+                            <div class="col-lg-3">
+                              <input
+                                type="button"
+                                value="Add Requirement"
+                                class="btn btn-success btn-rounded"
+                                onclick="saveAddRequirement()"
+                                style="margin-top: 30px;"
+                              />
+                            </div>
+                          </div>
+                          
+                          <div class="row row-sm mg-b-20">
+                            <table class="table mg-t-20">
+                              <thead>
+                                <tr>
+                                  <th>Post</th>
+                                  <th>Basic Degree</th>
+                                  <th>Postgraduate Degree</th>
+                                  <th>Experience</th>
+                                  <th>Remove</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tblAddRequirement"></tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <!--post-->
+
+                      <div class="card bd-0 mg-b-20">
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                         Vacancy Summary
                         </div>
                         <!-- card-header -->
                         <div class="card-body bd bd-t-0">
                           <!-- card-body -->
                           
-                            <div class="row row-sm mg-b-20">
-                                <div class="col-lg-12">
-                                    <!-- <p>Generated Report | Department of Mathematics, Faculty of Science</p> -->
-                                    <input
-                                        type="button"
-                                        value="Download PDF"
-                                        class="btn btn-success btn-rounded"
-                                        id="btnDownloadPdf"
-                                        style="margin-top: 30px;"
-                                    />
-                                </div>
-                            </div>
-  
+                          <div class="row row-sm mg-b-20">
+                            <table class="table mg-t-20">
+                              <thead>
+                                <tr>
+                                  <th>Post</th>
+                                  <th>Basic Degree</th>
+                                  <th>Postgraduate Degree</th>
+                                  <th>Experience</th>
+                                  <th>Remove</th>
+                                </tr>
+                              </thead>
+                              <tbody id="tblAddRequirement"></tbody>
+                            </table>
+                          </div>
                         </div>
-  
                       </div>
-                      <!--approved-->
-                    
+                      <!--vacancy summary-->
+
+                      <div class="row row-sm mg-b-20">
+                        <button id="submitButton" type="submit" class="btn btn-indigo btn-rounded btn-block">
+                          ADD VACANCY
+                        </button>
+                      </div>
+                      <!--submit-->
+
                   </form>
                 </div>
                 <!--End Home Tab-->
@@ -373,6 +463,6 @@
     <?!= include('theme_js') ?>
     <?!= include('modal_js') ?>
     <?!= include('app_js') ?>
-    <?!= include('reports_js') ?>
+    <?!= include('add_vacany_js') ?>
   </body>
 </html>

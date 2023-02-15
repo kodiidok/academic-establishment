@@ -1,5 +1,4 @@
 <script>
-  // let data = '';
   let retObj = {};
 
   // web app intial execution
@@ -23,13 +22,13 @@
           loadTables(filterData(data.applications.slice(1)));
           $('#modalLoading').modal('hide');
         })
-        .getApplications();
+        .initialLoading();
     });
   });
 
   function onLoadAppExecutions() {
     showLoadingModal('Please Wait for Loading...');
-    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialShortlistAppLoading();
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading('SHORTLIST');
   }
 
   function initialLoading(retdata) {
@@ -292,18 +291,14 @@
 
   async function viewApplicant(id) {
     showLoadingModal('Please Wait for Loading...');
-    // await setAndGetTempData(id);
-    const retdata = await setAndGetTempData(id);
-    console.log(`retdata: ${retdata}`);
-    const page = 'index_view';
+    await setAndGetTempData(id);
     google.script.run
-      .withSuccessHandler(function (urldata) {
-        const url = `${urldata}?page=${page}`;
-        // console.log(url);
+      .withSuccessHandler(function (url) {
+        console.log(url);
         window.open(url, '_blank');
         $('#modalLoading').modal('hide');
       })
-      .getScriptUrl();
+      .router('VIEW');
   }
 
   function viewShortlistedApplicant(element) {
