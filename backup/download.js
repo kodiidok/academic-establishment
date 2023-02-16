@@ -342,12 +342,29 @@ function formatApplicantSignature(table, styles) {
   const cellStyles = {};
   cellStyles[DocumentApp.Attribute.PADDING_TOP] = 40;
   cellStyles[DocumentApp.Attribute.PADDING_BOTTOM] = 20;
+  cellStyles[DocumentApp.Attribute.PADDING_RIGHT] = 0;
+  cellStyles[DocumentApp.Attribute.PADDING_LEFT] = 0;
+
+  const paraStyles = {
+    justify: {},
+    center: {},
+    right: {},
+  };
+  paraStyles.justify[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.JUSTIFY;
+  paraStyles.center[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
+  paraStyles.right[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.RIGHT;
 
   signature1.getCell(0, 0).setAttributes(cellStyles);
   signature1.getCell(0, 1).setAttributes(cellStyles);
 
   signature2.getCell(0, 0).setAttributes(cellStyles);
   signature2.getCell(0, 1).setAttributes(cellStyles);
+
+  signature1.getCell(0, 1).getChild(0).setAttributes(paraStyles.right);
+  signature2.getCell(0, 1).getChild(0).setAttributes(paraStyles.right);
+
+  cell.getChild(0).setAttributes(paraStyles.justify);
+  cell.getChild(2).setAttributes(paraStyles.justify);
 }
 
 function formatNotes(table, styles) {
@@ -359,7 +376,9 @@ function formatNotes(table, styles) {
   cellStyles[DocumentApp.Attribute.WIDTH] = 5;
 
   const paraStyles = {};
-  paraStyles[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.Attribute.HORIZONTAL_ALIGNMENT.JUSTIFY;
+  paraStyles[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.JUSTIFY;
+
+  cell.getChild(0).setAttributes(styles.subtitleStyle);
 
   cell.getChild(1).setAttributes(styles.tableStyle.remove);
   cell.getChild(1).getCell(0, 0).setAttributes(cellStyles);
@@ -367,6 +386,14 @@ function formatNotes(table, styles) {
   cell.getChild(1).getCell(0, 1).getChild(0).setAttributes(paraStyles);
   cell.getChild(1).getCell(1, 1).getChild(0).setAttributes(paraStyles);
   cell.getChild(1).getCell(2, 1).getChild(0).setAttributes(paraStyles);
+
+  cell.getChild(1).getCell(0, 0).getChild(0).setAttributes(styles.subtitleStyle);
+  cell.getChild(1).getCell(1, 0).getChild(0).setAttributes(styles.subtitleStyle);
+  cell.getChild(1).getCell(2, 0).getChild(0).setAttributes(styles.subtitleStyle);
+
+  cell.getChild(1).getCell(0, 1).getChild(0).setAttributes(styles.subtitleStyle);
+  cell.getChild(1).getCell(1, 1).getChild(0).setAttributes(styles.subtitleStyle);
+  cell.getChild(1).getCell(2, 1).getChild(0).setAttributes(styles.subtitleStyle);
 }
 
 function formatOfficeSignature(table, styles) {
@@ -377,9 +404,17 @@ function formatOfficeSignature(table, styles) {
   const cellStyles = {};
   cellStyles[DocumentApp.Attribute.PADDING_TOP] = 40;
   cellStyles[DocumentApp.Attribute.PADDING_BOTTOM] = 20;
+  cellStyles[DocumentApp.Attribute.PADDING_RIGHT] = 0;
+  cellStyles[DocumentApp.Attribute.PADDING_LEFT] = 0;
 
-  const paraStyles = {};
-  paraStyles[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.Attribute.HORIZONTAL_ALIGNMENT.JUSTIFY;
+  const paraStyles = {
+    justify: {},
+    center: {},
+    right: {},
+  };
+  paraStyles.justify[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.JUSTIFY;
+  paraStyles.center[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.CENTER;
+  paraStyles.right[DocumentApp.Attribute.HORIZONTAL_ALIGNMENT] = DocumentApp.HorizontalAlignment.RIGHT;
 
   cell.getChild(3).setAttributes(styles.tableStyle.remove);
 
@@ -388,9 +423,12 @@ function formatOfficeSignature(table, styles) {
   cell.getChild(3).getCell(1, 0).setAttributes(cellStyles);
   cell.getChild(3).getCell(1, 1).setAttributes(cellStyles);
 
-  // cell.getChild(1).getCell(0,1).getChild(0).setAttributes(paraStyles);
-  // cell.getChild(1).getCell(1,1).getChild(0).setAttributes(paraStyles);
-  // cell.getChild(1).getCell(2,1).getChild(0).setAttributes(paraStyles);
+  cell.getChild(3).getCell(0, 1).getChild(0).setAttributes(paraStyles.right);
+  cell.getChild(3).getCell(1, 1).getChild(0).setAttributes(paraStyles.right);
+
+  cell.getChild(0).setAttributes(paraStyles.center);
+  cell.getChild(2).setAttributes(paraStyles.justify);
+  cell.getChild(4).setAttributes(paraStyles.justify);
 }
 
 function generateHeader(table) {
@@ -420,7 +458,7 @@ function generateApplicationInfo(table, data) {
 
 function generatePersonalDetails(table, data) {
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'PERSONAL DETAILS');
+  cell1.insertParagraph(0, '(1)\tPERSONAL DETAILS');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
@@ -516,7 +554,7 @@ function generateBasicDegree(table, data) {
   const cell1 = table.getCell(0, 0);
   cell1.insertParagraph(
     0,
-    'UNIVERSITY EDUCATION\n(Degree, Diploma etc. In the case of Medical/Dental, please give details of 2nd, 3rd and Final Exams. Please attach copies of all certificates)'
+    '(2)\tUNIVERSITY EDUCATION\n(Degree, Diploma etc. In the case of Medical/Dental, please give details of 2nd, 3rd and Final Exams. Please attach copies of all certificates)'
   );
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
@@ -538,7 +576,7 @@ function generatePostgraduateDegree(table, data) {
   const retdata = JSON.parse(JSON.parse(data));
 
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'POSTGRADUATE QUALIFICATIONS\n(Please attach copies of all relevant certificates)');
+  cell1.insertParagraph(0, '(3)\tPOSTGRADUATE QUALIFICATIONS\n(Please attach copies of all relevant certificates)');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
@@ -563,7 +601,7 @@ function generateResearch(table, data) {
   const cell1 = table.getCell(0, 0);
   cell1.insertParagraph(
     0,
-    'RESEARCH PUBLICATIONS\n(First degree Dissertation/Postgraduate Thesis are not considered as publications)'
+    '(4)\tRESEARCH PUBLICATIONS\n(First degree Dissertation/Postgraduate Thesis are not considered as publications)'
   );
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
@@ -644,7 +682,7 @@ function generateAwards(table, data) {
   const cell1 = table.getCell(0, 0);
   cell1.insertParagraph(
     0,
-    'ACADEMIC DISTINCTIONS, SCHOLARSHIPS, AWARDS, MEDALS etc.\n(Please attach copies of relevant certificates)'
+    '(5)\tACADEMIC DISTINCTIONS, SCHOLARSHIPS, AWARDS, MEDALS etc.\n(Please attach copies of relevant certificates)'
   );
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
@@ -681,7 +719,7 @@ function generateExtraCurricular(table, data) {
   const retdata = JSON.parse(JSON.parse(data));
 
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'EXTRA CURRICULAR ACTIVITIES');
+  cell1.insertParagraph(0, '(6)\tEXTRA CURRICULAR ACTIVITIES');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
@@ -704,7 +742,7 @@ function generateExtraCurricular(table, data) {
 
 function generatePresentEmployment(table, data) {
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'PRESENT EMPLOYMENT');
+  cell1.insertParagraph(0, '(7)\tPRESENT EMPLOYMENT');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
@@ -727,7 +765,7 @@ function generatePreviousEmployement(table, data) {
   const retdata = JSON.parse(JSON.parse(data));
 
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'PREVIOUS EMPLOYMENTS');
+  cell1.insertParagraph(0, '(8)\tPREVIOUS EMPLOYMENTS');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
@@ -753,7 +791,7 @@ function generateRefrees(table, data) {
   const cell1 = table.getCell(0, 0);
   cell1.insertParagraph(
     0,
-    'REFEREES\n\nNote:\nSubmitting two non-related referees reports is compulsory. You can send referees reports either along with the application under sealed envelope\nor\nReferees may requested to send referees reports directly addressed to the Vice-Chancellor of this University indicating "Name of the applicant, post applied & the department" at the top left hand corner of the envelope'
+    '(9)\tREFEREES\n\nNote:\nSubmitting two non-related referees reports is compulsory. You can send referees reports either along with the application under sealed envelope\nor\nReferees may requested to send referees reports directly addressed to the Vice-Chancellor of this University indicating "Name of the applicant, post applied & the department" at the top left hand corner of the envelope'
   );
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
@@ -790,7 +828,7 @@ function processDeclaration(data) {
 
 function generateDeclaration(table, data) {
   const cell1 = table.getCell(0, 0);
-  cell1.insertParagraph(0, 'DECLARATION');
+  cell1.insertParagraph(0, '(10)\tDECLARATION');
   cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
   const cell2 = table.getCell(1, 0);
