@@ -1,7 +1,6 @@
 import Resources from './scripts/resources';
 import Utils from './scripts/utils';
-import Report from './scripts/report';
-import DownloadApplication from './scripts/downloadApplication';
+import Downloader from './scripts/downloader';
 
 function doGet(e) {
   let htmlOutput = '';
@@ -48,12 +47,8 @@ function getScriptUrl() {
   return Utils.getScriptUrl();
 }
 
-function generateReport() {
-  Report.updateDocument();
-}
-
-function downloadApplication() {
-  DownloadApplication.download();
+function download(key) {
+  return Downloader.processRequest(key);
 }
 
 let tempData = '';
@@ -76,6 +71,7 @@ global.saveRequest = saveRequest;
 global.getTempData = getTempData;
 global.setTempData = setTempData;
 global.router = router;
+global.download = download;
 
 global.updateApplicationStatus = updateApplicationStatus;
 global.getScriptUrl = getScriptUrl;
