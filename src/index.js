@@ -75,5 +75,3 @@ global.download = download;
 
 global.updateApplicationStatus = updateApplicationStatus;
 global.getScriptUrl = getScriptUrl;
-global.generateReport = generateReport;
-global.downloadApplication = downloadApplication;
