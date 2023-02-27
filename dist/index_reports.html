@@ -153,64 +153,51 @@
               <div id="myTabContent" class="tab-content">
                 <!--Home Tab-->
                 <div id="home" role="tabpanel" aria-labelledby="home-tab" class="tab-pane fade px-1 py-0 show active">
-                  <form id="appShortListForm" class="needs-validation" enctype="multipart/form-data" novalidate>
+                  <form id="appReportsForm" class="needs-validation" enctype="multipart/form-data" novalidate>
                     
                     <div class="bg-gray-200 pd-t-10 pd-b-10 pd-l-10 pd-r-10 ">
 
-                      <div class="row row-sm mg-b-20">
+                        <div class="row row-sm mg-b-20">
+  
+                          <div class="col-lg-5">
+                            <p class="mg-b-10">Faculty</p>
+                            <select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="shortlistedFaculty"
+                              name="shortlistedFaculty"
+                            >
+                            </select>
+                          </div>
+                          <!-- search faculty -->
+  
+                          <div class="col-lg-5">
+                            <p class="mg-b-10">Department</p>
+                            <select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="shortlistedDepartment"
+                              name="shortlistedDepartment"
+                            >
+                            </select>
+                          </div>
+                          <!-- search department -->
+  
+                          <div class="col-lg-2">
+                            <input
+                              type="button"
+                              value="Generate Report"
+                              class="btn btn-info btn-rounded"
+                              id="btnFilter"
+                              style="margin-top: 30px;"
+                            />
+                          </div>
+                          <!-- search report -->
 
-                        <div class="col-lg-3">
-                          <p class="mg-b-10">Faculty</p>
-                          <select
-                            class="form-control select2-no-search select2-hidden-accessible"
-                            tabindex="-1"
-                            aria-hidden="true"
-                            id="shortlistedFaculty"
-                            name="shortlistedFaculty"
-                          >
-                          </select>
                         </div>
-                        <!-- search faculty -->
-
-                        <div class="col-lg-3">
-                          <p class="mg-b-10">Department</p>
-                          <select
-                            class="form-control select2-no-search select2-hidden-accessible"
-                            tabindex="-1"
-                            aria-hidden="true"
-                            id="shortlistedDepartment"
-                            name="shortlistedDepartment"
-                          >
-                          </select>
-                        </div>
-                        <!-- search department -->
-
-                        <div class="col-lg-3">
-                          <p class="mg-b-10">Post</p>
-                          <select
-                            class="form-control select2-no-search select2-hidden-accessible"
-                            tabindex="-1"
-                            aria-hidden="true"
-                            id="shortlistedPost"
-                            name="shortlistedPost"
-                          >
-                          </select>
-                        </div>
-                        <!-- search post -->
-
-                        <div class="col-lg-3">
-                          <input
-                            type="button"
-                            value="Apply Filter"
-                            class="btn btn-info btn-rounded"
-                            id="btnFilter"
-                            style="margin-top: 30px;"
-                          />
-                        </div>
-                        <!-- search applicant -->
-
-                      </div>
-
+  
                     </div>
                     <div class="col-lg-4">
                     </div>
@@ -221,123 +208,31 @@
                     <br>
 
                     <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        Approved Applicants
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
-                        
-                        <div class="row row-sm mg-b-20">
-                          <table class="table mg-t-20" id="tblApproved">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Basic Degree</th>
-                                <th>Postgraduate Degree</th>
-                                <th>Years of Experience</th>
-                                <th>View Details</th>
-                                <th>Shortlist</th>
-                              </tr>
-                            </thead>
-                            <tbody id="tblBodyApproved"></tbody>
-                          </table>
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                          Generated Reports
                         </div>
-
-                      </div>
-
-                    </div>
-                    <!--approved-->
-
-                    <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        Shortlisted Applicants
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
-                        
-                        <div class="row row-sm mg-b-20">
-                          <table class="table mg-t-20" id="tblShortlisted">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Basic Degree</th>
-                                <th>Postgraduate Degree</th>
-                                <th>Years of Experience</th>
-                                <th>View Details</th>
-                                <th>Approve</th>
-                                <th>Remove</th>
-                              </tr>
-                            </thead>
-                            <tbody id="tblBodyShortlisted"></tbody>
-                          </table>
+                        <!-- card-header -->
+                        <div class="card-body bd bd-t-0">
+                          <!-- card-body -->
+                          
+                            <div class="row row-sm mg-b-20">
+                                <div class="col-lg-12">
+                                    <!-- <p>Generated Report | Department of Mathematics, Faculty of Science</p> -->
+                                    <input
+                                        type="button"
+                                        value="Download PDF"
+                                        class="btn btn-success btn-rounded"
+                                        id="btnDownloadPdf"
+                                        style="margin-top: 30px;"
+                                    />
+                                </div>
+                            </div>
+  
                         </div>
-
+  
                       </div>
-
-                    </div>
-                    <!--shortlisted-->
-
-                    <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        Pending Applicants
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
-                        
-                        <div class="row row-sm mg-b-20">
-                          <table class="table mg-t-20" id="tblPending">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Basic Degree</th>
-                                <th>Postgraduate Degree</th>
-                                <th>Years of Experience</th>
-                                <th>View Details</th>
-                                <th>Shortlist</th>
-                                <th>Remove</th>
-                              </tr>
-                            </thead>
-                            <tbody id="tblBodyPending"></tbody>
-                          </table>
-                        </div>
-
-                      </div>
-
-                    </div>
-                    <!--pending-->
-
-                    <div class="card bd-0 mg-b-20">
-                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
-                        Rejected Applicants
-                      </div>
-                      <!-- card-header -->
-                      <div class="card-body bd bd-t-0">
-                        <!-- card-body -->
-                        
-                        <div class="row row-sm mg-b-20">
-                          <table class="table mg-t-20" id="tblRejected">
-                            <thead>
-                              <tr>
-                                <th>Name</th>
-                                <th>Basic Degree</th>
-                                <th>Postgraduate Degree</th>
-                                <th>Years of Experience</th>
-                                <th>View Details</th>
-                                <th>Make Pending</th>
-                              </tr>
-                            </thead>
-                            <tbody id="tblBodyRejected"></tbody>
-                          </table>
-                        </div>
-
-                      </div>
-
-                    </div>
-                    <!--rejected-->
-
+                      <!--approved-->
+                    
                   </form>
                 </div>
                 <!--End Home Tab-->
@@ -478,6 +373,6 @@
     <?!= include('theme_js') ?>
     <?!= include('modal_js') ?>
     <?!= include('app_js') ?>
-    <?!= include('shortlist_js') ?>
+    <?!= include('reports_js') ?>
   </body>
 </html>

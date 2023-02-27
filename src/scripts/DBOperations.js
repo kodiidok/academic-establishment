@@ -174,41 +174,66 @@ class Database {
     }
   }
 
-  static updateItem(oldObject, newObject) {
-    const retVal = '';
+  static updateItem(request) {
+    const retObj = {};
+    retObj.status = false;
     try {
-      const spArray = [];
-      if (newObject) {
-        Object.entries(newObject).forEach(([, value]) => {
-          spArray.push(value);
-        });
-      }
-      const oldArray = [];
-      if (oldObject) {
-        Object.entries(oldObject).forEach(([, value]) => {
-          oldArray.push(value);
-        });
-      }
-
-      if (spArray.length > 0) {
-        const foundRow = this.findObjectRow(oldArray);
-        const outerArray = [];
-        outerArray.push(spArray);
-        this.connectedDatabase.getRange(foundRow + 1, 1, 1, spArray.length).setValues(outerArray);
-        if (this.cacheEnabled) {
-          CacheService.getScriptCache().remove(this.CACHE_KEY);
+      if (request) {
+        const lastrow = this.connectedDatabase.getLastRow();
+        for (let i = 2; i <= lastrow; i += 1) {
+          if (this.connectedDatabase.getRange(i, 2).getValue() === request[1] /* APPLICATION ID */) {
+            // this.connectedDatabase.getRange(i, 48).setValue(request[47]);
+            this.connectedDatabase.getRange(i, 1, 1, this.connectedDatabase.getLastColumn()).setValues([request]);
+          }
         }
+        // retObj.request = request;
+        retObj.status = true;
       } else {
         console.error(`No data inside array for updating`);
         throw new Error(`Error ocuured while updating data as an array`);
       }
-
-      return retVal;
+      return retObj;
     } catch (e) {
       console.error(`Error ocuured while updating new Request in DBOperations${e.lineNumber}`, e);
       throw new Error(`Error ocuured while updating in DBOperations${e}`);
     }
   }
+
+  // static updateItem(oldObject, newObject) {
+  //   const retVal = '';
+  //   try {
+  //     const spArray = [];
+  //     if (newObject) {
+  //       Object.entries(newObject).forEach(([, value]) => {
+  //         spArray.push(value);
+  //       });
+  //     }
+  //     const oldArray = [];
+  //     if (oldObject) {
+  //       Object.entries(oldObject).forEach(([, value]) => {
+  //         oldArray.push(value);
+  //       });
+  //     }
+
+  //     if (spArray.length > 0) {
+  //       const foundRow = this.findObjectRow(oldArray);
+  //       const outerArray = [];
+  //       outerArray.push(spArray);
+  //       this.connectedDatabase.getRange(foundRow + 1, 1, 1, spArray.length).setValues(outerArray);
+  //       if (this.cacheEnabled) {
+  //         CacheService.getScriptCache().remove(this.CACHE_KEY);
+  //       }
+  //     } else {
+  //       console.error(`No data inside array for updating`);
+  //       throw new Error(`Error ocuured while updating data as an array`);
+  //     }
+
+  //     return retVal;
+  //   } catch (e) {
+  //     console.error(`Error ocuured while updating new Request in DBOperations${e.lineNumber}`, e);
+  //     throw new Error(`Error ocuured while updating in DBOperations${e}`);
+  //   }
+  // }
 
   static updateDirect(object) {
     const retVal = '';

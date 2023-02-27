@@ -1,6 +1,4 @@
-<script>const request = {};
-  let redirectURL = '';
-
+<script>
   // web app intial execution
 
   $(document).ready(function () {
@@ -9,9 +7,7 @@
     const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
     $('#sysDate').text(strDate);
 
-    onLoadExecutions();
-
-    // $('#submitButton').click(submitForm);
+    onLoadAppExecutions();
 
     $('#appMainForm').submit(function (event) {
       event.preventDefault();
@@ -29,13 +25,13 @@
     });
   });
 
-  function onLoadExecutions() {
+  function onLoadAppExecutions() {
     showLoadingModal('Please Wait for Loading...');
-    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading();
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading('MAIN');
   }
 
-  function initialLoading(retdata) {
-    const data = JSON.parse(retdata);
+  function initialAppLoading(retdata) {
+    data = JSON.parse(retdata);
     console.log(data);
     if (data) {
       setMenu(data.scriptUrl);
@@ -49,59 +45,14 @@
     }
   }
 
-  function setMenu(appurl) {
-    $('#app-menu-01').attr('href', appurl);
-    $('#app-menu-02').attr('href', `${appurl}?page=hod`);
-  }
-
-  function setAppInfo(appName, appDescription, appRedirectURL) {
-    $('#appName').text(appName);
-    $('#appDescription').text(appDescription);
-    redirectURL = appRedirectURL;
-  }
-
-  // logOut and setInfo methods will show an error: Unexpected input
-
-  // modal msgs
-
-  function showLoadingModal(message) {
-    $('#loadingModalMessage').text(message);
-    $('#modalLoading').modal('show');
-  }
-
-  function showErrorModal(heading, message) {
-    $('#errorModalHeading').text(heading);
-    $('#errorModalMessage').text(message);
-    $('#modalError').modal('show');
-  }
-
-  function showSuccessModal(heading, message) {
-    $('#successModalHeading').text(heading);
-    $('#successModalMessage').text(message);
-    $('#modalSuccess').modal('show');
-    // $('#modalSuccess').modal('hide');
-  }
-
-  function onFailure(err) {
-    $('#modalLoading').modal('hide');
-    showErrorModal('Error Occured..!', err.message);
-  }
-
-  function showAppAlert(type, heading, message) {
-    if (type.toUpperCase() === 'SUCCESS') {
-      $('#appAlert').addClass('alert-success');
-    } else if (type.toUpperCase() === 'ERROR' || type.toUpperCase() === 'DANGER') {
-      $('#appAlert').addClass('alert-danger');
-    } else if (type.toUpperCase() === 'WARNING') {
-      $('#appAlert').addClass('alert-warning');
-    } else {
-      $('#appAlert').addClass('alert-info');
-    }
-
-    $('#appAlertHeading').text(heading);
-    $('#appAlertMessage').text(message);
-
-    $('#appAlert').show().delay(10000).fadeOut();
+  function router(key) {
+    google.script.run
+      .withSuccessHandler(function (url) {
+        console.log(url);
+        window.open(url, '_blank');
+        $('#modalLoading').modal('hide');
+      })
+      .router(key);
   }
 
   // save applicant data
@@ -342,6 +293,19 @@
       .saveRequest(JSON.stringify(request));
   }
 
+  function saveRequestSuccess(retdata) {
+    const obj = JSON.parse(retdata);
+    // const obj = retdata;
+    console.log(obj);
+    // console.log(typeof obj);
+    $('#modalLoading').modal('hide');
+    $('#submitButton').prop('disabled', false);
+    if (obj.status === true) {
+      showSuccessModal('Save Success..!', 'Please submit a valid hard copy of your application for further evaluation.');
+      // applicantList.length = 0;
+    }
+  }
+
   // shortlisting algorithm
 
   function checkQualifications(vacancy, basic, postgrad, declaration, currentEmployement, previousEmployement) {
@@ -410,33 +374,7 @@
 
     return result;
   }
-
-  function calculateDurationInMonths(startDate, endDate) {
-    let end = '';
-    const start = new Date(startDate);
-    if (endDate === undefined || endDate === null) {
-      end = new Date();
-    } else {
-      end = new Date(endDate);
-    }
-    const diffInTime = end.getTime() - start.getTime();
-    const diffInMonths = Math.round(diffInTime / (1000 * 3600 * 24 * 30));
-    return Math.ceil(diffInMonths / 12);
-  }
-
-  function saveRequestSuccess(retdata) {
-    const obj = JSON.parse(retdata);
-    // const obj = retdata;
-    console.log(obj);
-    // console.log(typeof obj);
-    $('#modalLoading').modal('hide');
-    $('#submitButton').prop('disabled', false);
-    if (obj.status === true) {
-      showSuccessModal('Save Success..!', 'Please submit a valid hard copy of your application for further evaluation.');
-      // applicantList.length = 0;
-    }
-  }
-
+  
   // error handling for table data
   
   function addError(error) {
@@ -1140,10 +1078,9 @@
       const objects = data;
       let htmlElement = '';
 
-      var i = 0;
       if (objects.length > 0) {
-        for (var i = 0; i < objects.length; i++) {
-          if (objects[i].name != '') {
+        for (let i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].previousEmpDesignation}</td>`;
             htmlElement += `<td>${objects[i].previousEmpDept}</td>`;
@@ -1177,9 +1114,9 @@
     pgdTitles = ObjPgdTitles.pgdTitles.map((x) => x[0]);
     subjectAreas = ObjSubjectAreas.subjectAreas.map((x) => x[0]);
 
-    console.log(bdTitles);
-    console.log(pgdTitles);
-    console.log(subjectAreas);
+    // console.log(bdTitles);
+    // console.log(pgdTitles);
+    // console.log(subjectAreas);
 
     $('#bdTitle').append(`<option label="Choose one" value="">Choose one</option>`);
     $('#bdSubject').append(`<option label="Choose one" value="">Choose one</option>`);
@@ -1204,10 +1141,10 @@
     faculties = objFaculties.faculties.map((x) => x[0]);
     departments = objDepartments.departments.map((x) => x[0]);
 
-    console.log(vacancies);
-    console.log(posts);
-    console.log(faculties);
-    console.log(departments);
+    // console.log(vacancies);
+    // console.log(posts);
+    // console.log(faculties);
+    // console.log(departments);
 
     $('#vacancyID').append(`<option label="Choose one" value="">Choose one</option>`);
     $('#vacancyPost').append(`<option label="Choose one" value="">Choose one</option>`);
@@ -1258,7 +1195,7 @@
     ];
     $('#district').append(`<option label="Choose one" value="">Choose one</option>`);
 
-    for (let i = 0; i < dlist.length; i++) {
+    for (let i = 0; i < dlist.length; i += 1) {
       $('#district').append(`<option value="${dlist[i]}">${dlist[i]}</option>`);
     }
   }

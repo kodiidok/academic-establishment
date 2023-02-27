@@ -1,0 +1,316 @@
+<script>
+// web app intial execution
+let temp = '';
+let tempApplication = '';
+
+$(document).ready(function () {
+  // Date
+  const d = new Date();
+  const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+  $('#sysDate').text(strDate);
+
+  onLoadAppExecutions();
+
+  $('#downloadPdf').click(function (event) {
+    event.preventDefault();
+    showLoadingModal('Please Wait for Download...');
+    const req = { KEY: 'APPLICATION', DATA: tempApplication, ID: temp };
+    google.script.run
+      .withFailureHandler(onFailure)
+      .withSuccessHandler(function (retdata) {
+        const data = JSON.parse(retdata);
+        serverResponseHandler(data.document);
+        $('#modalLoading').modal('hide');
+      })
+      .download(JSON.stringify(req));
+  });
+});
+
+function onLoadAppExecutions() {
+  showLoadingModal('Please Wait for Loading...');
+  google.script.run
+    .withFailureHandler(onFailure)
+    .withSuccessHandler(function (retdata) {
+      temp = JSON.parse(retdata);
+      // console.log(temp);
+    })
+    .getTempData();
+  google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading('VIEW');
+}
+
+function initialAppLoading(retdata) {
+  appData = JSON.parse(retdata);
+  if (appData) {
+    setMenu(appData.scriptUrl);
+    setAppInfo(appData.appName, appData.appDescription, appData.appRedirectURL);
+    appData.applications.forEach((application) => {
+      if (application[1] === temp) {
+        tempApplication = application;
+        displayData(application);
+      }
+    });
+    $('#modalLoading').modal('hide');
+  }
+}
+
+function serverResponseHandler(base64String) {
+  const linkSource = `data:application/pdf;base64,${base64String}`;
+  const downloadLink = document.createElement('a');
+  const fileName = 'Online Application.pdf';
+  downloadLink.href = linkSource;
+  downloadLink.download = fileName;
+  downloadLink.click();
+}
+
+function displayData(application) {
+  if (application.length > 0) {
+    $('#rvacancyID').val(application[2]);
+    $('#rvacancyFaculty').val(application[3]);
+    $('#rvacancyDepartment').val(application[4]);
+    $('#rvacancyPost').val(application[5]);
+
+    $('#rpdGender').val(application[6]);
+    $('#rpersonalTitle').val(application[7]);
+    $('#rpersonalNameInit').val(application[8]);
+    $('#rpersonalFullName').val(application[9]);
+    $('#rpersonalDOB').val(application[10].slice(0, 10));
+    $('#rpersonalAddress').val(application[11]);
+    $('#rcivilstatus').val(application[12]);
+    $('#rpersonalMobile').val(application[13]);
+    $('#rpersonalTp').val(application[14]);
+    $('#rpersonalEmail').val(application[15]);
+    $('#rdistrict').val(application[16]);
+    $('#relectorate').val(application[17]);
+    $('#rprovince').val(application[18]);
+    $('#rcity').val(application[19]);
+    $('#rCitizenship').val(application[20]);
+    $('#rnic').val(application[21]);
+    $('#byDescentOrRegistration').val(application[22]);
+    $('#rspecifyCountry').val(application[23]);
+    $('#rpassportNo').val(application[24]);
+    $('#rLanguages').val(JSON.parse(application[25]).join(',   '));
+
+    laodBasicDegreeTable(JSON.parse(JSON.parse(application[26])));
+    laodPgTable(JSON.parse(JSON.parse(application[27])));
+    laodBookTable(JSON.parse(JSON.parse(application[28])));
+    laodJournalsTable(JSON.parse(JSON.parse(application[29])));
+    laodAbstractsTable(JSON.parse(JSON.parse(application[30])));
+    laodAwardsTable(JSON.parse(JSON.parse(application[31])));
+    laodExtraCurrActTable(JSON.parse(JSON.parse(application[32])));
+
+    $('#rpresentOccDesignation').val(application[33]);
+    $('#rpresentOccDept').val(application[34]);
+    $('#rpresentOccFrom').val(application[35].slice(0, 10));
+    $('#rpresentOccSalaryDrawn').val(application[36]);
+
+    laodPreviousEmpTable(JSON.parse(JSON.parse(application[37])));
+
+    const jsonData1 = JSON.parse(application[38]);
+    $('#rName1r').val(jsonData1.rName1);
+    $('#rTelephone1r').val(jsonData1.rTelephone1);
+    $('#rAddress1r').val(jsonData1.rAddress1);
+    $('#rEmail1r').val(jsonData1.rEmail1);
+
+    const jsonData2 = JSON.parse(application[39]);
+    $('#rName2r').val(jsonData2.rName2);
+    $('#rTelephone2r').val(jsonData2.rTelephone2);
+    $('#rAddress2r').val(jsonData2.rAddress2);
+    $('#rEmail2r').val(jsonData2.rEmail2);
+
+    $('#commendedOrPunished').val(application[40]);
+    $('#rspecifyCommendations').val(application[41]);
+    $('#rVacation').val(application[42]);
+    $('#rspecifyVacation').val(application[43]);
+    $('#rbond').val(application[44]);
+    $('#rbondValue').val(application[45]);
+    $('#runiInstitute').val(application[46]);
+  }
+  // readOnlyData();
+}
+
+function laodBasicDegreeTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+        htmlElement += `<td>${objects[i][6]}</td>`;
+        htmlElement += `<td>${objects[i][7]}</td>`;
+        htmlElement += `<td>${objects[i][8]}</td>`;
+        htmlElement += `<td>${objects[i][9]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblBasicDegree').html(htmlElement);
+    }
+  }
+}
+
+function laodPgTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+        htmlElement += `<td>${objects[i][6]}</td>`;
+        htmlElement += `<td>${objects[i][7]}</td>`;
+        htmlElement += `<td>${objects[i][8]}</td>`;
+        htmlElement += `<td>${objects[i][9]}</td>`;
+        htmlElement += `<td>${objects[i][10]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblPgDegree').html(htmlElement);
+    }
+  }
+}
+
+function laodBookTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblBooks').html(htmlElement);
+    }
+  }
+}
+
+function laodJournalsTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblJournals').html(htmlElement);
+    }
+  }
+}
+
+function laodAbstractsTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+        htmlElement += `<td>${objects[i][5]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblAbstracts').html(htmlElement);
+    }
+  }
+}
+
+function laodAwardsTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblAwards').html(htmlElement);
+    }
+  }
+}
+
+function laodExtraCurrActTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblExtraCurrAct').html(htmlElement);
+    }
+  }
+}
+
+function laodPreviousEmpTable(tbldata) {
+  if (tbldata) {
+    const objects = tbldata;
+
+    let i = 0;
+    if (objects.length > 0) {
+      let htmlElement = '';
+      for (i = 0; i < objects.length; i += 1) {
+        htmlElement += '<tr>';
+        htmlElement += `<td>${objects[i][0]}</td>`;
+        htmlElement += `<td>${objects[i][1]}</td>`;
+        htmlElement += `<td>${objects[i][2]}</td>`;
+        htmlElement += `<td>${objects[i][3]}</td>`;
+        htmlElement += `<td>${objects[i][4]}</td>`;
+
+        htmlElement += '</tr>';
+      }
+      $('#rtblPreviousEmp').html(htmlElement);
+    }
+  }
+}
+</script>

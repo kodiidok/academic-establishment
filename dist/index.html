@@ -82,11 +82,17 @@
           </h5>
         </div>
         <!-- az-navbar-search -->
-        <ul class="nav">
+        <ul class="nav justify-content-start flex-row">
           <li class="nav-label">Main Menu</li>
           <li class="nav-item active show">
-            <a href="#" id="app-menu-01" class="nav-link app-menu"><i class="typcn typcn-clipboard"></i>Dashboard</a>
+            <a href="" id="app-menu-01" class="nav-link app-menu"><i class="typcn typcn-clipboard"></i>Dashboard</a>
+          <!-- </li>
+          <li class="nav-item active show">
+            <a href="javascript:void(0)" onclick="router('SHORTLIST')" id="app-menu-02" class="nav-link app-menu"><i class="typcn typcn-clipboard"></i>View Applications</a>
           </li>
+          <li class="nav-item active show">
+            <a href="javascript:void(0)" onclick="router('REPORTS')" id="app-menu-03" class="nav-link app-menu"><i class="typcn typcn-clipboard"></i>Reports</a>
+          </li> -->
           <!-- nav-item -->
         </ul>
         <!-- nav -->
@@ -1822,6 +1828,27 @@
         <!-- modal-dialog -->
       </div>
 
+      <!-- MODAL ALERT MESSAGE SUCCESS-->
+      <div id="modalSuccessDownload" class="modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <i class="fa fa-check-circle-o tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+              <h4 class="tx-success tx-semibold mg-b-20" id="successModalHeading"></h4>
+              <p class="mg-b-20 mg-x-20" id="successModalMessage"></p>
+              <button type="button" class="btn btn-success pd-x-25" data-dismiss="modal" aria-label="Close">OK</button>
+              <button type="button" class="btn btn-success pd-x-25" data-dismiss="modal" aria-label="Close">Download</button>
+            </div>
+            <!-- modal-body -->
+          </div>
+          <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+      </div>
+
       <!-- MODAL ALERT MESSAGE ERROR-->
       <div id="modalError" class="modal">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1894,6 +1921,8 @@
     <!--script src="./theme_js.js"></script>
       <script src="./custom_js.js"></script-->
     <?!= include('theme_js') ?>
-    <?!= include('appjs') ?>
+    <?!= include('modal_js') ?>
+    <?!= include('app_js') ?>
+    <?!= include('application_form_js') ?>
   </body>
 </html>

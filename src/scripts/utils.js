@@ -2,14 +2,20 @@ const ERROR_EMAIL = 'youremail@sci.pdn.ac.lk';
 const TIME_ZONE = 'Asia/Colombo';
 const DATE_FORMAT = 'MM/dd/yyyy HH:mm:ss';
 const UUID_FORMAT = 'MMddyyyyHHmmss';
-const APP_NAME = 'ONLINE APPLICATION';
+
+const MAIN_APP_NAME = 'ONLINE APPLICATION';
+const SHORTLIST_APP_NAME = 'APPLICATIONS SUMMARY';
+const VIEW_APP_NAME = 'VIEW APPLICANT';
+const REPORTS_APP_NAME = 'REPORTS';
+
 const APP_DESCRIPTION = 'Academic Establishment. University of Peradeniya.';
-const APP_URL =
-  'https://script.google.com/macros/s/AKfycbwftRGdFiH_wwlNlEl5teYLr_isAKauK-OskdggQR_7VsAINLaQaRZ6NUqIx_0o-YwR8A/exec';
+const APP_URL = 'https://script.google.com/macros/s/AKfycbx6wYqHr0XQjztRttC0pAdjriaJJIa3M-u6ABVrano/dev';
+
+// https://script.google.com/macros/s/AKfycbyiw-ou4QFI0Ub5VTqs7HGSDM93-aZgdYYRcEocU4mpXNIjH5uQvhcOFPOzQ9cQAAMu/exec
 const ALIASMAIL = 'portal@gs.pdn.ac.lk';
 const UUID_CODE = 'OA';
 
-// const DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
+const TEST_DBID = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
 const DBID = '1R3ZBd0qe-Q9thnFtTXDUzMF18kCLd41IUrQbAX42JQ4';
 const DATA_DBID = '1QdubFe5pbNQyevoK_LQS021OPrYxve_aGuD9xGEUI4o';
 // const REQ_DBID = '1T5GMDaXjgyF0QMbsznDW9jWpap64VY1hs-FJ8uQEYk8';
@@ -33,6 +39,8 @@ const DBID_FAC_DEPT = '1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4';
 const SHEET_FAC_DEPT = 'RolesAccount';
 
 const PROCESSING_EMAILS = 'portal@gs.pdn.ac.lk';
+
+const APPS = { MAIN: 'MAIN', SHORTLIST: 'SHORTLIST', VIEW: 'VIEW', REPORTS: 'REPORTS' };
 
 let cKey = null;
 let chunks = [];
@@ -87,6 +95,10 @@ class Utils {
     return date;
   }
 
+  static getApp() {
+    return APPS;
+  }
+
   static generateUUID() {
     const date = Utilities.formatDate(new Date(), TIME_ZONE, UUID_FORMAT);
     return `${UUID_CODE}_${date}`;
@@ -101,8 +113,41 @@ class Utils {
     return Session.getActiveUser().getEmail();
   }
 
-  static getAppName() {
-    return APP_NAME;
+  static getAppName(retdata) {
+    let APP_NAME = '';
+    let page = '';
+    if (retdata) {
+      page = retdata.slice(6, retdata.length).toUpperCase();
+    }
+    try {
+      if (!page) {
+        APP_NAME = this.getMainAppName();
+      } else if (page === Utils.getApp().SHORTLIST) {
+        APP_NAME = this.getShortlistAppName();
+      } else if (page === Utils.getApp().REPORTS) {
+        APP_NAME = this.getReportsAppName();
+      }
+      return APP_NAME;
+    } catch (error) {
+      console.error('Error occurred while getAppName in Resources', error);
+      throw new Error(`Error occurred while getAppName`);
+    }
+  }
+
+  static getMainAppName() {
+    return MAIN_APP_NAME;
+  }
+
+  static getShortlistAppName() {
+    return SHORTLIST_APP_NAME;
+  }
+
+  static getViewAppName() {
+    return VIEW_APP_NAME;
+  }
+
+  static getReportsAppName() {
+    return REPORTS_APP_NAME;
   }
 
   static getAppDescription() {
@@ -124,6 +169,10 @@ class Utils {
 
   static getMainDBID() {
     return DBID;
+  }
+
+  static getTestMainDBID() {
+    return TEST_DBID;
   }
 
   static getReqDBID() {
@@ -233,6 +282,19 @@ class Utils {
     const DB = SpreadsheetApp.openById(this.getMainDBID());
     const APPLICATION_ID = DB.getSheetByName(this.getApplicationSheetName()).getLastRow();
     return APPLICATION_ID;
+  }
+
+  static formatDate(dateString) {
+    const date = new Date(dateString);
+    const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date
+      .getDate()
+      .toString()
+      .padStart(2, '0')}/${date.getFullYear()} ${date.getHours()}:${date
+      .getMinutes()
+      .toString()
+      .padStart(2, '0')}:${date.getSeconds().toString().padStart(2, '0')}`;
+
+    return formattedDate; // "01/29/2023 1:25:38"
   }
 }
 export default Utils;

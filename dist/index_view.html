@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Meta -->
+    <meta name="description" content="Responsive Bootstrap 4 Dashboard Template" />
+    <meta name="author" content="BootstrapDash" />
+    <title></title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.2.8/css/rowReorder.dataTables.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css" />
+    <!-- azia CSS -->
+    <!--link rel="stylesheet" href="./theme_css.css">
+      <link rel="stylesheet" href="./custom_css.css"-->
+      <link rel="stylesheet" href="../css//custom.css">
+      <link rel="stylesheet" href="../css//theme.css">
+    <?!= include('theme_css') ?>
+    <?!= include('custom_css') ?>
+  </head>
+  <body class="az-body">
+    <div class="az-header shadow-none">
+      <div class="container-fluid">
+        <div class="az-header-left">
+          <a href="https://sci.pdn.ac.lk/" class="az-logo">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png"
+              alt="Logo"
+              style="width:50px;height:50px; margin-right: 10px;"
+            />
+            University Of Peradeniya
+          </a>
+          <a href="" id="azNavShow" class="az-header-menu-icon d-lg-none"><span></span></a>
+        </div>
+        <!-- az-header-left -->
+        <div class="az-header-center"></div>
+        <!-- az-header-center -->
+        <div class="az-header-right">
+          <!-- az-header-message -->
+          <div class="dropdown az-profile-menu">
+            <a href="" class="az-img-user"><i class="fa fa-user-circle-o tx-28"></i></a>
+            <div class="dropdown-menu">
+              <div class="az-dropdown-header d-sm-none">
+                <a href="" class="az-header-arrow"><i class="fa fa-window-close-o"></i></a>
+              </div>
+              <div class="az-header-profile">
+                <p id="username">dev@sci.pdn.ac.lk</p>
+                <span id="userrole">(DEV)</span>
+              </div>
+              <!-- az-header-profile -->
+              <!--a href="#" onclick="logOut()" class="dropdown-item"><i class="fa fa-sign-out"></i> Sign Out</a-->
+            </div>
+            <!-- dropdown-menu -->
+          </div>
+        </div>
+        <!-- az-header-right -->
+      </div>
+      <!-- container -->
+    </div>
+
+    <div class="az-navbar az-navbar-dashboard-four">
+      <div class="container-fluid">
+        <div class="az-navbar-header text-center" style="text-align: center;">
+          <a href="https://sci.pdn.ac.lk/" style="text-align: center;">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/en/c/cc/University_of_Peradeniya_crest.png"
+              alt="Logo"
+              style="width:50px;height:50px; margin-right: 10px;"
+            />
+          </a>
+        </div>
+        <!-- az-navbar-header -->
+        <div class="az-navbar-search">
+          <h5>
+            Academic Establishment
+            <small>University of Peradeniya</small>
+          </h5>
+        </div>
+        <!-- az-navbar-search -->
+        <ul class="nav">
+          <li class="nav-label">Main Menu</li>
+          <li class="nav-item active show">
+            <a href="#" id="app-menu-01" class="nav-link app-menu"><i class="typcn typcn-clipboard"></i>Dashboard</a>
+          </li>
+          <!-- nav-item -->
+        </ul>
+        <!-- nav -->
+      </div>
+      <!-- container-fluid -->
+    </div>
+    <!-- az-navbar -->
+
+    <div class="az-content az-content-dashboard-four">
+      <div class="media media-dashboard">
+        <div class="media-body">
+          <div class="az-content-header">
+            <div>
+              <h6 class="az-content-title tx-18 mg-b-5" id="appName">View Details</h6>
+              <p class="az-content-text tx-13 mg-b-0" id="appDescription">
+                Faculty of Science. University of Peradeniya.
+              </p>
+            </div>
+            <div class="az-content-header-right">
+              <div class="media">
+                <div class="media-body">
+                  <label>Date</label>
+                  <h6 id="sysDate"></h6>
+                </div>
+                <!-- media-body -->
+              </div>
+              <!-- media -->
+              <a href="#" class="btn btn-rounded btn-warning"><i class="fa fa-info-circle"></i> Help</a>
+            </div>
+          </div>
+          <!-- az-content-header -->
+          <div class="card card-dashboard-twelve mg-b-20 shadow">
+            <div class="card-header">
+              <div id="appAlert" class="alert" role="alert" style="display: none;">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+                <strong id="appAlertHeading"></strong> <span id="appAlertMessage"></span>
+              </div>
+              <!-- Rounded tabs -->
+              <ul
+                id="myTab"
+                role="tablist"
+                class="nav nav-tabs nav-pills flex-column flex-sm-row text-center bg-light border-0 rounded-nav"
+              >
+                <li class="nav-item flex-sm-fill">
+                  <a
+                    id="home-tab"
+                    data-toggle="tab"
+                    href="#home"
+                    role="tab"
+                    aria-controls="home"
+                    aria-selected="true"
+                    class="nav-link app-tab border-0 text-uppercase font-weight-bold active"
+                    style="display: none;"
+                    >Home</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <!-- card-header -->
+            <div class="card-body">
+              <!--TAB PAGE-->
+              <div id="myTabContent" class="tab-content">
+                <!--Home Tab-->
+                <div id="home" role="tabpanel" aria-labelledby="home-tab" class="tab-pane fade px-1 py-0 show active">
+                  <form id="viewForm" class="needs-validation" enctype="multipart/form-data" novalidate>
+                  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Vacancy
+                      </div>
+                      <!-- card-header -->
+  
+                      <div class="card-body bd bd-t-0">
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            <p class="mg-b-10"> Vacancy ID </p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rvacancyID"
+                              name="rvacancyID"
+                              type="text"
+                            >
+                              <!--?!= vacancy ?-->
+                           
+                          </div>
+  
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Post</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rvacancyPost"
+                              name="rvacancyPost"
+                              type="text"
+                            >
+                              <!--?!= post ?-->
+                            
+                          </div>
+                        </div>
+  
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Faculty / Center/ Institute</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rvacancyFaculty"
+                              name="rvacancyFaculty"
+                              type="text"
+                            >
+                            <!--?!= fac ?-->
+                         
+                          </div>
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Department (Only for Faculties)</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rvacancyDepartment"
+                              name="rvacancyDepartment"
+                              type="tex"
+                            >
+                            <!--?!= dept ?-->
+                          
+                          </div>
+                        </div>
+                      </div>
+                      <!-- card-body -->
+                    </div>
+                    <!--vacancy-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Personal Details
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">Gender</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rpdGender"
+                              name="rpdGender"
+                              type="text"
+                            >
+                              
+                          </div>
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">Title</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rpersonalTitle"
+                              name="rpersonalTitle"
+                              type="text"
+                            >
+                          </div>
+                    
+                          <div class="col-lg-8">
+                            <p class="mg-b-10">Name with initials</p>
+                            <input
+                              id="rpersonalNameInit"
+                              name="rpersonalNameInit"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-10">
+                            <p class="mg-b-10">Full Name</p>
+                            <input
+                              id="rpersonalFullName"
+                              name="rpersonalFullName"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">Date of Birth</p>
+                            <input 
+                              type="text" 
+                              id="rpersonalDOB" 
+                              name="rpersonalDOB" 
+                              class="form-control"
+                              readonly
+                               />
+                          </div>
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-10">
+                            <p class="mg-b-10">Postal Address</p>
+                            <input
+                              id="rpersonalAddress"
+                              name="rpersonalAddress"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">CivilStatus</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rcivilstatus"
+                              name="rcivilstatus"
+                              type="text"
+                            >
+                          </div>
+                          
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-4">
+                            <p class="mg-b-10">Mobile</p>
+                            <input id="rpersonalMobile" name="rpersonalMobile" class="form-control" readonly type="text" />
+                          </div>
+                          <div class="col-lg-4">
+                            <p class="mg-b-10">Telephone</p>
+                            <input id="rpersonalTp" name="rpersonalTp" class="form-control" readonly type="text" />
+                          </div>
+                          <div class="col-lg-4">
+                            <p class="mg-b-10">Email</p>
+                            <input id="rpersonalEmail" name="rpersonalEmail" class="form-control" readonly type="email" />
+                          </div>
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">District</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rdistrict"
+                              name="rdistrict"
+                              type="text"
+                            >
+                           
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Electorate</p>
+                            <input
+                              id="relectorate"
+                              name="relectorate"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Province</p>
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rprovince"
+                              name="rprovince"
+                              type="text"
+                            >
+                            
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">City</p>
+                            <input id="rcity" name="rcity" class="form-control" readonly type="text" />
+                          </div>
+                        </div>
+                    
+                        <div class="row row-sm mg-b-20">
+                          
+                          <div class="col-lg-2">
+                            <p class="mg-b-10">Citizenship</p>
+                          </div>
+                    
+                          <div class="col-lg-2">
+                            
+                            <input
+                              class="form-control"
+                              readonly
+                              id="rCitizenship"
+                              name="rCitizenship"
+                              type="text"
+                            >
+                            
+                          </div>
+                          <div class="col-lg-2" style="text-align: center;">
+                            
+                            <p class="mg-b-10">NIC</p>
+                            
+                            
+                          </div>
+                  
+                          <div class="col-lg-4" >
+                            
+                            <input 
+                              id="rnic" 
+                              name="rnic" 
+                              class="form-control" 
+                              readonly
+                              type="text"/>
+                          </div>
+                          <div class="col-lg-2" >
+                            
+                            <input 
+                              id="byDescentOrRegistration" 
+                              name="byDescentOrRegistration" 
+                              class="form-control" 
+                              readonly
+                              type="text"/>
+                          </div>
+                        </div>
+                        
+                  
+                    
+                        <div class="row row-sm mg-b-20" id="notSriLankan" >
+                          
+                          <div class="col-lg-2">
+                    
+                          </div>
+                    
+                          <div class="col-lg-4">
+                          
+                            <p class="mg-b-10">Specify the Country</p>
+                            <input id="rspecifyCountry" name="rspecifyCountry" class="form-control" readonly type="text" />
+                            
+                          </div>
+
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Passport No</p>
+                            <input id="rpassportNo" name="rpassportNo" class="form-control" readonly type="text" />
+                          </div>
+                        </div>
+                    
+                        <!-- <div class="row row-sm mg-b-20" id="spouseDIV" style="display: none;">
+                          <div class="col-lg-8">
+                            <p class="mg-b-10">Spouse Name</p>
+                            <input
+                              id="spouseName"
+                              name="spouseName"
+                              class="form-control"
+                              placeholder="Spouse Name"
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-4">
+                            <p class="mg-b-10">Spouse Designation</p>
+                            <input
+                              id="spouseDesignation"
+                              name="spouseDesignation"
+                              class="form-control"
+                              placeholder="Spouse Designation"
+                              type="text"
+                            />
+                          </div>
+                        </div> -->
+                    
+                        <div class="row row-sm mg-b-20">
+                          <!-- <div class="col-lg-8">
+                            <p class="mg-b-10">Highest Education Qualification</p>
+                            <input
+                              id="highestEducation"
+                              name="highestEducation"
+                              class="form-control"
+                              placeholder="Highest Education Qualification"
+                              type="text"
+                            />
+                          </div> -->
+                          <div class="col-lg-12">
+                            <p class="mg-b-10">Proficiency on Languages</p>
+                            <div class="row mg-t-12">
+                              <input id="rLanguages" name="rLanguages" class="form-control" readonly type="text" />
+                            </div>
+                    
+                            <!--select
+                              class="form-control select2-no-search select2-hidden-accessible"
+                              data-select2-id="13"
+                              tabindex="-1"
+                              aria-hidden="true"
+                              id="proficiencyOnLanguages"
+                              name="proficiencyOnLanguages"
+                            >
+                              <option label="Choose one" value="">Choose one</option>
+                              <option value="Sinhala">Only Sinhala</option>
+                              <option value="Tamil">Only Tamil</option>
+                              <option value="English">Only English</option>
+                              <option value="Sinhala and Tamil">Sinhala and Tamil</option>
+                              <option value="Sinhala and English">Sinhala and English</option>
+                              <option value="Tamil and English">Tamil and English</option>
+                              <option value="Sinhala and Tamil">Sinhala, Tamil and English</option>
+                            </select-->
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--personal details-->
+  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Basic Degree
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+  
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Title</th>
+                                <th>Title (Other)</th>
+                                <th>Subject</th>
+                                <th>Subject (Other)</th>
+                                <th>University</th>
+                                <th>Country</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Class</th>
+                                <th>GPA</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblBasicDegree"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--basic degree-->
+  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                       Postgraduate Degree
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Title</th>
+                                <th>Title (Other)</th>
+                                <th>Subject</th>
+                                <th>Subject (Other)</th>
+                                <th>University</th>
+                                <th>Country</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Class</th>
+                                <th>GPA</th>
+                                <th>Course Work</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblPgDegree"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--post graduate degree-->
+  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Research Publications
+                      </div>
+                      <!-- card-header -->
+                      
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#416283;">
+                          Books
+                        </div>
+                        <!-- card-header -->
+
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Name of the Book</th>
+                                <th>Author</th>
+                                <th>Date</th>
+                                <th>ISBN</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblBooks"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!--books-->
+  
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#416283;">
+                          Journals
+                        </div>
+                        <!-- card-header -->
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table  class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Source</th>
+                                <th>Date</th>
+                                <th>Indexed / Non Indexed</th>
+                                <th>Conference / Other</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblJournals"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!--journals-->
+                      
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="card-header tx-medium bd-0 tx-white" style="background-color:#416283;">
+                          Abstracts
+                        </div>
+                        <!-- card-header -->
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Source</th>
+                                <th>Date</th>
+                                <th>Indexed / Non Indexed</th>
+                                <th>Conference / Other</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblAbstracts"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <!--abstract-->
+                    </div>
+                    <!--research publications-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                       Academic Awards (Distinctions, Scholarships and Medal/Prizes)
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Award</th>
+                                <th>Institute/Country</th>
+                                <th>Year</th>
+                                <th>Details</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblAwards"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--awards-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Extra Curricular Activities (University, National & International level)
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Activity</th>
+                                <th>Duration/Year</th>
+                                <th>Level</th>
+                                <th>Details</th>
+                              </tr>
+                            </thead>
+                            <tbody id="rtblExtraCurrAct"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--extra curricular activities-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Present Occupation
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Designation</p>
+                            <input
+                              id="rpresentOccDesignation"
+                              name="rpresentOccDesignation"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Department/Institution</p>
+                            <input
+                              id="rpresentOccDept"
+                              name="rpresentOccDept"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">From</p>
+                            <input 
+                              id="rpresentOccFrom" 
+                              name="rpresentOccFrom" 
+                              class="form-control" 
+                              type="text" 
+                              readonly/>
+                          </div>
+                    
+                          <div class="col-lg-3">
+                            <p class="mg-b-10">Salary Drawn</p>
+                            <input
+                              id="rpresentOccSalaryDrawn"
+                              name="rpresentOccSalaryDrawn"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--present occupation-->
+  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Previous Employments
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <div id="addEmpAlert" class="alert alert-danger" role="alert" style="display: none;">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                          <strong id="addEmpAlertHeading">Error : </strong> <span id="addEmpAlertMessage"></span>
+                        </div>
+                    
+                        <!-- card-body -->
+                        
+                        <div class="row row-sm mg-b-20">
+                          <table class="table mg-t-20">
+                            <thead>
+                              <tr>
+                                <th>Designation</th>
+                                <th>Department/Institution</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Reasons for Leaving</th>
+                                <!--th>Action</th-->
+                              </tr>
+                            </thead>
+                            <tbody id="rtblPreviousEmp"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <!--previous employements-->
+  
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        References
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">01  Name & Address</p>
+                            <input
+                            id="rName1r"
+                            name="rName1r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Telephone No & e-mail</p>
+                            <input
+                            id="rTelephone1r"
+                            name="rTelephone1r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rAddress1r"
+                            name="rAddress1r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rEmail1r"
+                            name="rEmail1r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                    
+                    
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">02  Name & Address</p>
+                            <input
+                            id="rName2r"
+                            name="rName2r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            <p class="mg-b-10">Telephone No & e-mail</p>
+                            <input
+                            id="rTelephone2r"
+                            name="rTelephone2r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rAddress2r"
+                            name="rAddress2r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          <div class="col-lg-6">
+                            
+                            <input
+                            id="rEmail2r"
+                            name="rEmail2r"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>    
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!--references-->
+
+                    <div class="card bd-0 mg-b-20">
+                      <div class="card-header tx-medium bd-0 tx-white" style="background-color:#34495E;">
+                        Declaration
+                      </div>
+                      <!-- card-header -->
+                      <div class="card-body bd bd-t-0">
+                        <!-- card-body -->
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-8">
+                            <br>
+                            <p style="font-size: larger;"><strong> Have you ever been Commended or Punished during your career in the 
+                              University / Educational Institution: </strong></p> <br> 
+                            <p style="font-size: larger;"><strong>If yes, please specify</strong></p>
+                          </div>
+                          <div class="col-lg-4" style="text-align: center;">
+                            <input
+                            id="commendedOrPunished"
+                            name="commendedOrPunished"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-12">
+                            <p class="mg-b-10"></p>
+                              <textarea id="rspecifyCommendations" rows="4" name="rspecifyCommendations" class="form-control" readonly></textarea>
+                          </div>
+                        </div>
+                        <!-- commendation -->
+
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-8">
+                            <br>
+                            <p style="font-size: larger;"><strong> Have you ever been served with a Vacation of Post notice by any other University/ Government Institution? If so please provide details. </strong></p> <br> 
+                            <p style="font-size: larger;"><strong>If yes, please provide details</strong></p>
+                          </div>
+                          <div class="col-lg-4" style="text-align: center;">
+                            <br>
+                            <input
+                            id="rVacation"
+                            name="rVacation"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          
+                        </div>
+                        <div class="row row-sm mg-b-20">
+                          <div class="col-lg-12">
+                            <p class="mg-b-10"></p>
+                              <textarea id="rspecifyVacation" rows="4" name="rspecifyVacation" class="form-control" readonly></textarea>
+                          </div>
+                        </div>
+                        <!-- vacation post -->
+
+                        <div class="row row-sm ">
+                          <div class="col-lg-6">
+                            <br>
+                            <p style="font-size: larger;"><strong> Have you ever been treated as a bond violator : </strong></p>
+                          </div>
+                  
+                          <div class="col-lg-6">
+                            <br>
+                            <input
+                            id="rbond"
+                            name="rbond"
+                            class="form-control"
+                            readonly
+                            type="text"
+                          />
+                          </div>
+                          
+                        </div>
+                        <div class="row row-sm ">
+                          <div class="col-lg-4">
+                            <br>
+                            <p style="font-size: larger;"><strong>If yes, Please provide details : </strong></p>
+                          </div>
+                  
+                          <div class="col-lg-4">
+                            <br>
+                            <p class="mg-b-10">Bond Value </p>
+                            <input
+                              id="rbondValue"
+                              name="rbondValue"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                          <div class="col-lg-4">
+                            <br>
+                            <p class="mg-b-10">University/Institute</p>
+                            <input
+                              id="runiInstitute"
+                              name="runiInstitute"
+                              class="form-control"
+                              readonly
+                              type="text"
+                            />
+                          </div>
+                        </div>
+                        <!-- bond violation -->
+
+                        
+                      </div>
+                    </div>
+                    <!--declaration-->
+
+                    <div class="row row-sm mg-b-20">
+                      <button id="downloadPdf" type="button" class="btn btn-indigo btn-rounded btn-block">
+                        DOWNLOAD AS PDF
+                      </button>
+                    </div>
+                    <!--download-->
+
+                  </form>
+                </div>
+                <!--End Home Tab-->
+              </div>
+              <!-- End rounded tabs -->
+              <!--END TAB PAGE-->
+            </div>
+            <!-- card-body -->
+          </div>
+          <!-- card -->
+        </div>
+        <!-- media-body -->
+      </div>
+      <!-- media -->
+
+      <!--Model-->
+      <!-- LARGE MODAL -->
+      <div id="modalInfo" class="modal">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content modal-content-demo">
+            <div class="modal-header">
+              <h6 class="modal-title">Message Preview</h6>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h6>Why We Use Electoral College, Not Popular Vote</h6>
+              <p>
+                It is a long established fact that a reader will be distracted by the readable content of a page when
+                looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution
+                of letters, as opposed to using 'Content here, content here', making it look like readable English.
+              </p>
+            </div>
+            <!-- modal-body -->
+            <div class="modal-footer">
+              <button type="button" class="btn btn-indigo">Save changes</button>
+              <button type="button" data-dismiss="modal" class="btn btn-outline-light">Close</button>
+            </div>
+          </div>
+        </div>
+        <!-- modal-dialog -->
+      </div>
+      <!-- modal -->
+
+      <!-- MODAL ALERT MESSAGE SUCCESS-->
+      <div id="modalSuccess" class="modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <i class="fa fa-check-circle-o tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+              <h4 class="tx-success tx-semibold mg-b-20" id="successModalHeading"></h4>
+              <p class="mg-b-20 mg-x-20" id="successModalMessage"></p>
+              <button type="button" class="btn btn-success pd-x-25" data-dismiss="modal" aria-label="Close">OK</button>
+            </div>
+            <!-- modal-body -->
+          </div>
+          <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+      </div>
+
+      <!-- MODAL ALERT MESSAGE ERROR-->
+      <div id="modalError" class="modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <i class="fa fa-times-circle-o tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+              <h4 class="tx-danger mg-b-20" id="errorModalHeading"></h4>
+              <p class="mg-b-20 mg-x-20" id="errorModalMessage"></p>
+              <button type="button" class="btn btn-danger pd-x-25" data-dismiss="modal" aria-label="Close">OK</button>
+            </div>
+            <!-- modal-body -->
+          </div>
+          <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+      </div>
+      <!-- modal -->
+
+      <!-- MODAL Loading-->
+      <div id="modalLoading" class="modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content tx-size-sm">
+            <div class="modal-body tx-center pd-y-20 pd-x-20">
+              <div class="spinner-border text-primary" style="width:5rem; height:5rem" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+              <p class="mg-b-20 mg-x-20" id="loadingModalMessage"></p>
+            </div>
+            <!-- modal-body -->
+          </div>
+          <!-- modal-content -->
+        </div>
+        <!-- modal-dialog -->
+      </div>
+      <!-- modal -->
+    </div>
+    <!-- az-content -->
+
+    <div class="az-footer ht-40">
+      <div class="container-fluid pd-t-0-f ht-100p">
+        <span>&copy; Copyright 2019 Faculty of Science. All Rights Reserved | University of Peradeniya</span>
+      </div>
+      <!-- container -->
+    </div>
+    <!-- az-footer -->
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/rowreorder/1.2.8/js/dataTables.rowReorder.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+
+    <!--script src="./theme_js.js"></script>
+      <script src="./custom_js.js"></script-->
+    <?!= include('theme_js') ?>
+    <?!= include('modal_js') ?>
+    <?!= include('app_js') ?>
+    <?!= include('view_js') ?>
+  </body>
+</html>

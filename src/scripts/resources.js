@@ -2,7 +2,28 @@ import DatabaseOperations from './DBOperations';
 import Utils from './utils';
 
 class Resources {
-  static initialLoading() {
+  static initialLoading(app) {
+    let rtnObj = {};
+    try {
+      if (!app) {
+        rtnObj = this.initialApplicationDataLoading();
+      } else if (app === Utils.getApp().MAIN) {
+        rtnObj = this.initialMainAppLoading();
+      } else if (app === Utils.getApp().SHORTLIST) {
+        rtnObj = this.initialShortlistAppLoading();
+      } else if (app === Utils.getApp().REPORTS) {
+        rtnObj = this.initialReportsAppLoading();
+      } else if (app === Utils.getApp().VIEW) {
+        rtnObj = this.initialViewAppLoading();
+      }
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialLoading in Resources', error);
+      throw new Error(`Error occurred while initialLoading`);
+    }
+  }
+
+  static initialMainAppLoading() {
     const rtnObj = {};
     try {
       // rtnObj.appUser = this.resolveAppUser();
@@ -20,13 +41,85 @@ class Resources {
       rtnObj.pgdTitles = this.getPgdTitleData();
       rtnObj.subjectAreas = this.getSubjectAreaData();
 
+      rtnObj.applications = this.getApplicationsData();
+
       // rtnObj.reqMain = this.getReqMainData();
       // rtnObj.requirements = this.getRequirements();
 
       return rtnObj;
     } catch (error) {
-      console.error('Error occurred while initialLoading in Resources', error);
-      throw new Error(`Error occurred while initialLoading`);
+      console.error('Error occurred while initialMainAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialMainAppLoading`);
+    }
+  }
+
+  static initialShortlistAppLoading() {
+    const rtnObj = {};
+    try {
+      // rtnObj.appUser = this.resolveAppUser();
+      rtnObj.scriptUrl = Utils.getScriptUrl();
+      rtnObj.appName = Utils.getShortlistAppName();
+      rtnObj.appDescription = Utils.getAppDescription();
+      rtnObj.appRedirectURL = Utils.getAppRedirectURL();
+
+      rtnObj.posts = this.getPostData();
+      rtnObj.faculties = this.getFacultyData();
+      rtnObj.departments = this.getDepartmentData();
+
+      rtnObj.applications = this.getApplicationsData();
+
+      rtnObj.test = 'TESTED CODE WORKS!';
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialShortlistAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialShortlistAppLoading`);
+    }
+  }
+
+  static initialApplicationDataLoading() {
+    const rtnObj = {};
+    try {
+      rtnObj.applications = this.getApplicationsData();
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialApplicationDataLoading in Resources', error);
+      throw new Error(`Error occurred while initialApplicationDataLoading`);
+    }
+  }
+
+  static initialReportsAppLoading() {
+    const rtnObj = {};
+    try {
+      // rtnObj.appUser = this.resolveAppUser();
+      rtnObj.scriptUrl = Utils.getScriptUrl();
+      rtnObj.appName = Utils.getReportsAppName();
+      rtnObj.appDescription = Utils.getAppDescription();
+      rtnObj.appRedirectURL = Utils.getAppRedirectURL();
+      rtnObj.applications = this.getApplicationsData();
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialReportsAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialReportsAppLoading`);
+    }
+  }
+
+  static initialViewAppLoading() {
+    const rtnObj = {};
+    try {
+      // rtnObj.appUser = this.resolveAppUser();
+      rtnObj.scriptUrl = Utils.getScriptUrl();
+      rtnObj.appName = Utils.getViewAppName();
+      rtnObj.appDescription = Utils.getAppDescription();
+      rtnObj.appRedirectURL = Utils.getAppRedirectURL();
+      rtnObj.applications = this.getApplicationsData();
+
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while initialReportsAppLoading in Resources', error);
+      throw new Error(`Error occurred while initialReportsAppLoading`);
     }
   }
 
@@ -112,6 +205,33 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while resolveAppUser in Resources', error);
       throw new Error(`Error occurred while resolveAppUser`);
+    }
+  }
+
+  static getApplicationsData() {
+    try {
+      DatabaseOperations.cacheEnabled = false;
+      DatabaseOperations.initilizeDatabase(Utils.getTestMainDBID());
+      DatabaseOperations.openDatabaseConnection(Utils.getApplicationSheetName());
+      // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+      const foundObj = DatabaseOperations.readDatabaseCache();
+
+      // return JSON.stringify(foundObj);
+      return foundObj;
+    } catch (error) {
+      console.error('Error occurred while getApplicationSheetData in Resources', error);
+      throw new Error(`Error occurred while getApplicationSheetData`);
+    }
+  }
+
+  static getApplications() {
+    const rtnObj = {};
+    try {
+      rtnObj.applications = this.getApplicationsData();
+      return rtnObj;
+    } catch (error) {
+      console.error('Error occurred while getApplications in Resources', error);
+      throw new Error(`Error occurred while getApplications`);
     }
   }
 
@@ -284,131 +404,6 @@ class Resources {
     }
   }
 
-  /*
-  static saveRequest(obj) {
-    try {
-      if (obj) {
-        DatabaseOperations.cacheEnabled = false;
-        DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
-        DatabaseOperations.openDatabaseConnection(Utils.getApplicationSheetName());
-
-        const currentDate = Utils.getCurrentDate();
-        const applicationID = Utils.genApplicationID();
-
-        const request = {
-          // id: '=ROW()',
-          ApplicationID: applicationID,
-          SubmittedDate: currentDate,
-
-          VacancyID: obj.vacancyID,
-          VacancyPost: obj.vacancyPost,
-          VacancyFaculty: obj.vacancyFac,
-          VacancyDepartment: obj.vacancyDept,
-
-          Gender: obj.pdGender,
-          Title: obj.personalTitle,
-          NameWithInitials: obj.personalNameInit,
-          FullName: obj.personalFullName,
-          DateOfBirth: obj.personalDOB,
-          PostalAddress: obj.personalAddress,
-          CivilStatus: obj.civilStatus,
-          Mobile: obj.personalMobile,
-          Recidence: obj.personalTp,
-          Email: obj.personalEmail,
-          District: obj.district,
-          Electorate: obj.electorate,
-          Province: obj.province,
-          City: obj.city,
-          Citizenship: obj.Citizenship,
-          DescentOrByRegistration: obj.descentOrReg,
-          NIC: obj.nic,
-          CountryOfCitizenship: obj.specifyCountry,
-          PassportNo: obj.passportNo,
-          SpouseName: obj.spouseName,
-          SpouseDesignation: obj.spouseDesignation,
-          HighestEducation: obj.highestEducation,
-          ProficiencyOnLanguages: obj.lang,
-
-          BasicDegree: obj.basicDegree,
-          BasicDegreeCountry: obj.bdCountry,
-          BasicDegreeUniversity: obj.bdUniversity,
-          BasicDegreeYearFrom: obj.bdYearFrom,
-          BasicDegreeYearTo: obj.bdYearTo,
-          BasicDegreeClass: obj.bdlass,
-          BasicDegreeGPA: obj.bdGPA,
-
-          PGDegree: obj.pgd,
-
-          Awards: obj.awards,
-
-          ResearchPublicationsBooks: obj.books,
-          ResearchPublicationsJournals: obj.journals,
-          ResearchPublicationsAbstracts: obj.abstracts,
-
-          CommendationsAndPunishments: obj.commendations,
-
-          Vacations: obj.vacations,
-
-          ExtraCurricularActivities: obj.extraCurrActivity,
-
-          RefereeName1: obj.rName1,
-          RefereeTelephone1: obj.rTelephone1,
-          RefereeAddress1: obj.rAddress1,
-          RefereeEmail1: obj.rEmail1,
-
-          RefereeName2: obj.rName2,
-          RefereeTelephone2: obj.rTelephone2,
-          RefereeAddress2: obj.rAddress2,
-          RefereeEmail2: obj.rEmail2,
-
-          Designation: obj.poDesignation,
-          InstitutionOrDepartment: obj.poDept,
-          PresentOccupationFrom: obj.poFrom,
-          SalaryDrawn: obj.poSalaryDrawn,
-
-          PreviousEmployments: obj.pEmployments,
-          BondViolation: bondViolator,
-          BondValue: bondValue,
-          BondUniversityOrInstitute: uniInstitute,
-        };
-
-        const funcStatus = DatabaseOperations.saveItem(request);
-
-        if (!funcStatus) {
-          console.error(`Error occurred while saveRequest in Resources`);
-        }
-
-        // Send Mail to Submitter
-        // const heading = 'ONLINE APPLICATION - University of Peradeniya';
-        // const description = 'Your application has been submitted successfully..!';
-        // const name = obj.FullName;
-        // const email = obj.Email;
-        // const post = obj.Post;
-        // const { VacancyID } = obj;
-        // const faculty = obj.Faculty;
-        // const department = obj.Department;
-        // const emailAddress = `${obj.Email},${Utils.getProcessingEmails()}`;
-
-        // Utils.sendMail(heading, description, emailAddress, name, email, post, VacancyID, faculty, department);
-
-        return funcStatus;
-      }
-
-      return '';
-    } catch (error) {
-      console.error('Error occurred while saveRequest in Resources', error);
-      throw new Error(`Error occurred while saveRequest`);
-    }
-    DatabaseOperations.cacheEnabled = false;
-    DatabaseOperations.initilizeDatabase(Utils.getMainDBID());
-    DatabaseOperations.openDatabaseConnection(Utils.getApplicationSheetName());
-    const request = obj;
-    request.status = true;
-    request.connectedDatabase = DatabaseOperations.saveItem(obj);
-    return request;
-  }
-  */
-
   static saveRequest(obj) {
     let retObj = '';
     try {
@@ -422,6 +417,44 @@ class Resources {
     } catch (error) {
       console.error('Error occurred while saveRequest in Resources', error);
       throw new Error(`Error occurred while saveRequest`);
+    }
+  }
+
+  static updateApplicationStatus(obj) {
+    const request = obj;
+    let retObj = '';
+    try {
+      if (obj) {
+        DatabaseOperations.cacheEnabled = false;
+        DatabaseOperations.initilizeDatabase(Utils.getTestMainDBID());
+        DatabaseOperations.openDatabaseConnection(Utils.getApplicationSheetName());
+        // const foundObj = DatabaseOperations.queryDatabase(`KEY:STATUS === "OPEN"`);
+        request[0] = Utils.formatDate(request[0]); /* `2023-01-29T01:25:38.000Z` into `01/29/2023 1:25:38` */
+        request[35] = Utils.formatDate(request[35]); /* `2023-01-29T01:25:38.000Z` into `01/29/2023 1:25:38` */
+        retObj = DatabaseOperations.updateItem(request);
+      }
+      return retObj;
+    } catch (error) {
+      console.error('Error occurred while updateApplicationStatus in Resources', error);
+      throw new Error(`Error occurred while updateApplicationStatus`);
+    }
+  }
+
+  static getUrl(key) {
+    const urldata = Utils.getScriptUrl();
+    let url = '';
+    let page = '';
+    try {
+      if (key) {
+        page = `index_${key.toLowerCase()}`;
+        url = `${urldata}?page=${page}`;
+      } else {
+        url = `${urldata}`;
+      }
+      return url;
+    } catch (error) {
+      console.error('Error occurred while getUrl in Resources', error);
+      throw new Error(`Error occurred while getUrl`);
     }
   }
 }

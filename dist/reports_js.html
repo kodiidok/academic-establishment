@@ -1,0 +1,40 @@
+<script>
+  // web app intial execution
+
+  $(document).ready(function () {
+    // Date
+    const d = new Date();
+    const strDate = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+    $('#sysDate').text(strDate);
+
+    onLoadAppExecutions();
+
+    $('#btnDownloadPdf').click(function () {
+      google.script.run.withSuccessHandler(downloadPdf).getPdfBlob();
+    });
+  });
+
+  function onLoadAppExecutions() {
+    showLoadingModal('Please Wait for Loading...');
+    google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialLoading).initialLoading('REPORTS');
+  }
+
+  function initialLoading(retdata) {
+    data = JSON.parse(retdata);
+    log(data);
+    if (data) {
+      setMenu(data.scriptUrl);
+      setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
+      $('#modalLoading').modal('hide');
+    }
+  }
+
+  function downloadPdf(base64String) {
+    const linkSource = `data:application/pdf;base64,${base64String}`;
+    const downloadLink = $('<a>');
+    const fileName = 'abc.pdf';
+    downloadLink.attr('href', linkSource);
+    downloadLink.attr('download', fileName);
+    downloadLink[0].click();
+  }
+</script>
