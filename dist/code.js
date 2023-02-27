@@ -2732,7 +2732,7 @@ function getScriptUrl() {}
             .setTitle(t.default.getAppName(e.parameter.page))
             .addMetaTag("viewport", "width=device-width, initial-scale=1")
             .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL))
-        : ((a = HtmlService.createTemplateFromFile("index_view")),
+        : ((a = HtmlService.createTemplateFromFile("index_shortlist")),
           a
             .evaluate()
             .setTitle(t.default.getAppName())

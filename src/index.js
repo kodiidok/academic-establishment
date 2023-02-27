@@ -6,7 +6,7 @@ function doGet(e) {
   let htmlOutput = '';
   if (!e.parameter.page) {
     // When no specific page requested, return "home page" Ex : ?page=hod
-    htmlOutput = HtmlService.createTemplateFromFile('index_view');
+    htmlOutput = HtmlService.createTemplateFromFile('index_shortlist');
     return htmlOutput
       .evaluate()
       .setTitle(Utils.getAppName())

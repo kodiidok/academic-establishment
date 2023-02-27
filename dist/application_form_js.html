@@ -45,6 +45,16 @@
     }
   }
 
+  function router(key) {
+    google.script.run
+      .withSuccessHandler(function (url) {
+        console.log(url);
+        window.open(url, '_blank');
+        $('#modalLoading').modal('hide');
+      })
+      .router(key);
+  }
+
   // save applicant data
 
   function submitForm() {
