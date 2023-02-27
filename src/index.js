@@ -6,10 +6,10 @@ function doGet(e) {
   let htmlOutput = '';
   if (!e.parameter.page) {
     // When no specific page requested, return "home page" Ex : ?page=hod
-    htmlOutput = HtmlService.createTemplateFromFile('index_shortlist');
+    htmlOutput = HtmlService.createTemplateFromFile('index_reports');
     return htmlOutput
       .evaluate()
-      .setTitle(Utils.getAppName())
+      .setTitle()
       .addMetaTag('viewport', 'width=device-width, initial-scale=1')
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   }

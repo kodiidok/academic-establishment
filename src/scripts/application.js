@@ -4,8 +4,6 @@ class Application {
     const ss = SpreadsheetApp.openById('1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4');
     const ws = ss.getSheetByName('mainsheet');
     const data = ws.getDataRange().getValues();
-    // Logger.log(JSON.stringify(data[0]));
-    // Logger.log(JSON.stringify(data[1]));
     return JSON.stringify(data);
   }
 

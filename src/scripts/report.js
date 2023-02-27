@@ -1,16 +1,5 @@
 /* eslint-disable prefer-destructuring */
 class Report {
-  static getPdfBlob() {
-    // var doc = DocumentApp.create('My Document');
-    const doc = createReport();
-    // var paragraph = doc.getBody().appendParagraph('Hello World! This is a new Document!');
-    const file = DriveApp.getFileById(doc.getId());
-    const blob = file.getBlob();
-    const bytes = blob.getBytes();
-    const b64 = Utilities.base64Encode(bytes);
-    return b64;
-  }
-
   static loadSheetData() {
     const ss = SpreadsheetApp.openById('1MTE8MdB-BwDG80wFlNI8zaADsnkG3XJsHxLW79ndXa4');
     const ws = ss.getSheetByName('mainsheet');
@@ -38,8 +27,19 @@ class Report {
   static loadDoc() {
     const doc = DocumentApp.openById('1LLj7_1g-_l0AHUVMMx3GwErRnXwRXckifgi5o-mDCjc');
     const body = doc.getBody();
-    initializePage(body);
+    this.initializePage(body);
     return doc;
+  }
+
+  static getPdfBlob() {
+    // var doc = DocumentApp.create('My Document');
+    const doc = this.createReport();
+    // var paragraph = doc.getBody().appendParagraph('Hello World! This is a new Document!');
+    const file = DriveApp.getFileById(doc.getId());
+    const blob = file.getBlob();
+    const bytes = blob.getBytes();
+    const b64 = Utilities.base64Encode(bytes);
+    return b64;
   }
 
   static loadResources() {
@@ -114,6 +114,19 @@ class Report {
   }
 
   // format
+
+  static formatPage(body, tables) {
+    const styles = this.initializeStyles();
+    body.setAttributes(styles.bodyStyle);
+
+    this.formatHeader(tables[0], styles);
+    this.formatTitle(tables[1], styles);
+    this.formatDate(tables[2], styles);
+    this.formatSymbols(tables[3], styles);
+    this.formatDescription(tables[4], styles);
+    this.formatReports(tables[5], styles);
+    this.formatSignatures(tables[6], styles);
+  }
 
   static formatTitle(table, styles) {
     table.setAttributes(styles.tableStyle);
@@ -229,19 +242,6 @@ class Report {
     const rightpara = rightcell.getChild(0).getChild(0).getChild(0).getChild(0);
     rightcell.setAttributes(styles.officeUseOnly);
     rightpara.setAttributes(styles.officeUseOnly);
-  }
-
-  static formatPage(body, tables) {
-    const styles = initializeStyles();
-    body.setAttributes(styles.bodyStyle);
-
-    formatHeader(tables[0], styles);
-    formatTitle(tables[1], styles);
-    formatDate(tables[2], styles);
-    formatSymbols(tables[3], styles);
-    formatDescription(tables[4], styles);
-    formatReports(tables[5], styles);
-    formatSignatures(tables[6], styles);
   }
 
   // process
@@ -372,7 +372,7 @@ class Report {
     const rawdata = JSON.parse(JSON.parse(retdata));
     const data = [];
     rawdata.forEach((item) => {
-      const temp = processDegree(item);
+      const temp = this.processDegree(item);
       data.push(temp);
     });
     return data;
@@ -392,9 +392,9 @@ class Report {
   }
 
   static processResearch(retdata) {
-    let books = processPublications(JSON.parse(JSON.parse(retdata.BOOKS)));
-    let journals = processPublications(JSON.parse(JSON.parse(retdata.JOURNALS)));
-    let abstracts = processPublications(JSON.parse(JSON.parse(retdata.ABSTRACTS)));
+    let books = this.processPublications(JSON.parse(JSON.parse(retdata.BOOKS)));
+    let journals = this.processPublications(JSON.parse(JSON.parse(retdata.JOURNALS)));
+    let abstracts = this.processPublications(JSON.parse(JSON.parse(retdata.ABSTRACTS)));
 
     if (!books) {
       books = 'None';
@@ -426,7 +426,7 @@ class Report {
     const rawdata = JSON.parse(JSON.parse(retdata));
     const data = [];
     rawdata.forEach((item) => {
-      data.push(processAward(item));
+      data.push(this.processAward(item));
     });
     return data;
   }
@@ -444,7 +444,7 @@ class Report {
     const rawdata = JSON.parse(JSON.parse(retdata));
     const data = [];
     rawdata.forEach((item) => {
-      data.push(processActivity(item));
+      data.push(this.processActivity(item));
     });
     return data;
   }
@@ -471,7 +471,7 @@ class Report {
     const rawdata = JSON.parse(JSON.parse(retdata));
     const data = [];
     rawdata.forEach((item) => {
-      data.push(processExperience(item));
+      data.push(this.processExperience(item));
     });
     return data;
   }
@@ -487,21 +487,21 @@ class Report {
     const dob = obj.PERSONAL_DETAILS.DATE_OF_BIRTH;
     const value1 = `${name}\n\n${address}\n\n${dob}`;
 
-    const bdegree = processDegrees(obj.BASIC_DEGREE);
-    const pgdegree = processDegrees(obj.POSTGRADUATE_DEGREE);
+    const bdegree = this.processDegrees(obj.BASIC_DEGREE);
+    const pgdegree = this.processDegrees(obj.POSTGRADUATE_DEGREE);
     const value2 = `UNIVERSITY EDUCATION\n${bdegree}\n\nPOSTGRADUATE QUALIFICATIONS\n${pgdegree}`;
 
-    const research = processResearch(obj.RESEARCH);
+    const research = this.processResearch(obj.RESEARCH);
     const value3 = `${research}`;
 
-    const awards = processAwards(obj.AWARDS);
+    const awards = this.processAwards(obj.AWARDS);
     const value4 = `${awards}`;
 
-    const extra = processActivities(obj.EXTRA_CURRICULAR);
+    const extra = this.processActivities(obj.EXTRA_CURRICULAR);
     const value5 = `${extra}`;
 
-    const presentExp = processPresentEmployment(obj.PRESENT_OCCUPATION);
-    const previousExp = processExperiences(obj.PREVIOUS_EMPLOYMENTS);
+    const presentExp = this.processPresentEmployment(obj.PRESENT_OCCUPATION);
+    const previousExp = this.processExperiences(obj.PREVIOUS_EMPLOYMENTS);
     const value6 = `AT PRESENT\n\n${presentExp}\nPAST EXPERIENCES\n\n${previousExp}`;
 
     const value7 = '';
@@ -585,7 +585,7 @@ class Report {
   static generateReports(table, retdata) {
     const applicants = [];
     retdata.forEach((item) => {
-      applicants.push(processApplicant(item));
+      applicants.push(this.processApplicant(item));
     });
 
     const posts = ['Lecturer (Probationary)'];
@@ -628,7 +628,7 @@ class Report {
 
   static generateHeader(table) {
     const cell1 = table.getCell(0, 0);
-    const imageElement = cell1.insertImage(0, loadResources().image);
+    const imageElement = cell1.insertImage(0, this.loadResources().image);
     cell1.insertParagraph(1, '\nUNIVERSITY OF PERADENIYA\nSri Lanka');
     imageElement.setWidth(120);
     imageElement.setHeight(120);
@@ -657,35 +657,35 @@ class Report {
     const { data } = retdata;
     const { details } = retdata;
 
-    const doc = loadDoc();
+    const doc = this.loadDoc();
     const body = doc.getBody();
 
-    createMasterTable(body);
+    this.createMasterTable(body);
     const tableMaster = body.getTables();
 
-    generateHeader(tableMaster[0]);
-    generateTitle(tableMaster[1], details.posts, details.department, details.faculty, details.report);
-    generateDates(tableMaster[2], '05.12.2021', '04.01.2022');
-    generateSymbols(tableMaster[3]);
-    generateDescription(tableMaster[4], details.description);
-    generateReports(tableMaster[5], data);
-    generateSignatures(tableMaster[6]);
+    this.generateHeader(tableMaster[0]);
+    this.generateTitle(tableMaster[1], details.posts, details.department, details.faculty, details.report);
+    this.generateDates(tableMaster[2], '05.12.2021', '04.01.2022');
+    this.generateSymbols(tableMaster[3]);
+    this.generateDescription(tableMaster[4], details.description);
+    this.generateReports(tableMaster[5], data);
+    this.generateSignatures(tableMaster[6]);
 
     // format
-    formatPage(body, tableMaster);
+    this.formatPage(body, tableMaster);
 
     return doc;
   }
 
   static createReport() {
-    const data = JSON.parse(loadSheetData());
+    const data = JSON.parse(this.loadSheetData());
     data.splice(0, 1);
-    const processedDetails = loadRequiredData();
+    const processedDetails = this.loadRequiredData();
     const processedData = [];
     data.forEach((item) => {
-      processedData.push(processData(item));
+      processedData.push(this.processData(item));
     });
-    const doc = updateDocument({ data: processedData, details: processedDetails });
+    const doc = this.updateDocument({ data: processedData, details: processedDetails });
     return doc;
   }
 }
