@@ -1,6 +1,7 @@
 <script>
 // web app intial execution
 let temp = '';
+let tempApplication = '';
 
 $(document).ready(function () {
   // Date
@@ -9,6 +10,20 @@ $(document).ready(function () {
   $('#sysDate').text(strDate);
 
   onLoadAppExecutions();
+
+  $('#downloadPdf').click(function (event) {
+    event.preventDefault();
+    showLoadingModal('Please Wait for Download...');
+    const req = { KEY: 'APPLICATION', DATA: tempApplication, ID: temp };
+    google.script.run
+      .withFailureHandler(onFailure)
+      .withSuccessHandler(function (retdata) {
+        const data = JSON.parse(retdata);
+        serverResponseHandler(data.document);
+        $('#modalLoading').modal('hide');
+      })
+      .download(JSON.stringify(req));
+  });
 });
 
 function onLoadAppExecutions() {
@@ -30,11 +45,21 @@ function initialAppLoading(retdata) {
     setAppInfo(appData.appName, appData.appDescription, appData.appRedirectURL);
     appData.applications.forEach((application) => {
       if (application[1] === temp) {
+        tempApplication = application;
         displayData(application);
       }
     });
     $('#modalLoading').modal('hide');
   }
+}
+
+function serverResponseHandler(base64String) {
+  const linkSource = `data:application/pdf;base64,${base64String}`;
+  const downloadLink = document.createElement('a');
+  const fileName = 'Online Application.pdf';
+  downloadLink.href = linkSource;
+  downloadLink.download = fileName;
+  downloadLink.click();
 }
 
 function displayData(application) {
@@ -102,9 +127,6 @@ function displayData(application) {
   }
   // readOnlyData();
 }
-// function readOnlyData() {
-//   $('#rvacancyID').prop('readonly', true);
-// }
 
 function laodBasicDegreeTable(tbldata) {
   if (tbldata) {

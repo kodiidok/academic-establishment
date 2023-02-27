@@ -1068,10 +1068,9 @@
       const objects = data;
       let htmlElement = '';
 
-      var i = 0;
       if (objects.length > 0) {
-        for (var i = 0; i < objects.length; i++) {
-          if (objects[i].name != '') {
+        for (let i = 0; i < objects.length; i += 1) {
+          if (objects[i].name !== '') {
             htmlElement += '<tr>';
             htmlElement += `<td>${objects[i].previousEmpDesignation}</td>`;
             htmlElement += `<td>${objects[i].previousEmpDept}</td>`;
@@ -1186,7 +1185,7 @@
     ];
     $('#district').append(`<option label="Choose one" value="">Choose one</option>`);
 
-    for (let i = 0; i < dlist.length; i++) {
+    for (let i = 0; i < dlist.length; i += 1) {
       $('#district').append(`<option value="${dlist[i]}">${dlist[i]}</option>`);
     }
   }

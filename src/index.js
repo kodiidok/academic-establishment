@@ -6,7 +6,7 @@ function doGet(e) {
   let htmlOutput = '';
   if (!e.parameter.page) {
     // When no specific page requested, return "home page" Ex : ?page=hod
-    htmlOutput = HtmlService.createTemplateFromFile('index_shortlist');
+    htmlOutput = HtmlService.createTemplateFromFile('index_view');
     return htmlOutput
       .evaluate()
       .setTitle(Utils.getAppName())
@@ -47,11 +47,11 @@ function getScriptUrl() {
   return Utils.getScriptUrl();
 }
 
-function download(key) {
-  return Downloader.processRequest(key);
+function download(req) {
+  return JSON.stringify(Downloader.processRequest(req));
 }
 
-let tempData = '';
+let tempData = 1;
 
 function getTempData() {
   tempData = PropertiesService.getScriptProperties().getProperty('tempData');

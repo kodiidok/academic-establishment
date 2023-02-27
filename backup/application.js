@@ -12,30 +12,8 @@ class Application {
   static loadDoc() {
     const doc = DocumentApp.openById('1tABbydTrHuEJ1oD0Uu_1SA4b8zzQMmvZ-LoK-LJaNrU');
     const body = doc.getBody();
-    this.initializePage(body);
+    initializePage(body);
     return doc;
-  }
-
-  static createDoc() {
-    const newDoc = DocumentApp.create('New Document');
-    const doc = DocumentApp.openById(newDoc.getId());
-    const body = doc.getBody();
-    this.initializePage(body);
-    return doc;
-  }
-
-  static getPdfBlob(req) {
-    try {
-      const doc = this.createReport(req);
-      const file = DriveApp.getFileById(doc.getId());
-      const blob = file.getBlob();
-      const bytes = blob.getBytes();
-      const b64 = Utilities.base64Encode(bytes);
-      return b64;
-    } catch (error) {
-      console.error('Error occurred while getPdfBlob in Application', error);
-      throw new Error(`Error occurred while getPdfBlob`);
-    }
   }
 
   static loadResources() {
@@ -119,24 +97,24 @@ class Application {
   // format
 
   static formatPage(body, tblMaster) {
-    const styles = this.initializeStyles();
+    const styles = initializeStyles();
     body.setAttributes(styles.bodyStyle);
 
-    this.formatHeader(tblMaster[0], styles);
-    this.formatPost(tblMaster[1], styles);
-    this.formatPersonalDetails(tblMaster[2], styles);
-    this.formatBasicDegree(tblMaster[3], styles);
-    this.formatPostgraduateDegree(tblMaster[4], styles);
-    this.formatResearch(tblMaster[5], styles);
-    this.formatAwards(tblMaster[6], styles);
-    this.formatExtraCurricular(tblMaster[7], styles);
-    this.formatPresentEmployment(tblMaster[8], styles);
-    this.formatPreviousEmployement(tblMaster[9], styles);
-    this.formatRefrees(tblMaster[10], styles);
-    this.formatDeclaration(tblMaster[11], styles);
-    this.formatApplicantSignature(tblMaster[12], styles);
-    this.formatNotes(tblMaster[13], styles);
-    this.formatOfficeSignature(tblMaster[14], styles);
+    formatHeader(tblMaster[0], styles);
+    formatPost(tblMaster[1], styles);
+    formatPersonalDetails(tblMaster[2], styles);
+    formatBasicDegree(tblMaster[3], styles);
+    formatPostgraduateDegree(tblMaster[4], styles);
+    formatResearch(tblMaster[5], styles);
+    formatAwards(tblMaster[6], styles);
+    formatExtraCurricular(tblMaster[7], styles);
+    formatPresentEmployment(tblMaster[8], styles);
+    formatPreviousEmployement(tblMaster[9], styles);
+    formatRefrees(tblMaster[10], styles);
+    formatDeclaration(tblMaster[11], styles);
+    formatApplicantSignature(tblMaster[12], styles);
+    formatNotes(tblMaster[13], styles);
+    formatOfficeSignature(tblMaster[14], styles);
   }
 
   static formatHeader(table, styles) {
@@ -355,96 +333,91 @@ class Application {
   // process
 
   static processData(retdata) {
-    try {
-      const obj = {};
+    const obj = {};
 
-      obj.INFO = {
-        APPLICATION: {
-          TIMESTAMP: retdata[0],
-          ID: retdata[1],
-        },
-        VACANCY: {
-          ID: retdata[2],
-          FACULTY: retdata[3],
-          DEPARTMENT: retdata[4],
-          POST: retdata[5],
-        },
-      };
+    obj.INFO = {
+      APPLICATION: {
+        TIMESTAMP: retdata[0],
+        ID: retdata[1],
+      },
+      VACANCY: {
+        ID: retdata[2],
+        FACULTY: retdata[3],
+        DEPARTMENT: retdata[4],
+        POST: retdata[5],
+      },
+    };
 
-      obj.PERSONAL_DETAILS = {
-        GENDER: retdata[6],
-        TITLE: retdata[7],
-        INITNAME: retdata[8],
-        FULLNAME: retdata[9],
-        DATE_OF_BIRTH: retdata[10],
-        PERMANENT_RESIDENCE: retdata[11],
-        CIVIL_STATUS: retdata[12],
-        MOBILE: retdata[13],
-        RESIDENCE: retdata[14],
-        EMAIL: retdata[15],
-        DISTRICT: retdata[16],
-        ELECTORATE: retdata[17],
-        PROVINCE: retdata[18],
-        CITY: retdata[19],
-        CITIZENSHIP: retdata[20],
-        NIC: retdata[21],
-        BY_DESCENT_OR_REGISTRATION: retdata[22],
-        SPECIFY_COUNTRY: retdata[23],
-        PASSPORT_NO: retdata[24],
-        PROFICIENCY: retdata[25],
-      };
+    obj.PERSONAL_DETAILS = {
+      GENDER: retdata[6],
+      TITLE: retdata[7],
+      INITNAME: retdata[8],
+      FULLNAME: retdata[9],
+      DATE_OF_BIRTH: retdata[10],
+      PERMANENT_RESIDENCE: retdata[11],
+      CIVIL_STATUS: retdata[12],
+      MOBILE: retdata[13],
+      RESIDENCE: retdata[14],
+      EMAIL: retdata[15],
+      DISTRICT: retdata[16],
+      ELECTORATE: retdata[17],
+      PROVINCE: retdata[18],
+      CITY: retdata[19],
+      CITIZENSHIP: retdata[20],
+      NIC: retdata[21],
+      BY_DESCENT_OR_REGISTRATION: retdata[22],
+      SPECIFY_COUNTRY: retdata[23],
+      PASSPORT_NO: retdata[24],
+      PROFICIENCY: retdata[25],
+    };
 
-      obj.BASIC_DEGREE = retdata[26];
+    obj.BASIC_DEGREE = retdata[26];
 
-      obj.POSTGRADUATE_DEGREE = retdata[27];
+    obj.POSTGRADUATE_DEGREE = retdata[27];
 
-      obj.RESEARCH = {
-        BOOKS: retdata[28],
-        JOURNALS: retdata[29],
-        ABSTRACTS: retdata[30],
-      };
+    obj.RESEARCH = {
+      BOOKS: retdata[28],
+      JOURNALS: retdata[29],
+      ABSTRACTS: retdata[30],
+    };
 
-      obj.AWARDS = retdata[31];
+    obj.AWARDS = retdata[31];
 
-      obj.EXTRA_CURRICULAR = retdata[32];
+    obj.EXTRA_CURRICULAR = retdata[32];
 
-      obj.PRESENT_OCCUPATION = {
-        DESIGNATION: retdata[33],
-        DEPARTMENT: retdata[34],
-        STARTED_WORKING: retdata[35],
-        SALARY: retdata[36],
-      };
+    obj.PRESENT_OCCUPATION = {
+      DESIGNATION: retdata[33],
+      DEPARTMENT: retdata[34],
+      STARTED_WORKING: retdata[35],
+      SALARY: retdata[36],
+    };
 
-      obj.PREVIOUS_EMPLOYMENTS = retdata[37];
+    obj.PREVIOUS_EMPLOYMENTS = retdata[37];
 
-      obj.REFREES = {
-        REFEREE_1: retdata[38],
-        REFREE_2: retdata[39],
-      };
+    obj.REFREES = {
+      REFEREE_1: retdata[38],
+      REFREE_2: retdata[39],
+    };
 
-      obj.DECLARATION = {
-        COMMENDATIONS_PUNISHMENTS: {
-          STATUS: retdata[40],
-          DETAILS: retdata[41],
-        },
-        VACATION_POST_NOTICES: {
-          STATUS: retdata[42],
-          DETAILS: retdata[43],
-        },
-        BOND_VIOLATIONS: {
-          STATUS: retdata[44],
-          BOND_VALUE: retdata[45],
-          UNIVERSITY: retdata[46],
-        },
-      };
+    obj.DECLARATION = {
+      COMMENDATIONS_PUNISHMENTS: {
+        STATUS: retdata[40],
+        DETAILS: retdata[41],
+      },
+      VACATION_POST_NOTICES: {
+        STATUS: retdata[42],
+        DETAILS: retdata[43],
+      },
+      BOND_VIOLATIONS: {
+        STATUS: retdata[44],
+        BOND_VALUE: retdata[45],
+        UNIVERSITY: retdata[46],
+      },
+    };
 
-      obj.SHORTLISTED_STATUS = retdata[47];
+    obj.SHORTLISTED_STATUS = retdata[47];
 
-      return obj;
-    } catch (error) {
-      console.error('Error occurred while processData in Application', error);
-      throw new Error(`Error occurred while processData`);
-    }
+    return obj;
   }
 
   static processDegree(data) {
@@ -518,7 +491,7 @@ class Application {
 
   static generateHeader(table) {
     const cell1 = table.getCell(0, 0);
-    const imageElement = cell1.insertImage(0, this.loadResources().image);
+    const imageElement = cell1.insertImage(0, loadResources().image);
     cell1.insertParagraph(1, '\nUNIVERSITY OF PERADENIYA\nSri Lanka');
     imageElement.setWidth(120);
     imageElement.setHeight(120);
@@ -620,7 +593,7 @@ class Application {
     headerRow.appendTableCell('Name of the Degree/Diploma etc.');
     headerRow.appendTableCell('Duration');
     retdata.forEach((element) => {
-      const degree = this.processDegree(element);
+      const degree = processDegree(element);
       const row = content.appendTableRow();
       row.appendTableCell(`${degree.name}\n${degree.university}\n${degree.performance}`);
       row.appendTableCell(`${degree.duration}`);
@@ -641,7 +614,7 @@ class Application {
     headerRow.appendTableCell('Name of the Degree/Diploma etc.');
     headerRow.appendTableCell('Duration');
     retdata.forEach((element) => {
-      const degree = this.processDegree(element);
+      const degree = processDegree(element);
       const row = content.appendTableRow();
       row.appendTableCell(`${degree.name}\n${degree.university}\n${degree.performance}\n${degree.method}`);
       row.appendTableCell(`${degree.duration}`);
@@ -739,7 +712,7 @@ class Application {
     headerRow.appendTableCell('Year');
     headerRow.appendTableCell('Details');
     retdata.forEach((element) => {
-      const award = this.processAwards(element);
+      const award = processAwards(element);
       const row = content.appendTableRow();
       row.appendTableCell(`${award.name}`);
       row.appendTableCell(`${award.institute}`);
@@ -764,7 +737,7 @@ class Application {
     headerRow.appendTableCell('Level');
     headerRow.appendTableCell('Details');
     retdata.forEach((element) => {
-      const activity = this.processExtraCurricular(element);
+      const activity = processExtraCurricular(element);
       const row = content.appendTableRow();
       row.appendTableCell(`${activity.name}`);
       row.appendTableCell(`${activity.duration}`);
@@ -801,7 +774,7 @@ class Application {
     headerRow.appendTableCell('Duration');
     headerRow.appendTableCell('Reasons for leaving');
     retdata.forEach((element) => {
-      const prevEmp = this.processPreviousEmployement(element);
+      const prevEmp = processPreviousEmployement(element);
       const row = content.appendTableRow();
       row.appendTableCell(prevEmp.designation);
       row.appendTableCell(prevEmp.duration);
@@ -850,11 +823,11 @@ class Application {
     cell1.removeChild(cell1.getChild(cell1.getNumChildren() - 1));
 
     const cell2 = table.getCell(1, 0);
-    cell2.insertParagraph(0, this.processDeclaration(data).COMMENDATIONS_PUNISHMENTS);
+    cell2.insertParagraph(0, processDeclaration(data).COMMENDATIONS_PUNISHMENTS);
     cell2.insertParagraph(1, '');
-    cell2.insertParagraph(2, this.processDeclaration(data).VACATION_POST_NOTICES);
+    cell2.insertParagraph(2, processDeclaration(data).VACATION_POST_NOTICES);
     cell2.insertParagraph(3, '');
-    cell2.insertParagraph(4, this.processDeclaration(data).BOND_VIOLATIONS);
+    cell2.insertParagraph(4, processDeclaration(data).BOND_VIOLATIONS);
     cell2.removeChild(cell2.getChild(cell2.getNumChildren() - 1));
   }
 
@@ -944,57 +917,51 @@ class Application {
     body.insertTable(14, [['']]);
   }
 
-  static updateDocument(req) {
-    try {
-      const data = req;
-      const doc = this.loadDoc();
-      // const doc = this.createDoc();
-      const body = doc.getBody();
+  static updateDocument() {
+    const rawdata = JSON.parse(loadSheetData())[1];
+    const data = processData(rawdata);
+    const doc = loadDoc();
+    const body = doc.getBody();
 
-      this.createMasterTable(body);
-      const tblMaster = body.getTables();
+    createMasterTable(body);
+    const tblMaster = body.getTables();
 
-      this.generateHeader(tblMaster[0]);
-      body.insertHorizontalRule(1);
-      this.generateApplicationInfo(tblMaster[1], data.INFO);
-      this.generatePersonalDetails(tblMaster[2], data.PERSONAL_DETAILS);
-      body.insertPageBreak(4);
-      this.generateBasicDegree(tblMaster[3], data.BASIC_DEGREE);
-      this.generatePostgraduateDegree(tblMaster[4], data.POSTGRADUATE_DEGREE);
-      this.generateResearch(tblMaster[5], data.RESEARCH);
-      body.insertPageBreak(8);
-      this.generateAwards(tblMaster[6], data.AWARDS);
-      this.generateExtraCurricular(tblMaster[7], data.EXTRA_CURRICULAR);
-      this.generatePresentEmployment(tblMaster[8], data.PRESENT_OCCUPATION);
-      this.generatePreviousEmployement(tblMaster[9], data.PREVIOUS_EMPLOYMENTS);
-      this.generateRefrees(tblMaster[10], data.REFREES);
-      body.insertPageBreak(14);
-      this.generateDeclaration(tblMaster[11], data.DECLARATION);
-      body.insertHorizontalRule(16);
-      this.generateApplicantSignature(tblMaster[12]);
-      this.generateNotes(tblMaster[13]);
-      body.insertPageBreak(19);
-      this.generateOfficeSignature(tblMaster[14]);
+    generateHeader(tblMaster[0]);
+    body.insertHorizontalRule(1);
+    generateApplicationInfo(tblMaster[1], data.INFO);
+    generatePersonalDetails(tblMaster[2], data.PERSONAL_DETAILS);
+    body.insertPageBreak(4);
+    generateBasicDegree(tblMaster[3], data.BASIC_DEGREE);
+    generatePostgraduateDegree(tblMaster[4], data.POSTGRADUATE_DEGREE);
+    generateResearch(tblMaster[5], data.RESEARCH);
+    body.insertPageBreak(8);
+    generateAwards(tblMaster[6], data.AWARDS);
+    generateExtraCurricular(tblMaster[7], data.EXTRA_CURRICULAR);
+    generatePresentEmployment(tblMaster[8], data.PRESENT_OCCUPATION);
+    generatePreviousEmployement(tblMaster[9], data.PREVIOUS_EMPLOYMENTS);
+    generateRefrees(tblMaster[10], data.REFREES);
+    body.insertPageBreak(14);
+    generateDeclaration(tblMaster[11], data.DECLARATION);
+    body.insertHorizontalRule(16);
+    generateApplicantSignature(tblMaster[12]);
+    generateNotes(tblMaster[13]);
+    body.insertPageBreak(19);
+    generateOfficeSignature(tblMaster[14]);
 
-      this.formatPage(body, tblMaster);
-
-      return doc;
-    } catch (error) {
-      console.error('Error occurred while updateDocument in Application', error);
-      throw new Error(`Error occurred while updateDocument`);
-    }
+    const styles = initializeStyles();
+    formatPage(body, tblMaster);
   }
 
-  static createReport(req) {
-    try {
-      const data = JSON.parse(req);
-      const processedData = this.processData(data);
-      const doc = this.updateDocument(processedData);
-      return doc;
-    } catch (error) {
-      console.error('Error occurred while createReport in Application', error);
-      throw new Error(`Error occurred while createReport`);
-    }
+  static createReport() {
+    const data = JSON.parse(loadSheetData());
+    data.splice(0, 1);
+    const processedDetails = loadRequiredData();
+    const processedData = [];
+    data.forEach((item) => {
+      processedData.push(processData(item));
+    });
+    const doc = updateDocument({ data: processedData, details: processedDetails });
+    return doc;
   }
 }
 
