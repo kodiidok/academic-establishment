@@ -1,5 +1,7 @@
 <script>
 // web app intial execution
+let temp = '';
+
 $(document).ready(function () {
   // Date
   const d = new Date();
@@ -11,82 +13,106 @@ $(document).ready(function () {
 
 function onLoadAppExecutions() {
   showLoadingModal('Please Wait for Loading...');
+  google.script.run
+    .withFailureHandler(onFailure)
+    .withSuccessHandler(function (retdata) {
+      temp = JSON.parse(retdata);
+      console.log(temp);
+    })
+    .getTempData();
   google.script.run.withFailureHandler(onFailure).withSuccessHandler(initialAppLoading).initialLoading();
 }
 
 function initialAppLoading(retdata) {
-  data = JSON.parse(retdata);
-  console.log(data);
-  if (data) {
-    setMenu(data.scriptUrl);
-    setAppInfo(data.appName, data.appDescription, data.appRedirectURL);
-    displayData(data.applications[3]);
+  appData = JSON.parse(retdata);
+  if (appData) {
+    setMenu(appData.scriptUrl);
+    setAppInfo(appData.appName, appData.appDescription, appData.appRedirectURL);
+
+    appData.applications.forEach((application) => {
+      if (application[1] === temp) {
+        displayData(application);
+      }
+    });
+
+    // google.script.run
+    //   .withFailureHandler(onFailure)
+    //   .withSuccessHandler(function (tempdata) {
+    //     const applicationID = JSON.parse(tempdata);
+    //     console.log(applicationID);
+    //     appData.applications.forEach((application) => {
+    //       if (applicationID === application[1]) {
+    //         displayData(application);
+    //       }
+    //     });
+    //   })
+    //   .getTempData();
     $('#modalLoading').modal('hide');
   }
 }
 
-function displayData(data) {
-  if (data.length > 0) {
-    $('#rvacancyID').val(data[2]);
-    $('#rvacancyFaculty').val(data[3]);
-    $('#rvacancyDepartment').val(data[4]);
-    $('#rvacancyPost').val(data[5]);
+function displayData(application) {
+  if (application.length > 0) {
+    $('#rvacancyID').val(application[2]);
+    $('#rvacancyFaculty').val(application[3]);
+    $('#rvacancyDepartment').val(application[4]);
+    $('#rvacancyPost').val(application[5]);
 
-    $('#rpdGender').val(data[6]);
-    $('#rpersonalTitle').val(data[7]);
-    $('#rpersonalNameInit').val(data[8]);
-    $('#rpersonalFullName').val(data[9]);
-    $('#rpersonalDOB').val(data[10].slice(0, 10));
-    $('#rpersonalAddress').val(data[11]);
-    $('#rcivilstatus').val(data[12]);
-    $('#rpersonalMobile').val(data[13]);
-    $('#rpersonalTp').val(data[14]);
-    $('#rpersonalEmail').val(data[15]);
-    $('#rdistrict').val(data[16]);
-    $('#relectorate').val(data[17]);
-    $('#rprovince').val(data[18]);
-    $('#rcity').val(data[19]);
-    $('#rCitizenship').val(data[20]);
-    $('#rnic').val(data[21]);
-    $('#byDescentOrRegistration').val(data[22]);
-    $('#rspecifyCountry').val(data[23]);
-    $('#rpassportNo').val(data[24]);
-    $('#rLanguages').val(JSON.parse(data[25]).join(',   '));
+    $('#rpdGender').val(application[6]);
+    $('#rpersonalTitle').val(application[7]);
+    $('#rpersonalNameInit').val(application[8]);
+    $('#rpersonalFullName').val(application[9]);
+    $('#rpersonalDOB').val(application[10].slice(0, 10));
+    $('#rpersonalAddress').val(application[11]);
+    $('#rcivilstatus').val(application[12]);
+    $('#rpersonalMobile').val(application[13]);
+    $('#rpersonalTp').val(application[14]);
+    $('#rpersonalEmail').val(application[15]);
+    $('#rdistrict').val(application[16]);
+    $('#relectorate').val(application[17]);
+    $('#rprovince').val(application[18]);
+    $('#rcity').val(application[19]);
+    $('#rCitizenship').val(application[20]);
+    $('#rnic').val(application[21]);
+    $('#byDescentOrRegistration').val(application[22]);
+    $('#rspecifyCountry').val(application[23]);
+    $('#rpassportNo').val(application[24]);
+    $('#rLanguages').val(JSON.parse(application[25]).join(',   '));
 
-    laodBasicDegreeTable(JSON.parse(JSON.parse(data[26])));
-    laodPgTable(JSON.parse(JSON.parse(data[27])));
-    laodBookTable(JSON.parse(JSON.parse(data[28])));
-    laodJournalsTable(JSON.parse(JSON.parse(data[29])));
-    laodAbstractsTable(JSON.parse(JSON.parse(data[30])));
-    laodAwardsTable(JSON.parse(JSON.parse(data[31])));
-    laodExtraCurrActTable(JSON.parse(JSON.parse(data[32])));
+    laodBasicDegreeTable(JSON.parse(JSON.parse(application[26])));
+    laodPgTable(JSON.parse(JSON.parse(application[27])));
+    laodBookTable(JSON.parse(JSON.parse(application[28])));
+    laodJournalsTable(JSON.parse(JSON.parse(application[29])));
+    laodAbstractsTable(JSON.parse(JSON.parse(application[30])));
+    laodAwardsTable(JSON.parse(JSON.parse(application[31])));
+    laodExtraCurrActTable(JSON.parse(JSON.parse(application[32])));
 
-    $('#rpresentOccDesignation').val(data[33]);
-    $('#rpresentOccDept').val(data[34]);
-    $('#rpresentOccFrom').val(data[35].slice(0, 10));
-    $('#rpresentOccSalaryDrawn').val(data[36]);
+    $('#rpresentOccDesignation').val(application[33]);
+    $('#rpresentOccDept').val(application[34]);
+    $('#rpresentOccFrom').val(application[35].slice(0, 10));
+    $('#rpresentOccSalaryDrawn').val(application[36]);
 
-    laodPreviousEmpTable(JSON.parse(JSON.parse(data[37])));
+    laodPreviousEmpTable(JSON.parse(JSON.parse(application[37])));
 
-    const jsonData1 = JSON.parse(data[38]);
+    const jsonData1 = JSON.parse(application[38]);
     $('#rName1r').val(jsonData1.rName1);
     $('#rTelephone1r').val(jsonData1.rTelephone1);
     $('#rAddress1r').val(jsonData1.rAddress1);
     $('#rEmail1r').val(jsonData1.rEmail1);
 
-    const jsonData2 = JSON.parse(data[39]);
+    const jsonData2 = JSON.parse(application[39]);
     $('#rName2r').val(jsonData2.rName2);
     $('#rTelephone2r').val(jsonData2.rTelephone2);
     $('#rAddress2r').val(jsonData2.rAddress2);
     $('#rEmail2r').val(jsonData2.rEmail2);
 
-    $('#commendedOrPunished').val(data[40]);
-    $('#rspecifyCommendations').val(data[41]);
-    $('#rVacation').val(data[42]);
-    $('#rspecifyVacation').val(data[43]);
-    $('#rbond').val(data[44]);
-    $('#rbondValue').val(data[45]);
-    $('#runiInstitute').val(data[46]);
+    $('#commendedOrPunished').val(application[40]);
+    $('#rspecifyCommendations').val(application[41]);
+    $('#rVacation').val(application[42]);
+    $('#rspecifyVacation').val(application[43]);
+    $('#rbond').val(application[44]);
+    $('#rbondValue').val(application[45]);
+    $('#runiInstitute').val(application[46]);
   }
   // readOnlyData();
 }
